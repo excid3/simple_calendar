@@ -71,7 +71,7 @@ module SimpleCalendar
     end
 
     def day_events(date, events)
-      events.select { |e| e.start_time.to_date == date }
+      events.select { |e| e.start_time_column.to_date == date }
     end
   end
 end

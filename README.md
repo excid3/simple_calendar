@@ -28,8 +28,11 @@ calendar in the view like so:
 
 has_calendar has options that can be passed to it for configuration:
 
-    has_calendar :title => :whatever
+    has_calendar :title => :whatever, :start_time => :my_start_column
 
     def whatever
       title + " ohai"
     end
+
+Start_time is the field for the start time of the event. Title is the
+text that will be displayed for the event on the calendar.
