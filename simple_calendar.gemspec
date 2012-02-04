@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = SimpleCalendar::VERSION
   s.authors     = ["Chris Oliver"]
   s.email       = ["excid3@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.homepage    = "https://github.com/excid3/simple_calendar"
+  s.summary     = %q{A simple Rails 3 calendar}
+  s.description = %q{A simple Rails 3 calendar}
 
   s.rubyforge_project = "simple_calendar"
 
