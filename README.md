@@ -51,3 +51,10 @@ to your css:
 
 By default simple_calendar will set the calendar to use .bordered-table
 and .calendar classes.
+
+TODO
+====
+
+* Add query helpers to grab events for a current month and the days into
+  the next and previous months for efficiency
+* More customization?
