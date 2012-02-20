@@ -36,8 +36,5 @@ has_calendar has options that can be passed to it for configuration:
 
     has_calendar :start_time => :my_start_column
 
-    def whatever
-      title + " ohai"
-    end
-
-Start_time is the field for the start time of the event.
+Start_time is the field for the start time of the event. This will use
+my_start_column to determine which day to render the event on.
