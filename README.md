@@ -57,4 +57,5 @@ TODO
 
 * Add query helpers to grab events for a current month and the days into
   the next and previous months for efficiency
+* Customizable starting day of week
 * More customization?
