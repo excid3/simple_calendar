@@ -1,10 +1,10 @@
 module SimpleCalendar
   module ViewHelpers
-    def calendar(events)
+    def calendar(events, &block)
       day = Date.civil((params[:year] || Time.zone.now.year).to_i, (params[:month] || Time.zone.now.month).to_i)
 
       content_tag :table, :class => "bordered-table calendar" do
-        month_header(day) + day_header + body(day, events)
+        month_header(day) + day_header + body(day, events, block)
       end
     end
 
@@ -40,7 +40,7 @@ module SimpleCalendar
       end
     end
 
-    def body(day, events)
+    def body(day, events, block)
       current_date = start_date(day).dup
 
       content_tag :tbody do
@@ -49,10 +49,10 @@ module SimpleCalendar
           weeks << content_tag(:tr) do
             tags = []
             while not current_date.saturday?
-              tags << day(current_date, events)
+              tags << day(current_date, events, block)
               current_date = current_date.tomorrow
             end
-            tags << day(current_date, events)
+            tags << day(current_date, events, block)
             current_date = current_date.tomorrow
             tags.join.html_safe
           end
@@ -61,11 +61,11 @@ module SimpleCalendar
       end
     end
 
-    def day(date, events)
+    def day(date, events, block)
       content_tag :td do
         events = day_events(date, events)
         tags = [content_tag(:div, date.day, :class => "day")]
-        tags += events.map { |e| content_tag(:div, e.title_column) } unless events.empty?
+        tags += events.map { |e| content_tag(:div, block.call(e)) } unless events.empty?
         tags.join.html_safe
       end
     end

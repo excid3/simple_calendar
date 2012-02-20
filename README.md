@@ -24,15 +24,20 @@ will be using with simple_calendar.
 We query the events we want to display as usual, and then render the
 calendar in the view like so:
 
-    <%= calendar @events %>
+    <%= calendar @events do |event| %>
+      <div><%= link_to event.title, event %></div>
+    <% end %>
+
+When the calendar is rendering, it yields to the block to allow you to
+render whatever you like for the item. In this example, I use the title
+attribute on the event with a link to the event.
 
 has_calendar has options that can be passed to it for configuration:
 
-    has_calendar :title => :whatever, :start_time => :my_start_column
+    has_calendar :start_time => :my_start_column
 
     def whatever
       title + " ohai"
     end
 
-Start_time is the field for the start time of the event. Title is the
-text that will be displayed for the event on the calendar.
+Start_time is the field for the start time of the event.
