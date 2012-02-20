@@ -38,3 +38,16 @@ has_calendar has options that can be passed to it for configuration:
 
 Start_time is the field for the start time of the event. This will use
 my_start_column to determine which day to render the event on.
+
+
+CSS
+---
+
+You will probably want to customize the height of the calendar so that
+all the rows are the same. You can do this by adding the following line
+to your css:
+
+  .calendar td { height: 100px; width: 14.28%; }
+
+By default simple_calendar will set the calendar to use .bordered-table
+and .calendar classes.
