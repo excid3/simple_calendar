@@ -1,7 +1,7 @@
 Simple Calendar
 ===============
 
-This is a small gem for creating a quick and clean table calendar.
+This is a small Rails 3.x gem for creating a quick and clean table calendar.
 Theming is up to you, but it works nicely with Twitter Bootstrap.
 
 Installation
