@@ -63,10 +63,11 @@ module SimpleCalendar
 
     def day(date, events, block)
       content_tag :td do
-        events = day_events(date, events)
-        tags = [content_tag(:div, date.day, :class => "day")]
-        tags += events.map { |e| content_tag(:div, block.call(e)) } unless events.empty?
-        tags.join.html_safe
+        concat content_tag(:div, date.day, :class => "day")
+
+        day_events(date, events).map do |event|
+          block.call(event)
+        end.join.html_safe
       end
     end
 
