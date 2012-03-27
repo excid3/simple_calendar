@@ -25,9 +25,9 @@ module SimpleCalendar
         previous_month = day.advance :months => -1
         next_month = day.advance :months => 1
         tags = []
-        tags << link_to("<", calendar_path(:month => previous_month.month, :year => previous_month.year))
+        tags << link_to("<", request.fullpath.split('?').first + "?month=#{previous_month.month}&year=#{previous_month.year}")
         tags << day.strftime("%B %Y")
-        tags << link_to(">", calendar_path(:month => next_month.month, :year => next_month.year))
+        tags << link_to(">", request.fullpath.split('?').first + "?month=#{next_month.month}&year=#{next_month.year}")
         tags.join.html_safe
       end
     end
