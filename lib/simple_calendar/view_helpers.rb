@@ -10,14 +10,12 @@ module SimpleCalendar
 
     def start_date(date)
       start_date = date.beginning_of_month
-      start_date = start_date.beginning_of_week.advance(:days => -1) unless start_date.sunday?
-      start_date
+      start_date.beginning_of_week.advance(:days => -1) unless start_date.sunday?
     end
 
     def end_date(date)
       end_date = date.end_of_month
-      end_date = end_date.advance(:days => 1).end_of_week if end_date.sunday?
-      end_date
+      end_date.sunday? ? end_date.advance(:days => 1).end_of_week : end_date
     end
 
     def month_header(day)
