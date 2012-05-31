@@ -47,10 +47,10 @@ module SimpleCalendar
           weeks << content_tag(:tr) do
             tags = []
             while not current_date.saturday?
-              tags << day(current_date, events, block)
+              tags << day(current_date, day, events, block)
               current_date = current_date.tomorrow
             end
-            tags << day(current_date, events, block)
+            tags << day(current_date, day, events, block)
             current_date = current_date.tomorrow
             tags.join.html_safe
           end
@@ -59,8 +59,17 @@ module SimpleCalendar
       end
     end
 
-    def day(date, events, block)
-      content_tag :td do
+    def day(date, selected_month,  events, block)
+
+      is_today = (Date.today == date ? "today " : "")
+      is_not_selected_month = (selected_month.month != date.month ? "not_selected_month " : "")
+      date_class = is_today + is_not_selected_month
+
+      if date_class.empty?
+        date_class = nil
+      end
+
+      content_tag :td, :class => date_class do
         concat content_tag(:div, date.day, :class => "day")
 
         day_events(date, events).map do |event|
