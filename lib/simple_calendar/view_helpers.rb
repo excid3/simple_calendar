@@ -18,9 +18,6 @@ module SimpleCalendar
 
       end_date       = selected_month.end_of_month
       end_date       = end_date.sunday? ? end_date : end_date.advance(:days => 1).end_of_week 
-
-
-      puts "=========================== #{end_date}"
       date_range     = (start_date..end_date).to_a   
 
     end 
@@ -31,9 +28,6 @@ module SimpleCalendar
       i              = 0
       date_range.each do |date|         
         week << date   
-        puts "======== #{date}" 
-
-
         if i == 6
           i = 0
           month << week
