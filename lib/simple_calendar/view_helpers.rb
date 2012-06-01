@@ -59,7 +59,11 @@ module SimpleCalendar
 
               week.collect do |date| 
 
-                content_tag(:td, :class => (Date.today == date ? "today day" : "day")) do
+                tb_class = []
+                tb_class << not_current_month = (date.month == selected_month.month ? "" : "not-currnet-month")
+                tb_class << Date.today == date ? "today day" : "day"
+
+                content_tag(:td, :class => tb_class.join(" ")) do
 
                   content_tag(:div) do
 
