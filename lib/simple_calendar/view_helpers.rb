@@ -18,6 +18,7 @@ module SimpleCalendar
 
       end_date       = selected_month.end_of_month
       end_date       = end_date.sunday? ? end_date : end_date.advance(:days => 1).end_of_week 
+
       date_range     = (start_date..end_date).to_a   
 
     end 
@@ -58,9 +59,9 @@ module SimpleCalendar
 
               week.collect do |date| 
 
-                content_tag(:td, :class => "day") do
+                content_tag(:td, :class => (Date.today == date ? "today day" : "day")) do
 
-                  content_tag(:div, :class => (Date.today == current_date ? "today" : nil)) do
+                  content_tag(:div) do
 
                     divs = []
 
