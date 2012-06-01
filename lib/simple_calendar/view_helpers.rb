@@ -7,7 +7,7 @@ module SimpleCalendar
       range          = build_range selected_month
       month_array    = build_month range
 
-      draw_calendar(selected_month, month_array, current_date)
+      draw_calendar(selected_month, month_array, current_date, events, block)
     end
 
     private
@@ -37,7 +37,7 @@ module SimpleCalendar
       return month
     end
 
-    def draw_calendar(selected_month, month, current_date)
+    def draw_calendar(selected_month, month, current_date, events, block)
 
       tags = []
 
@@ -59,7 +59,15 @@ module SimpleCalendar
 
                   content_tag(:div, :class => (Date.today == current_date ? "today" : nil)) do
 
-                    date.day.to_s
+                    divs = []
+
+                    divs << content_tag(:div, date.day.to_s)
+                    
+                    divs << day_events(date, events).collect do |event|
+                      block.call(event)
+                    end
+
+                    divs.join.html_safe
 
                   end #content_tag :div
                 end #content_tag :td
@@ -70,6 +78,10 @@ module SimpleCalendar
         tags.join.html_safe
       end #content_tag :table
     end #draw_calendar
+
+    def day_events(date, events)
+      events.select { |e| e.start_time_column.to_date == date }
+    end
 
     def month_header(selected_month)
           content_tag :h2 do
