@@ -61,7 +61,7 @@ module SimpleCalendar
 
                 tb_class = []
                 tb_class << not_current_month = (date.month == selected_month.month ? "" : "not-currnet-month")
-                tb_class << Date.today == date ? "today day" : "day"
+                tb_class << (Date.today == date ? "today day" : "day")
 
                 content_tag(:td, :class => tb_class.join(" ")) do
 
