@@ -45,7 +45,7 @@ module SimpleCalendar
 
       tags = []
 
-      content_tag(:table, :class => "table table-bordered table-striped") do
+      content_tag(:table, :class => "table table-bordered table-striped calendar") do
         
         tags << month_header(selected_month)
 
