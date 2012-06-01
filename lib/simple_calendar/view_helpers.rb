@@ -42,14 +42,16 @@ module SimpleCalendar
       tags = []
 
       content_tag(:table, :class => "table table-bordered table-striped") do
+        
+        tags << month_header(selected_month)
 
-        tags << content_tag(:thead, content_tag(:tr, I18n.t("date.abbr_day_names").collect { |name| content_tag :th, name}.join.html_safe))
+        tags << content_tag(:thead, content_tag(:tr, I18n.t("date.abbr_day_names").collect { |name| content_tag :th, name, :class => (selected_month.month == Date.today.month && Date.today.strftime("%a") == name ? "current-day" : nil)}.join.html_safe))
 
         tags << content_tag(:tbody) do 
 
           month.collect do |week| 
 
-            content_tag(:tr, :class => "week") do
+            content_tag(:tr, :class => (week.include?(Date.today) ? "current-week week" : "week")) do              
 
               week.collect do |date| 
 
@@ -68,5 +70,17 @@ module SimpleCalendar
         tags.join.html_safe
       end #content_tag :table
     end #draw_calendar
+
+    def month_header(selected_month)
+          content_tag :h2 do
+            previous_month = selected_month.advance :months => -1
+            next_month = selected_month.advance :months => 1
+            tags = []
+            tags << link_to("<", request.fullpath.split('?').first + "?month=#{previous_month.month}&year=#{previous_month.year}")
+            tags << selected_month.strftime("%B %Y")
+            tags << link_to(">", request.fullpath.split('?').first + "?month=#{next_month.month}&year=#{next_month.year}")
+            tags.join.html_safe
+          end
+        end
   end
 end
