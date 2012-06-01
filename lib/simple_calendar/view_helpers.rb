@@ -38,9 +38,10 @@ module SimpleCalendar
     end
 
     def draw_calendar(selected_month, month, current_date)
+
       tags = []
 
-      content_tag(:table) do
+      content_tag(:table, :class => "table table-bordered table-striped") do
 
         tags << content_tag(:thead, content_tag(:tr, I18n.t("date.abbr_day_names").collect { |name| content_tag :th, name}.join.html_safe))
 
@@ -55,13 +56,14 @@ module SimpleCalendar
                 content_tag(:td, :class => "day") do
 
                   content_tag(:div, :class => (Date.today == current_date ? "today" : nil)) do
-                    date.day.to_s
-                  end #content_tag :div
 
+                    date.day.to_s
+
+                  end #content_tag :div
                 end #content_tag :td
-              end.join.html_safe #week.collect
+              end.join.html_safe
             end #content_tag :tr
-          end.join.html_safe #month.collect
+          end.join.html_safe
         end #content_tag :tbody 
         tags.join.html_safe
       end #content_tag :table
