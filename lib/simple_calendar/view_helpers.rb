@@ -14,10 +14,15 @@ module SimpleCalendar
 
     def build_range(selected_month)
       start_date     = selected_month.beginning_of_month
-      start_date     = start_date.sunday? ? start_date : start_date.beginning_of_week.advance(:days => -1)      
+      start_date     = start_date.sunday? ? start_date : start_date.beginning_of_week.advance(:days => -1)
+
       end_date       = selected_month.end_of_month
-      end_date       = end_date.sunday? ? end_date.advance(:days => 1).end_of_week : end_date      
+      end_date       = end_date.sunday? ? end_date : end_date.advance(:days => 1).end_of_week 
+
+
+      puts "=========================== #{end_date}"
       date_range     = (start_date..end_date).to_a   
+
     end 
 
     def build_month(date_range)
@@ -25,10 +30,14 @@ module SimpleCalendar
       week           = []
       i              = 0
       date_range.each do |date|         
-        week << date          
+        week << date   
+        puts "======== #{date}" 
+
+
         if i == 6
           i = 0
           month << week
+
           week = []
         else
           i += 1 
