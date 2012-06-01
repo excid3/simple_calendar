@@ -60,7 +60,9 @@ module SimpleCalendar
               week.collect do |date| 
 
                 tb_class = []
+
                 tb_class << not_current_month = (date.month == selected_month.month ? "" : "not-currnet-month")
+
                 tb_class << (Date.today == date ? "today day" : "day")
 
                 content_tag(:td, :class => tb_class.join(" ")) do
@@ -69,11 +71,9 @@ module SimpleCalendar
 
                     divs = []
 
-                    divs << content_tag(:div, date.day.to_s)
+                    concat content_tag(:div, date.day.to_s)
                     
-                    divs << day_events(date, events).collect do |event|
-                      block.call(event)
-                    end
+                    divs << day_events(date, events).collect {|event| block.call(event) }
 
                     divs.join.html_safe
 
