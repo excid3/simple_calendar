@@ -96,7 +96,7 @@ module SimpleCalendar
             previous_month = selected_month.advance :months => -1
             next_month = selected_month.advance :months => 1
             tags = []
-            tags << link_to("&laquo;".html_safe, request.fullpath.split('?').first + "?month=#{previous_month.month}&year=#{previous_month.year}", :class => "previus-month")
+            tags << link_to("&laquo;".html_safe, request.fullpath.split('?').first + "?month=#{previous_month.month}&year=#{previous_month.year}", :class => "previous-month")
             tags << selected_month.strftime("%B %Y")
             tags << link_to("&raquo;".html_safe, request.fullpath.split('?').first + "?month=#{next_month.month}&year=#{next_month.year}",         :class => "next-month")
             tags.join.html_safe
