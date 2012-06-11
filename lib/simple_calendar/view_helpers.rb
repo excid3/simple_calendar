@@ -90,18 +90,23 @@ module SimpleCalendar
         next_month = selected_month.advance :months => 1
         tags = []
 
-        tags << link_to("&laquo;".html_safe, "#{simple_calendar_path}?month=#{previous_month.month}&year=#{previous_month.year}", :class => "previous-month")
+        tags << month_link("&laquo;".html_safe, previous_month, :class => "previous-month")
         tags << selected_month.strftime("%B %Y")
-        tags << link_to("&raquo;".html_safe, "#{simple_calendar_path}?month=#{next_month.month}&year=#{next_month.year}",         :class => "next-month")
+        tags << month_link("&raquo;".html_safe, next_month, :class => "next-month")
 
         tags.join.html_safe
       end
     end
 
+    # Generates the link to next and previous months
+    def month_link(text, month, opts={})
+      link_to(text, "#{simple_calendar_path}?month=#{month.month}&year=#{month.year}", opts)
+    end
+
     # Returns the full path to the calendar
     # This is used for generating the links to the next and previous months
     def simple_calendar_path
-      request.full_path.split('?').first
+      request.fullpath.split('?').first
     end
   end
 end
