@@ -91,7 +91,7 @@ module SimpleCalendar
         tags = []
 
         tags << month_link("&laquo;".html_safe, previous_month, :class => "previous-month")
-        tags << selected_month.strftime("%B %Y")
+        tags << I18n.t("date.month_names")[selected_month.month]
         tags << month_link("&raquo;".html_safe, next_month, :class => "next-month")
 
         tags.join.html_safe
