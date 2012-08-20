@@ -62,7 +62,7 @@ module SimpleCalendar
                   content_tag(:div) do
                     divs = []
 
-                    concat content_tag(:div, date.day.to_s)
+                    concat content_tag(:div, date.day.to_s, :class=>"day_number")
                     divs << day_events(date, events).collect {|event| block.call(event) }
                     divs.join.html_safe
                   end #content_tag :div
