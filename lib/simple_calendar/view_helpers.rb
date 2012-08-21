@@ -1,13 +1,20 @@
 module SimpleCalendar
   module ViewHelpers
 
-    def calendar(events, &block)
-      selected_month = Date.civil((params[:year] || Time.zone.now.year).to_i, (params[:month] || Time.zone.now.month).to_i)
+    def calendar(events, options={}, &block)
+      opts = { 
+          :year       => (params[:year] || Time.zone.now.year).to_i, 
+          :month      => (params[:month] || Time.zone.now.month).to_i,
+          :prev_text  => raw("&laquo;"),
+          :next_text  => raw("&raquo;")
+      }
+      options.reverse_merge! opts
+      selected_month = Date.civil(options[:year], options[:month])
       current_date   = Date.today
       range          = build_range selected_month
       month_array    = build_month range
 
-      draw_calendar(selected_month, month_array, current_date, events, block)
+      draw_calendar(selected_month, month_array, current_date, events, options, block)
     end
 
     private
@@ -42,11 +49,11 @@ module SimpleCalendar
     end
 
     # Renders the calendar table
-    def draw_calendar(selected_month, month, current_date, events, block)
+    def draw_calendar(selected_month, month, current_date, events, options, block)
       tags = []
 
       content_tag(:table, :class => "table table-bordered table-striped calendar") do
-        tags << month_header(selected_month)
+        tags << month_header(selected_month, options)
         tags << content_tag(:thead, content_tag(:tr, I18n.t("date.abbr_day_names").collect { |name| content_tag :th, name, :class => (selected_month.month == Date.today.month && Date.today.strftime("%a") == name ? "current-day" : nil)}.join.html_safe))
         tags << content_tag(:tbody, :'data-month'=>selected_month.month, :'data-year'=>selected_month.year) do
 
@@ -84,15 +91,15 @@ module SimpleCalendar
     end
 
     # Generates the header that includes the month and next and previous months
-    def month_header(selected_month)
+    def month_header(selected_month, options)
       content_tag :h2 do
         previous_month = selected_month.advance :months => -1
         next_month = selected_month.advance :months => 1
         tags = []
 
-        tags << month_link("&laquo;".html_safe, previous_month, :class => "previous-month")
+        tags << month_link(options[:prev_text], previous_month, {:class => "previous-month"})
         tags << I18n.t("date.month_names")[selected_month.month]
-        tags << month_link("&raquo;".html_safe, next_month, :class => "next-month")
+        tags << month_link(options[:next_text], next_month, {:class => "next-month"})
 
         tags.join.html_safe
       end
