@@ -61,11 +61,13 @@ module SimpleCalendar
             content_tag(:tr, :class => (week.include?(Date.today) ? "current-week week" : "week")) do
 
               week.collect do |date|
-                tb_class = []
-                tb_class << not_current_month = (date.month == selected_month.month ? "" : "not-currnet-month")
-                tb_class << (Date.today == date ? "today day" : "day")
+                td_class = []
+                td_class << not_current_month = (date.month == selected_month.month ? "" : "not-currnet-month")
+                td_class << (Date.today == date ? "today day" : "day")
+                td_class << "past" if Date.today > date
+                td_class << "future" if Date.today < date
 
-                content_tag(:td, :class => tb_class.join(" "), :'data-date-iso'=>date.to_s, 'data-date'=>date.to_s.gsub('-', '/')) do
+                content_tag(:td, :class => td_class.join(" "), :'data-date-iso'=>date.to_s, 'data-date'=>date.to_s.gsub('-', '/')) do
                   content_tag(:div) do
                     divs = []
 
