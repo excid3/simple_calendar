@@ -2,8 +2,8 @@ module SimpleCalendar
   module ViewHelpers
 
     def calendar(events, options={}, &block)
-      opts = { 
-          :year       => (params[:year] || Time.zone.now.year).to_i, 
+      opts = {
+          :year       => (params[:year] || Time.zone.now.year).to_i,
           :month      => (params[:month] || Time.zone.now.month).to_i,
           :prev_text  => raw("&laquo;"),
           :next_text  => raw("&raquo;")
@@ -62,8 +62,8 @@ module SimpleCalendar
 
               week.collect do |date|
                 td_class = ["day"]
-                td_class << "today" if today == date 
-                td_class << "not-currnet-month" if selected_month.month != date.month
+                td_class << "today" if today == date
+                td_class << "not-current-month" if selected_month.month != date.month
                 td_class << "past" if today > date
                 td_class << "future" if today < date
 
