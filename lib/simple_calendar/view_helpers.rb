@@ -66,6 +66,7 @@ module SimpleCalendar
                 td_class << "not-current-month" if selected_month.month != date.month
                 td_class << "past" if today > date
                 td_class << "future" if today < date
+                td_class << "wday-#{date.wday.to_s}" # <- to enable different styles for weekend, etc
 
                 content_tag(:td, :class => td_class.join(" "), :'data-date-iso'=>date.to_s, 'data-date'=>date.to_s.gsub('-', '/')) do
                   content_tag(:div) do
