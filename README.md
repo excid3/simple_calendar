@@ -24,6 +24,17 @@ SimpleCalendar will look for a method on your model called `start_time`.
 This is used to determine the day and time of the event. This should be
 a `DateTime` object or at least respond similarly.
 
+The simplest way to use SimpleCalendar is to have an attribute on your
+model called `start_time` and you won't need to make any changes to your
+model at all. For example, I used `rails g model Event name:string
+start_time:datetime` to generate this class:
+
+```ruby
+class Event < ActiveRecord::Base
+  attr_accessible :name, :start_time
+end
+```
+
 If you don't have an attribute called `start_time` on your model, you
 can simply delegate like so:
 
