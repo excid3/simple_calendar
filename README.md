@@ -2,41 +2,61 @@ Simple Calendar
 ===============
 
 This is a small Rails 3.2 gem for creating a quick and clean table calendar.
-Theming is up to you, but it works nicely with Twitter Bootstrap.
+Theming is up to you, but it works nicely with Twitter Bootstrap. It's
+compatible with pure Ruby classes, ActiveRecord, Mongoid, and any other
+ORM.
 
-Thanks to Josh Chernoff for an early rewrite of the calendar generation
-code.
+Thanks to Josh Chernoff and all other contributors.
 
 Installation
 ------------
 
 Just add this into your Gemfile followed by a bundle install:
 
-    gem "simple_calendar", "~> 0.0.7"
+    gem "simple_calendar", "~> 0.1.0"
 
 Usage
 -----
 
-####Model
+#### Model
 
-Here we have a model called Event with the start_time attribute that we
-will be using with simple_calendar.
+SimpleCalendar will look for a method on your model called `start_time`.
+This is used to determine the day and time of the event. This should be
+a `DateTime` object or at least respond similarly.
 
-    class Event < ActiveRecord::Base
-      has_calendar
-    end
+If you don't have an attribute called `start_time` on your model, you
+can simply delegate like so:
 
-has_calendar has options that can be passed to it for configuration:
+```ruby
+class Event < ActiveRecord::Base
+  attr_accessible :name, :event_start_time
 
-    has_calendar :start_time => :my_start_column
+  def start_time
+    event_start_time
+  end
+end
+```
 
-The `start_time` option is the field for the start time of the event. This will use
-`my_start_column` to determine which day to render the event on.
+As long as `start_time` returns a `DateTime` object, you're good to go.
+This means SimpleCalendar is now compatible with any class, whether it's
+ORM backed like ActiveRecord, Mongoid, or it's just a pure Ruby class.
+(Yay!)
 
-####Views
+##### Querying
 
-We query the events we want to display as usual, and then render the
-calendar in the view like so:
+SimpleCalendar uses `params[:month]` and `params[:year]` to determine
+which month of the calendar to render. You can use these to make your
+database queries more efficient.
+
+#### Views
+
+SimpleCalendar just accepts an array of events and a block. The block
+will be executed for each event so you can provide your own logic for
+displaying the events.
+
+Here's an example that uses SimpleCalendar to simply render a link to
+each event on its own line inside the table. You would simply query for
+the `@events` as discussed above in the querying section.
 
     <%= calendar @events do |event| %>
       <div><%= link_to event.title, event %></div>
@@ -58,15 +78,15 @@ Possible options:
 
     :year	           # current year, default: from params or current year
     :month		       # current month, default: from params or current month
-    :prev_text         # previous month link text, default: &laquo;
-    :next_text         # next month link text, default: &raquo;
+    :prev_text       # previous month link text, default: &laquo;
+    :next_text       # next month link text, default: &raquo;
 
 CSS
 ---
 
 You will probably want to customize the height of the calendar so that
-all the rows are the same. You can do this by adding the following line
-to your css:
+all the rows are the same heights and widths. You can do this by adding
+the following line to your css:
 
     .calendar td { height: 100px; width: 14.28%; }
 
@@ -76,7 +96,4 @@ and .calendar classes.
 TODO
 ====
 
-* Add query helpers to grab events for a current month and the days into
-  the next and previous months for efficiency
 * Customizable starting day of week
-* More customization?
