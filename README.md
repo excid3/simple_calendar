@@ -83,7 +83,8 @@ You may even pass options to calendar renderer to customize it's behavior
       <div><%= link_to event.title, event %></div>
     <% end %>
 
-This time calendar will use prev and next as labels for previous and next month links (which are normally set to &amp;laquo; (&laquo;) and &amp;raquo; (&raquo;)
+This time calendar will use prev and next as labels for previous and next month
+links (which are normally set to &amp;laquo; (&laquo;) and &amp;raquo; (&raquo;)
 
 Possible options:
 
@@ -92,6 +93,20 @@ Possible options:
     :prev_text       # previous month link text, default: &laquo;
     :next_text       # next month link text, default: &raquo;
     :start_day       # starting day of week, default: :sunday
+
+If you wish to have Monday as the first day of the week, you'll need to
+change a couple things. First, when rendering the calendar, use the
+`:start_day => :monday` option like so:
+
+```ruby
+<%= calendar @events, :start_day => :monday do |event| %>
+  <%= link_to event.title, event %>
+<% end %>
+```
+
+And the second step is to make sure you've set your `I18n.locale` to the
+correct one. There is a lot of information here regarding use of locales in Rails:
+https://github.com/svenfuchs/rails-i18n
 
 CSS
 ---
