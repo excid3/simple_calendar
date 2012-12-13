@@ -91,6 +91,7 @@ Possible options:
     :month		       # current month, default: from params or current month
     :prev_text       # previous month link text, default: &laquo;
     :next_text       # next month link text, default: &raquo;
+    :start_day       # starting day of week, default: :sunday
 
 CSS
 ---
@@ -103,8 +104,3 @@ the following line to your css:
 
 By default simple_calendar will set the calendar to use .bordered-table
 and .calendar classes.
-
-TODO
-====
-
-* Customizable starting day of week
