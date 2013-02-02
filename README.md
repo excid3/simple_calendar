@@ -69,9 +69,11 @@ Here's an example that uses SimpleCalendar to simply render a link to
 each event on its own line inside the table. You would simply query for
 the `@events` as discussed above in the querying section.
 
-    <%= calendar @events do |event| %>
-      <div><%= link_to event.title, event %></div>
-    <% end %>
+```erb
+<%= calendar @events do |event| %>
+  <div><%= link_to event.title, event %></div>
+<% end %>
+```
 
 When the calendar is rendering, it yields to the block to allow you to
 render whatever you like for the item. In this example, I use the title
@@ -79,9 +81,11 @@ attribute on the event with a link to the event.
 
 You may even pass options to calendar renderer to customize it's behavior
 
-    <%= calendar @events, {:prev_text=>"prev", :next_text=>"next"} do |event| %>
-      <div><%= link_to event.title, event %></div>
-    <% end %>
+```erb
+<%= calendar @events, {:prev_text=>"prev", :next_text=>"next"} do |event| %>
+  <div><%= link_to event.title, event %></div>
+<% end %>
+```
 
 This time calendar will use prev and next as labels for previous and next month
 links (which are normally set to &amp;laquo; (&laquo;) and &amp;raquo; (&raquo;)
@@ -99,7 +103,7 @@ If you wish to have Monday as the first day of the week, you'll need to
 change a couple things. First, when rendering the calendar, use the
 `:start_day => :monday` option like so:
 
-```ruby
+```erb
 <%= calendar @events, :start_day => :monday do |event| %>
   <%= link_to event.title, event %>
 <% end %>
@@ -109,6 +113,16 @@ And the second step is to make sure you've set your `I18n.locale` to the
 correct one. There is a lot of information here regarding use of locales in Rails:
 https://github.com/svenfuchs/rails-i18n
 
+The `empty_date` option accepts a block that will be called when a day
+in the calendar is empty. It will be called with the date object that
+represents the day that has no events.
+
+```erb
+  <%= calendar @events, empty_date: lambda{ |date| "hello from #{date}" } do |event| %>
+    <%= event.name %>
+  <% end %>
+```
+
 CSS
 ---
 
@@ -116,7 +130,9 @@ You will probably want to customize the height of the calendar so that
 all the rows are the same heights and widths. You can do this by adding
 the following line to your css:
 
-    .calendar td { height: 100px; width: 14.28%; }
+```css
+.calendar td { height: 100px; width: 14.28%; }
+```
 
 By default simple_calendar will set the calendar to use .bordered-table
 and .calendar classes.
