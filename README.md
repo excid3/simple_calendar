@@ -93,6 +93,7 @@ Possible options:
     :prev_text       # previous month link text, default: &laquo;
     :next_text       # next month link text, default: &raquo;
     :start_day       # starting day of week, default: :sunday
+    :empty_date      # block called when a date is empty
 
 If you wish to have Monday as the first day of the week, you'll need to
 change a couple things. First, when rendering the calendar, use the

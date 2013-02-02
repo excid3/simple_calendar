@@ -76,9 +76,15 @@ module SimpleCalendar
                 content_tag(:td, :class => td_class.join(" "), :'data-date-iso'=>date.to_s, 'data-date'=>date.to_s.gsub('-', '/')) do
                   content_tag(:div) do
                     divs = []
-
                     concat content_tag(:div, date.day.to_s, :class=>"day_number")
-                    divs << day_events(date, events).collect { |event| block.call(event) }
+
+                    cur_events = day_events(date, events)
+                    if cur_events.empty? && options[:empty_date]
+                      concat options[:empty_date].call
+                    else
+                      divs << cur_events.collect{ |event| block.call(event) }
+                    end
+
                     divs.join.html_safe
                   end #content_tag :div
                 end #content_tag :td
