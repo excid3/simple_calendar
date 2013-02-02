@@ -80,7 +80,7 @@ module SimpleCalendar
 
                     cur_events = day_events(date, events)
                     if cur_events.empty? && options[:empty_date]
-                      concat options[:empty_date].call
+                      concat options[:empty_date].call(date)
                     else
                       divs << cur_events.collect{ |event| block.call(event) }
                     end
