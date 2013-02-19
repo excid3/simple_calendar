@@ -38,7 +38,7 @@ module SimpleCalendar
       content_tag(:table, :class => "table table-bordered table-striped calendar") do
         tags << month_header(selected_month, options)
         day_names = I18n.t("date.abbr_day_names")
-        day_names.rotate(Date::DAYS_INTO_WEEK[options[:start_date]] || 0)
+        day_names.rotate!(Date::DAYS_INTO_WEEK[options[:start_date]] || 0)
         tags << content_tag(:thead, content_tag(:tr, day_names.collect { |name| content_tag :th, name, :class => (selected_month.month == Date.today.month && Date.today.strftime("%a") == name ? "current-day" : nil)}.join.html_safe))
         tags << content_tag(:tbody, :'data-month'=>selected_month.month, :'data-year'=>selected_month.year) do
 
