@@ -1,8 +1,6 @@
 module SimpleCalendar
   module ViewHelpers
     
-    WEEKDAYS = Date::DAYNAMES.map {|d| d.downcase.to_sym }
-    
     def calendar(events, options={}, &block)
       raise 'SimpleCalendar requires a block to be passed in' unless block_given?
 
@@ -27,11 +25,8 @@ module SimpleCalendar
     private
 
     def build_range(selected_month, options)
-      start_date = selected_month.beginning_of_month
-      start_date = start_date.send(options[:start_day].to_s+'?') ? start_date : start_date.beginning_of_week(options[:start_day])
-
-      end_date   = selected_month.end_of_month
-      end_date   = end_date.saturday? ? end_date : end_date.end_of_week(options[:start_day])
+      start_date = selected_month.beginning_of_month.beginning_of_week(options[:start_day])
+      end_date   = selected_month.end_of_month.end_of_week(options[:start_day])
 
       (start_date..end_date).to_a
     end
@@ -43,7 +38,7 @@ module SimpleCalendar
       content_tag(:table, :class => "table table-bordered table-striped calendar") do
         tags << month_header(selected_month, options)
         day_names = I18n.t("date.abbr_day_names")
-        day_names.rotate(WEEKDAYS.index(options[:start_date]) || 0)
+        day_names.rotate(Date::DAYS_INTO_WEEK[options[:start_date]] || 0)
         tags << content_tag(:thead, content_tag(:tr, day_names.collect { |name| content_tag :th, name, :class => (selected_month.month == Date.today.month && Date.today.strftime("%a") == name ? "current-day" : nil)}.join.html_safe))
         tags << content_tag(:tbody, :'data-month'=>selected_month.month, :'data-year'=>selected_month.year) do
 
@@ -105,8 +100,8 @@ module SimpleCalendar
     end
 
     # Generates the link to next and previous months
-    def month_link(text, month, opts={})
-      link_to(text, "#{simple_calendar_path}?month=#{month.month}&year=#{month.year}", opts)
+    def month_link(text, date, opts={})
+      link_to(text, {:month => date.month, :year => date.year}, opts)
     end
 
     # Returns the full path to the calendar
