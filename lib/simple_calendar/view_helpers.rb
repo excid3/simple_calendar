@@ -16,10 +16,10 @@ module SimpleCalendar
       }
       options.reverse_merge! opts
       events       ||= []
-      selected_month = Date.civil(options[:year], options[:month])
+      selected_month = Date.new(options[:year], options[:month])
       current_date   = Date.today
       range          = build_range selected_month, options
-      month_array    = build_month range
+      month_array    = range.each_slice(7).to_a
 
       draw_calendar(selected_month, month_array, current_date, events, options, block)
     end
@@ -34,25 +34,6 @@ module SimpleCalendar
       end_date   = end_date.saturday? ? end_date : end_date.end_of_week(options[:start_day])
 
       (start_date..end_date).to_a
-    end
-
-    def build_month(date_range)
-      month = []
-      week  = []
-      i     = 0
-
-      date_range.each do |date|
-        week << date
-        if i == 6
-          i = 0
-          month << week
-          week = []
-        else
-          i += 1
-        end
-      end
-
-      month
     end
 
     # Renders the calendar table
