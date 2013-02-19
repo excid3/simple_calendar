@@ -38,7 +38,7 @@ module SimpleCalendar
       content_tag(:table, :class => "table table-bordered table-striped calendar") do
         tags << month_header(selected_month, options)
         day_names = I18n.t("date.abbr_day_names")
-        day_names.rotate!(Date::DAYS_INTO_WEEK[options[:start_date]] || 0)
+        day_names.rotate!((Date::DAYS_INTO_WEEK[options[:start_day]] + 1) % 7)
         tags << content_tag(:thead, content_tag(:tr, day_names.collect { |name| content_tag :th, name, :class => (selected_month.month == Date.today.month && Date.today.strftime("%a") == name ? "current-day" : nil)}.join.html_safe))
         tags << content_tag(:tbody, :'data-month'=>selected_month.month, :'data-year'=>selected_month.year) do
 
@@ -52,13 +52,16 @@ module SimpleCalendar
                 td_class << "past" if today > date
                 td_class << "future" if today < date
                 td_class << "wday-#{date.wday.to_s}" # <- to enable different styles for weekend, etc
-
+                
+                cur_events = day_events(date, events)
+                
+                td_class << (cur_events.any? ? "events" : "no-events")
+                
                 content_tag(:td, :class => td_class.join(" "), :'data-date-iso'=>date.to_s, 'data-date'=>date.to_s.gsub('-', '/')) do
                   content_tag(:div) do
                     divs = []
                     concat content_tag(:div, date.day.to_s, :class=>"day_number")
 
-                    cur_events = day_events(date, events)
                     if cur_events.empty? && options[:empty_date]
                       concat options[:empty_date].call(date)
                     else
@@ -102,12 +105,6 @@ module SimpleCalendar
     # Generates the link to next and previous months
     def month_link(text, date, opts={})
       link_to(text, {:month => date.month, :year => date.year}, opts)
-    end
-
-    # Returns the full path to the calendar
-    # This is used for generating the links to the next and previous months
-    def simple_calendar_path
-      request.fullpath.split('?').first
     end
   end
 end
