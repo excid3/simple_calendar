@@ -98,6 +98,7 @@ Possible options:
     :next_text       # next month link text, default: &raquo;
     :start_day       # starting day of week, default: :sunday
     :empty_date      # block called when a date is empty
+    :class           # HTML class attribute for the calendar
 
 If you wish to have Monday as the first day of the week, you'll need to
 change a couple things. First, when rendering the calendar, use the
@@ -134,5 +135,12 @@ the following line to your css:
 .calendar td { height: 100px; width: 14.28%; }
 ```
 
-By default simple_calendar will set the calendar to use .bordered-table
-and .calendar classes.
+By default simple_calendar will set the calendar to use .table
+.table-bordered .table-striped and .calendar classes.
+
+You can also override the class by passing in the `class` option.
+
+```erb
+  <%= calendar @events, class: "simple-calendar" do |event| %>
+  <% end %>
+```

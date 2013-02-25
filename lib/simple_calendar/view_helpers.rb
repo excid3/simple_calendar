@@ -1,6 +1,6 @@
 module SimpleCalendar
   module ViewHelpers
-    
+
     def calendar(events, options={}, &block)
       raise 'SimpleCalendar requires a block to be passed in' unless block_given?
 
@@ -10,7 +10,9 @@ module SimpleCalendar
           :month      => (params[:month] || Time.zone.now.month).to_i,
           :prev_text  => raw("&laquo;"),
           :next_text  => raw("&raquo;"),
-          :start_day  => :sunday
+          :start_day  => :sunday,
+          :class      => "table table-bordered table-striped calendar",
+
       }
       options.reverse_merge! opts
       events       ||= []
@@ -35,7 +37,7 @@ module SimpleCalendar
     def draw_calendar(selected_month, month, current_date, events, options, block)
       tags = []
       today = Date.today
-      content_tag(:table, :class => "simple_calendar calendar") do
+      content_tag(:table, :class => options[:class]) do
         tags << month_header(selected_month, options)
         day_names = I18n.t("date.abbr_day_names")
         day_names = day_names.rotate((Date::DAYS_INTO_WEEK[options[:start_day]] + 1) % 7)
@@ -52,11 +54,11 @@ module SimpleCalendar
                 td_class << "past" if today > date
                 td_class << "future" if today < date
                 td_class << "wday-#{date.wday.to_s}" # <- to enable different styles for weekend, etc
-                
+
                 cur_events = day_events(date, events)
-                
+
                 td_class << (cur_events.any? ? "events" : "no-events")
-                
+
                 content_tag(:td, :class => td_class.join(" "), :'data-date-iso'=>date.to_s, 'data-date'=>date.to_s.gsub('-', '/')) do
                   content_tag(:div) do
                     divs = []
