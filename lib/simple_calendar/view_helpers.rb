@@ -86,7 +86,7 @@ module SimpleCalendar
 
     # Returns an array of events for a given day
     def day_events(date, events)
-      events.select { |e| e.start_time.to_date == date }
+      events.select { |e| e.start_time.to_date == date }.sort_by { |e| e.start_time }
     end
 
     # Generates the header that includes the month and next and previous months
