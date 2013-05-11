@@ -12,7 +12,7 @@ module SimpleCalendar
           :next_text  => raw("&raquo;"),
           :start_day  => :sunday,
           :class      => "table table-bordered table-striped calendar",
-
+          :params     => {}
       }
       options.reverse_merge! opts
       events       ||= []
@@ -96,17 +96,17 @@ module SimpleCalendar
         next_month = selected_month.advance :months => 1
         tags = []
 
-        tags << month_link(options[:prev_text], previous_month, {:class => "previous-month"})
+        tags << month_link(options[:prev_text], previous_month, options[:params], {:class => "previous-month"})
         tags << "#{I18n.t("date.month_names")[selected_month.month]} #{selected_month.year}"
-        tags << month_link(options[:next_text], next_month, {:class => "next-month"})
+        tags << month_link(options[:next_text], next_month, options[:params], {:class => "next-month"})
 
         tags.join.html_safe
       end
     end
 
     # Generates the link to next and previous months
-    def month_link(text, date, opts={})
-      link_to(text, {:month => date.month, :year => date.year}, opts)
+    def month_link(text, date, params, opts={})
+      link_to(text, params.merge({:month => date.month, :year => date.year}), opts)
     end
   end
 end
