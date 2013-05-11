@@ -13,7 +13,7 @@ Installation
 
 Just add this into your Gemfile followed by a bundle install:
 
-    gem "simple_calendar", "~> 0.1.5"
+    gem "simple_calendar", "~> 0.1.8"
 
 Usage
 -----
@@ -99,6 +99,7 @@ Possible options:
     :start_day       # starting day of week, default: :sunday
     :empty_date      # block called when a date is empty
     :class           # HTML class attribute for the calendar
+    :params          # Any extra params you'd like in the URL (automatically includes month and year)
 
 If you wish to have Monday as the first day of the week, you'll need to
 change a couple things. First, when rendering the calendar, use the
