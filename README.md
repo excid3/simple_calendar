@@ -13,7 +13,7 @@ Installation
 
 Just add this into your Gemfile followed by a bundle install:
 
-    gem "simple_calendar", "~> 0.1.8"
+    gem "simple_calendar", "~> 0.1.9"
 
 Usage
 -----
