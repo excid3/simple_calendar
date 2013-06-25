@@ -4,7 +4,6 @@ module SimpleCalendar
     def calendar(events, options={}, &block)
       raise 'SimpleCalendar requires a block to be passed in' unless block_given?
 
-
       opts = {
           :year       => (params[:year] || Time.zone.now.year).to_i,
           :month      => (params[:month] || Time.zone.now.month).to_i,
