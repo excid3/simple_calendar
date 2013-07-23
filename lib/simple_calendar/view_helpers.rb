@@ -24,7 +24,8 @@ module SimpleCalendar
     end
 
     private
-
+    
+    # Returns array of dates between start date and end date for selected month
     def build_range(selected_month, options)
       start_date = selected_month.beginning_of_month.beginning_of_week(options[:start_day])
       end_date   = selected_month.end_of_month.end_of_week(options[:start_day])
