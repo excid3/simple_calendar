@@ -4,15 +4,7 @@ module SimpleCalendar
     def calendar(events, options={}, &block)
       raise 'SimpleCalendar requires a block to be passed in' unless block_given?
 
-      opts = {
-          :year       => (params[:year] || Time.zone.now.year).to_i,
-          :month      => (params[:month] || Time.zone.now.month).to_i,
-          :prev_text  => raw("&laquo;"),
-          :next_text  => raw("&raquo;"),
-          :start_day  => :sunday,
-          :class      => "table table-bordered table-striped calendar",
-          :params     => {}
-      }
+      opts = default_options
       options.reverse_merge! opts
       events       ||= []
       selected_month = Date.new(options[:year], options[:month])
@@ -24,7 +16,17 @@ module SimpleCalendar
     end
 
     private
-    
+    def default_options
+      {
+          :year       => (params[:year] || Time.zone.now.year).to_i,
+          :month      => (params[:month] || Time.zone.now.month).to_i,
+          :prev_text  => raw("&laquo;"),
+          :next_text  => raw("&raquo;"),
+          :start_day  => :sunday,
+          :class      => "table table-bordered table-striped calendar",
+          :params     => {}
+      }
+    end
     # Returns array of dates between start date and end date for selected month
     def build_range(selected_month, options)
       start_date = selected_month.beginning_of_month.beginning_of_week(options[:start_day])
