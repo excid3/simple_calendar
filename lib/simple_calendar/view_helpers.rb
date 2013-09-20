@@ -18,13 +18,14 @@ module SimpleCalendar
     private
     def default_options
       {
-          :year       => (params[:year] || Time.zone.now.year).to_i,
-          :month      => (params[:month] || Time.zone.now.month).to_i,
-          :prev_text  => raw("&laquo;"),
-          :next_text  => raw("&raquo;"),
-          :start_day  => :sunday,
-          :class      => "table table-bordered table-striped calendar",
-          :params     => {}
+          :year           => (params[:year] || Time.zone.now.year).to_i,
+          :month          => (params[:month] || Time.zone.now.month).to_i,
+          :prev_text      => raw("&laquo;"),
+          :next_text      => raw("&raquo;"),
+          :start_day      => :sunday,
+          :class          => "table table-bordered table-striped calendar",
+          :params         => {},
+          :time_selector  => "start_time"
       }
     end
     # Returns array of dates between start date and end date for selected month
@@ -57,7 +58,7 @@ module SimpleCalendar
                 td_class << "future" if today < date
                 td_class << "wday-#{date.wday.to_s}" # <- to enable different styles for weekend, etc
 
-                cur_events = day_events(date, events)
+                cur_events = day_events(date, events, options[:time_selector])
 
                 td_class << (cur_events.any? ? "events" : "no-events")
 
@@ -87,8 +88,8 @@ module SimpleCalendar
     end
 
     # Returns an array of events for a given day
-    def day_events(date, events)
-      events.select { |e| e.start_time.to_date == date }.sort_by { |e| e.start_time }
+    def day_events(date, events, time_selector)
+      events.select { |e| e.send(time_selector).to_date == date }.sort_by { |e| e.send(time_selector) }
     end
 
     # Generates the header that includes the month and next and previous months
