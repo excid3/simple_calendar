@@ -70,7 +70,7 @@ describe "SimpleCalendar" do
       matching_event = stub(:start_time => Date.new(2013, 1, 14))
       other_event    = stub(:start_time => Date.new(2013,1,15))
       events = [matching_event, other_event]
-      subject.send(:day_events, date, events).should == [matching_event]
+      subject.send(:day_events, date, events, "start_time").should == [matching_event]
     end
   end
 
