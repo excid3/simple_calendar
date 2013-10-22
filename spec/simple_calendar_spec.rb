@@ -26,7 +26,7 @@ describe "SimpleCalendar" do
     end
 
     context "with valid arguments" do
-      it "should draw a calender" do
+      it "should draw a calendar" do
         subject.should_receive(:draw_calendar)
         subject.calendar("foo") { "test" }
       end
