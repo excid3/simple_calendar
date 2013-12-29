@@ -25,7 +25,8 @@ module SimpleCalendar
           :start_day      => :sunday,
           :class          => "table table-bordered table-striped calendar",
           :params         => {},
-          :time_selector  => "start_time"
+          :time_selector  => "start_time",
+          :time2_selector => "end_time"
       }
     end
     # Returns array of dates between start date and end date for selected month
@@ -58,7 +59,7 @@ module SimpleCalendar
                 td_class << "future" if today < date
                 td_class << "wday-#{date.wday.to_s}" # <- to enable different styles for weekend, etc
 
-                cur_events = day_events(date, events, options[:time_selector])
+                cur_events = day_events(date, events, options[:time_selector], options[:time2_selector])
 
                 td_class << (cur_events.any? ? "events" : "no-events")
 
@@ -88,8 +89,15 @@ module SimpleCalendar
     end
 
     # Returns an array of events for a given day
-    def day_events(date, events, time_selector)
-      events.select { |e| e.send(time_selector).to_date == date }.sort_by { |e| e.send(time_selector) }
+    def day_events(date, events, time_selector, time2_selector)
+      events.select { |e|
+        if (e.send(time2_selector))
+          # Events can appear on multiple days
+          e.send(time_selector).to_date <= date && date <= e.send(time2_selector).to_date
+        else
+          e.send(time_selector).to_date == date
+        end
+      }.sort_by { |e| e.send(time_selector) }
     end
 
     # Generates the header that includes the month and next and previous months

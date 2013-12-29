@@ -53,6 +53,11 @@ This means SimpleCalendar is now compatible with any class, whether it's
 ORM backed like ActiveRecord, Mongoid, or it's just a pure Ruby class.
 (Yay!)
 
+Recurrent events can also be managed if the model has a method called
+`end_time`. This is used to determine the last day and time of the event. Just
+like `start_time`, this should be a `DateTime` object or at least respond
+similarly.
+
 ##### Querying
 
 SimpleCalendar uses `params[:month]` and `params[:year]` to determine
