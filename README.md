@@ -92,14 +92,17 @@ links (which are normally set to &amp;laquo; (&laquo;) and &amp;raquo; (&raquo;)
 
 Possible options:
 
-    :year	           # current year, default: from params or current year
-    :month		       # current month, default: from params or current month
-    :prev_text       # previous month link text, default: &laquo;
-    :next_text       # next month link text, default: &raquo;
-    :start_day       # starting day of week, default: :sunday
-    :empty_date      # block called when a date is empty
-    :class           # HTML class attribute for the calendar
-    :params          # Any extra params you'd like in the URL (automatically includes month and year)
+    :year	                      # current year, default: from params or current year
+    :month		                  # current month, default: from params or current month
+    :prev_text                  # previous month link text, default: &laquo;
+    :next_text                  # next month link text, default: &raquo;
+    :start_day                  # starting day of week, default: :sunday
+    :empty_date                 # block called when a date is empty
+    :class                      # HTML class attribute for the calendar
+    :params                     # Any extra params you'd like in the URL (automatically includes month and year)
+    :day_number_with_events     # create day number div on a day with events (true/false)
+    :day_number_without_events  # create day number div on a day with no events (true/false)
+    :time_selector              # method to call on the event object for getting start time. Default: 'start_time'
 
 If you wish to have Monday as the first day of the week, you'll need to
 change a couple things. First, when rendering the calendar, use the
