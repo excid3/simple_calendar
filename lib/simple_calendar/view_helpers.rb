@@ -18,14 +18,16 @@ module SimpleCalendar
     private
     def default_options
       {
-          :year           => (params[:year] || Time.zone.now.year).to_i,
-          :month          => (params[:month] || Time.zone.now.month).to_i,
-          :prev_text      => raw("&laquo;"),
-          :next_text      => raw("&raquo;"),
-          :start_day      => :sunday,
-          :class          => "table table-bordered table-striped calendar",
-          :params         => {},
-          :time_selector  => "start_time"
+          :year                      => (params[:year] || Time.zone.now.year).to_i,
+          :month                     => (params[:month] || Time.zone.now.month).to_i,
+          :prev_text                 => raw("&laquo;"),
+          :next_text                 => raw("&raquo;"),
+          :start_day                 => :sunday,
+          :class                     => "table table-bordered table-striped calendar",
+          :params                    => {},
+          :day_number_with_events    => true,
+          :day_number_without_events => true,
+          :time_selector             => "start_time"
       }
     end
     # Returns array of dates between start date and end date for selected month
@@ -65,7 +67,9 @@ module SimpleCalendar
                 content_tag(:td, :class => td_class.join(" "), :'data-date-iso'=>date.to_s, 'data-date'=>date.to_s.gsub('-', '/')) do
                   content_tag(:div) do
                     divs = []
-                    concat content_tag(:div, date.day.to_s, :class=>"day_number")
+                    if (options[:day_number_with_events] and cur_events.any?) or (options[:day_number_without_events] and cur_events.empty?)
+                      concat content_tag(:div, date.day.to_s, :class=>"day_number")
+                    end
 
                     if cur_events.empty? && options[:empty_date]
                       concat options[:empty_date].call(date)
