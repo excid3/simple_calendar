@@ -25,7 +25,8 @@ module SimpleCalendar
           :start_day      => :sunday,
           :class          => "table table-bordered table-striped calendar",
           :params         => {},
-          :time_selector  => "start_time"
+          :time_selector  => "start_time",
+          :today          => Time.zone.now.to_date
       }
     end
     # Returns array of dates between start date and end date for selected month
@@ -39,7 +40,7 @@ module SimpleCalendar
     # Renders the calendar table
     def draw_calendar(selected_month, month, current_date, events, options, block)
       tags = []
-      today = Time.zone.now.to_date
+      today = options[:today]
       content_tag(:table, :class => options[:class]) do
         tags << month_header(selected_month, options)
         day_names = I18n.t("date.abbr_day_names")
