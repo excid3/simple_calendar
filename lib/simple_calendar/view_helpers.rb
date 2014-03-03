@@ -18,14 +18,14 @@ module SimpleCalendar
     private
     def default_options
       {
-          :year           => (params[:year] || Time.zone.now.year).to_i,
-          :month          => (params[:month] || Time.zone.now.month).to_i,
-          :prev_text      => raw("&laquo;"),
-          :next_text      => raw("&raquo;"),
-          :start_day      => :sunday,
-          :class          => "table table-bordered table-striped calendar",
-          :params         => {},
-          :time_selector  => "start_time"
+        :year           => (params[:year] || Time.zone.now.year).to_i,
+        :month          => (params[:month] || Time.zone.now.month).to_i,
+        :prev_text      => raw("&laquo;"),
+        :next_text      => raw("&raquo;"),
+        :start_day      => :sunday,
+        :class          => "table table-bordered table-striped calendar",
+        :params         => {},
+        :time_selector  => "start_time"
       }
     end
     # Returns array of dates between start date and end date for selected month
@@ -69,9 +69,12 @@ module SimpleCalendar
 
                     if cur_events.empty? && options[:empty_date]
                       concat options[:empty_date].call(date)
-                    elsif not cur_events.empty? && options[:not_empty_date]
-                      concat options[:not_empty_date].call(date)
+                      #                    elsif not cur_events.any? && options[:not_empty_date]
+                      #                      concat options[:not_empty_date].call(date)
                     else
+                      if options[:not_empty_date]
+                        concat options[:not_empty_date].call(date)
+                      end
                       divs << cur_events.collect{ |event| block.call(event) }
                     end
 
