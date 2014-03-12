@@ -6,14 +6,14 @@ Theming is up to you, but it works nicely with Twitter Bootstrap. It's
 compatible with pure Ruby classes, ActiveRecord, Mongoid, and any other
 ORM.
 
-Thanks to Josh Chernoff and all other contributors.
+Thanks to all of the awesome contributors!
 
 Installation
 ------------
 
 Just add this into your Gemfile followed by a bundle install:
 
-    gem "simple_calendar", "~> 0.1.9"
+    gem "simple_calendar", "~> 0.1.10"
 
 Usage
 -----
