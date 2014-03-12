@@ -124,6 +124,16 @@ represents the day that has no events.
     <%= event.name %>
   <% end %>
 ```
+The `not_empty_date` option accepts a block that will be called when a day
+in the calendar has at least one event. It will be called with the date object that
+represents the day that has some events.
+
+```erb
+  <%= calendar @events, not_empty_date: lambda{ |date| "hello from #{date}" } do |event| %>
+    <%= event.name %>
+  <% end %>
+```
+
 
 CSS
 ---
