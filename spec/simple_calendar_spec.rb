@@ -82,6 +82,15 @@ describe "SimpleCalendar" do
       #TODO: add coverage for actual output other than just the starting tag
       subject.send(:month_header, selected_month, options).should match(/^<h2/)
     end
+
+    it "should allow the display_year option to be set to false and not show the year" do
+      subject.should_receive(:month_link).exactly(2)
+      selected_month = Date.new(2014, 1)
+      options = {:dont_display_year => true}
+      str = subject.send(:month_header, selected_month, options)
+      str.should match(/^<h2>January<\/h2>/)
+    end
+
   end
 
   describe "#month_link" do
