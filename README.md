@@ -123,6 +123,45 @@ the `content_tag` method so each of them **must** be a hash.
 This will set the class of `table table-bordered` on the `table` HTML
 element.
 
+### Custom Day Classes
+
+`td` is an option for setting the options on the td content tag that is
+generated. By default, simple_calendar renders the following classes for
+any given day in a calendar:
+
+
+```ruby
+td_class = ["day"]
+td_class << "today"  if today == current_calendar_date
+td_class << "past"   if today > current_calendar_date
+td_class << "future" if today < current_calendar_date
+td_class << "prev-month"    if start_date.month != current_calendar_date.month && current_calendar_date < start_date
+td_class << "next-month"    if start_date.month != current_calendar_date.month && current_calendar_date > start_date
+td_class << "current-month" if start_date.month == current_calendar_date.month
+td_class << "wday-#{current_calendar_date.wday.to_s}"
+```
+
+You can set your CSS styles based upon these if you want to highlight
+specific days or types of days. If you wish to override this
+functionality, just set the `tr` option to a lambda that accepts two
+dates and returns a hash. The hash will be passed in directly to the
+content_tag options. If you wish to set a class or data attributes, just
+set them as you normally would in a content_tag call.
+
+```erb
+<%= month_calendar :start_date, tr: ->(start_date,
+current_calendar_date) { {class: "calendar-date", data: {day:
+current_calendar_date}} } do |day| %>
+<% end %>
+```
+
+This generate each day in the calendar like this:
+
+```html
+<td class="calendar-date" data-day="2014-05-11">
+</td>
+```
+
 ### Custom Header Links
 
 Each of the calendar methods will generate a header with links to the
@@ -143,15 +182,15 @@ The default `month_calendar` look like this:
 <% end %>
 ```
 
-The `prev_link` option is a standard `link_to` that is a left arrow and
+`prev_link` option is a standard `link_to` that is a left arrow and
 with the current url having `?start_date=2014-04-30` appended to it as
 a date in the previous view of the calendar.
 
-The `next_link` option is a standard `link_to` that is a right arrow and
+`next_link` option is a standard `link_to` that is a right arrow and
 with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
-The `header` option is just a simple span tag with the month and year
+`header` option is just a simple span tag with the month and year
 inside of it.
 
 If you wish to disable any of these partsof the header, just pass in
@@ -164,9 +203,6 @@ If you wish to disable any of these partsof the header, just pass in
 
 ## TODO
 
-- CSS classes applied to the calendar days outside of the month
-  This can probably be implemented by a custom lambda passed in as the
-  `td` option on the `month_calendar` only.
 - Having an "events" option would be nice. Users can pass in all the
   objects and we can use it to auto-filter them so the user doesn't
   have to. This is what the previous version did and yielded the
