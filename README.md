@@ -106,7 +106,10 @@ this globally, you can put this line in
 Date.beginning_of_week = :sunday
 ```
 
-Setting classes on the table and elements are pretty:
+Setting classes on the table and elements are pretty easy.
+
+Each of the options are passed directly to the
+the `content_tag` method so each of them **must** be a hash.
 
 ```ruby
 
@@ -119,9 +122,6 @@ Setting classes on the table and elements are pretty:
 
 This will set the class of `table table-bordered` on the `table` HTML
 element.
-
-Each of the `table`, `tr`, and `td`, options are passed directly to the
-the `content_tag` method so each of them **must** be a hash.
 
 ### Custom Header Links
 
