@@ -22,49 +22,31 @@ Just add this into your Gemfile followed by a bundle install:
 Usage
 -----
 
-You can use ruby's `..` or `...` to create ranges
-that are inclusive or exclusive of the last value to make ranges easier
-to manage.
+Generating calendars is extremely simple with simple_calendar now.
+
+You can generate a calendar for the month just by passing in a given
+date:
 
 ```erb
-<h1>6 week calendar</h1>
-<% start_day  = Time.zone.now.to_date %>
-<% end_day    = start_day + 6.weeks %>
-<% date_range = start_day...end_day %>
-
-<%= calendar date_range, table: {class: "table"} do |day| %>
-  <%= day %>
-<% end %>
-
-
-<h1>Month calendar</h1>
-<% start_day  = Time.zone.now.beginning_of_month.beginning_of_week.to_date %>
-<% end_day    = Time.zone.now.end_of_month.end_of_week.to_date %>
-<% date_range = start_day..end_day %>
-
-<%= calendar date_range, table: ->{ {class: "table"} } do |day| %>
-  <%= day %>
-<% end %>
-
-
-
-<h1>Week calendar</h1>
-<% start_day  = Time.zone.now.to_date %>
-<% end_day    = start_day + 6.days %>
-<% date_range = start_day..end_day %>
-
-<%= calendar date_range, table: {class: "table"} do |day| %>
-  <%= day %>
-<% end %>
-
-
-
-<h1>4 day agenda calendar</h1>
-<% start_day  = Time.zone.now.to_date %>
-<% end_day    = start_day + 3.days %>
-<% date_range = start_day..end_day %>
-
-<%= calendar date_range, table: ->{ {class: "table"} }, tr: {class: "tr"}, td: :day_class do |day| %>
+<%= month_calendar params[:start_date] do |day| %>
   <%= day %>
 <% end %>
 ```
+
+You can generate a week calendar by passing in a date in the week:
+
+```erb
+<%= week_calendar params[:start_date], number_of_weeks: 1 do |day| %>
+  <%= day %>
+<% end %>
+```
+
+Lastly you can generate calendars of any length by passing in the start
+date and the number of days you want to render:
+
+```erb
+<%= calendar params[:start_date], number_of_days: 4 do |day| %>
+  <%= day %>
+<% end %>
+```
+
