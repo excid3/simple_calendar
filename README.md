@@ -24,15 +24,16 @@ Usage
 
 Generating calendars is extremely simple with simple_calendar in version 1.0.
 
-The first parameter is a symbol that defines the GET param that
-simple_calendar will pass in the URL to the current page when you click
-the next and previous links. In these examples, we're using
-`:start_date` which is the default.
+The first parameter is a symbol that looks up the current date in
+`params`. If no date is found, it will use the current date.
 
-### Month Calendars
+In these examples, we're using `:start_date` which is the default.
 
-You can generate a calendar for the month just by passing in a given
-date:
+### Month Calendar
+
+You can generate a calendar for the month with the `month_calendar`
+method.
+This will use `params[:start_date]` to render the calendar.
 
 ```erb
 <%= month_calendar :start_date do |day| %>
@@ -40,11 +41,10 @@ date:
 <% end %>
 ```
 
----
+### Week Calendar
 
-### Week Calendars
-
-You can generate a week calendar by passing in a date in the week:
+You can generate a week calendar with the `week_calendar` method.
+This will use `params[:start_date]` to render the calendar.
 
 ```erb
 <%= week_calendar :start_date, number_of_weeks: 2 do |day| %>
@@ -54,12 +54,10 @@ You can generate a week calendar by passing in a date in the week:
 
 Setting `number_of_weeks` is optional and defaults to 1.
 
----
+### Custom Length Calendar
 
-### Custom Calendars
-
-Lastly you can generate calendars of any length by passing in the start
-date and the number of days you want to render:
+You can generate calendars of any length by passing in the number of days you want to render.
+This will use `params[:start_date]` to render the calendar.
 
 ```erb
 <%= calendar :start_date, number_of_days: 4 do |day| %>
@@ -69,9 +67,7 @@ date and the number of days you want to render:
 
 Setting `number_of_days` is optional and defaults to 4.
 
----
-
-## Customizing The Calendars
+## Customizing The Calendar
 
 You can change a couple of global options that will affect how the
 calendars are generated:
@@ -82,10 +78,11 @@ Time.zone = "Central Time (US & Canada)"
 
 Setting `Time.zone` will make sure the calendar start days are correctly computed
 in the right timezone. You can set this globally in your `application.rb` file or
-if you have Users with Timezone's, you can set it every request by using
-a before_filter in your `ApplicationController` like the following
-snippet. This example uses [Devise](https://github.com/plataformatec/devise)'s
-`current_user` and `user_signed_in?` methods to retrieve the user's timezone.
+if you have a User model with a time_zone attribute, you can set it on every request by using
+a before_filter like the following example.
+
+This code example uses [Devise](https://github.com/plataformatec/devise)'s
+`current_user` and `user_signed_in?` methods to retrieve the user's timezone and set it for the duration of the request.
 Make sure to change the `:user_signed_in?` and `current_user` methods if you are
 using some other method of authentication.
 
@@ -116,9 +113,7 @@ Setting classes on the table and elements are pretty:
 <%= calendar :start_date,
   table: {class: "table table-bordered"},
   tr: {class: "row"},
-  td: {class: "day"},
-  do |day| %>
-
+  td: {class: "day"}, do |day| %>
 <% end %>
 ```
 
@@ -171,5 +166,7 @@ If you wish to disable any of these partsof the header, just pass in
 ## Author
 
 Chris Oliver <chris@gorails.com>
+
 [https://gorails.com](https://gorails.com)
+
 [@excid3](https://twitter.com/excid3)
