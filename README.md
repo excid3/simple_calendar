@@ -162,6 +162,16 @@ If you wish to disable any of these partsof the header, just pass in
 <% end %>
 ```
 
+## TODO
+
+- CSS classes applied to the calendar days outside of the month
+  This can probably be implemented by a custom lambda passed in as the
+  `td` option on the `month_calendar` only.
+- Having an "events" option would be nice. Users can pass in all the
+  objects and we can use it to auto-filter them so the user doesn't
+  have to. This is what the previous version did and yielded the
+  day's events to the block.
+- Multi-day events?
 
 ## Author
 
