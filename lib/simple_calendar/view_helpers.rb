@@ -25,7 +25,8 @@ module SimpleCalendar
         :start_day      => :sunday,
         :class          => "table table-bordered table-striped calendar",
         :params         => {},
-        :time_selector  => "start_time"
+        :time_selector  => "start_time",
+        :dont_display_year   => false
       }
     end
     # Returns array of dates between start date and end date for selected month
@@ -103,7 +104,7 @@ module SimpleCalendar
         tags = []
 
         tags << month_link(options[:prev_text], previous_month, options[:params], {:class => "previous-month"})
-        tags << "#{I18n.t("date.month_names")[selected_month.month]} #{selected_month.year}"
+        tags << "#{I18n.t("date.month_names")[selected_month.month]} #{selected_month.year unless options[:dont_display_year]}".strip
         tags << month_link(options[:next_text], next_month, options[:params], {:class => "next-month"})
 
         tags.join.html_safe
