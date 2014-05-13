@@ -17,12 +17,12 @@ Installation
 
 Just add this into your Gemfile followed by a bundle install:
 
-    gem "simple_calendar", "~> 1.0.0"
+    gem "simple_calendar", "~> 1.1.0"
 
 Usage
 -----
 
-Generating calendars is extremely simple with simple_calendar in version 1.0.
+Generating calendars is extremely simple with simple_calendar in version 1.1.
 
 The first parameter is a symbol that looks up the current date in
 `params`. If no date is found, it will use the current date.
@@ -33,22 +33,20 @@ In these examples, we're using `:start_date` which is the default.
 
 You can generate a calendar for the month with the `month_calendar`
 method.
-This will use `params[:start_date]` to render the calendar.
 
 ```erb
-<%= month_calendar :start_date do |day| %>
-  <%= day %>
+<%= month_calendar do |date| %>
+  <%= date %>
 <% end %>
 ```
 
 ### Week Calendar
 
 You can generate a week calendar with the `week_calendar` method.
-This will use `params[:start_date]` to render the calendar.
 
 ```erb
-<%= week_calendar :start_date, number_of_weeks: 2 do |day| %>
-  <%= day %>
+<%= week_calendar number_of_weeks: 2 do |date| %>
+  <%= date %>
 <% end %>
 ```
 
@@ -57,15 +55,65 @@ Setting `number_of_weeks` is optional and defaults to 1.
 ### Custom Length Calendar
 
 You can generate calendars of any length by passing in the number of days you want to render.
-This will use `params[:start_date]` to render the calendar.
 
 ```erb
-<%= calendar :start_date, number_of_days: 4 do |day| %>
-  <%= day %>
+<%= calendar number_of_days: 4 do |date| %>
+  <%= date %>
 <% end %>
 ```
 
 Setting `number_of_days` is optional and defaults to 4.
+
+## Rendering Events
+
+What's a calendar without events in it? There are two simple steps for
+creating calendars with events.
+
+The first step is to add the following to your model. We'll be using a
+model called Event, but you can add this to any model or Ruby object.
+
+We use the `has_calendar` method to tell simple_calendar how to filter
+and sort the events on the different calendar days. This should be the
+start date/time of your event. By default it uses `starts_at` as the
+attribute name.
+
+```ruby
+class Event < ActiveRecord::Base
+  extend SimpleCalendar
+  has_calendar
+
+  # Or set a custom attribute for simple_calendar to sort by
+  # has_calendar :attribute => :your_starting_time_column_name
+end
+```
+
+In your controller, query for these events and store them in an instance
+variable. We'll just load up all the events for this example.
+
+```ruby
+def index
+  @events = Event.all
+end
+```
+
+Then in your view, you can pass in the `events` option to render. The
+events will automatically be filter out by day for you.
+
+```erb
+<%= month_calendar events: @events do |date, events| %>
+  <%= date %>
+
+  <% events.each do |event| %>
+    <div>
+      <%= event.name %>
+    </div>
+  <% end %>
+<% end %>
+```
+
+If you pass in objects that don't respond to the attribute method (like
+starts_at), then all the events will be yielded each day. This lets you
+do custom filtering however you want.
 
 ## Customizing The Calendar
 
@@ -113,10 +161,7 @@ the `content_tag` method so each of them **must** be a hash.
 
 ```ruby
 
-<%= calendar :start_date,
-  table: {class: "table table-bordered"},
-  tr: {class: "row"},
-  td: {class: "day"}, do |day| %>
+<%= calendar table: {class: "table table-bordered"}, tr: {class: "row"}, td: {class: "day"}, do |day| %>
 <% end %>
 ```
 
@@ -149,9 +194,7 @@ content_tag options. If you wish to set a class or data attributes, just
 set them as you normally would in a content_tag call.
 
 ```erb
-<%= month_calendar :start_date, tr: ->(start_date,
-current_calendar_date) { {class: "calendar-date", data: {day:
-current_calendar_date}} } do |day| %>
+<%= month_calendar td: ->(start_date, current_calendar_date) { {class: "calendar-date", data: {day: current_calendar_date}} } do |day| %>
 <% end %>
 ```
 
@@ -160,6 +203,25 @@ This generate each day in the calendar like this:
 ```html
 <td class="calendar-date" data-day="2014-05-11">
 </td>
+```
+
+Instead of writing the lambdas inline, a cleaner approach is to write a
+helper that returns a lambda. You can duplicate the following example by
+adding this to your helpers
+
+```ruby
+def month_calendar_td_options
+  ->(start_date, current_calendar_date) {
+    {class: "calendar-date", data: {day: current_calendar_date}}
+  }
+end
+```
+
+And then your view would use `month_calendar_td_options` as the value.
+
+```erb
+<%= month_calendar td: month_calendar_td_options do |day| %>
+<% end %>
 ```
 
 ### Custom Header Links
@@ -174,8 +236,7 @@ To change these, you can pass in the `prev_link`, `header`, and
 The default `month_calendar` look like this:
 
 ```erb
-<%= month_calendar :start_date,
-  prev_link: ->(range) { link_to raw("&laquo;"), param_name => range.first - 1.day },
+<%= month_calendar prev_link: ->(range) { link_to raw("&laquo;"), param_name => range.first - 1.day },
   header: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-header" },
   next_link: ->(range) { link_to raw("&raquo;"), param_name => range.last + 1.day } do |day| %>
 
@@ -197,16 +258,12 @@ If you wish to disable any of these partsof the header, just pass in
 `false` and that will hide it:
 
 ```erb
-<%= month_calendar :start_date, header: false do |day| %>
+<%= month_calendar header: false do |day| %>
 <% end %>
 ```
 
 ## TODO
 
-- Having an "events" option would be nice. Users can pass in all the
-  objects and we can use it to auto-filter them so the user doesn't
-  have to. This is what the previous version did and yielded the
-  day's events to the block.
 - Multi-day events?
 
 ## Author
