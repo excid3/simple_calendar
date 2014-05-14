@@ -161,7 +161,7 @@ the `content_tag` method so each of them **must** be a hash.
 
 ```ruby
 
-<%= calendar table: {class: "table table-bordered"}, tr: {class: "row"}, td: {class: "day"}, do |day| %>
+<%= calendar table: {class: "table table-bordered"}, tr: {class: "row"}, td: {class: "day"}, do |date| %>
 <% end %>
 ```
 
@@ -207,7 +207,7 @@ This generate each day in the calendar like this:
 
 Instead of writing the lambdas inline, a cleaner approach is to write a
 helper that returns a lambda. You can duplicate the following example by
-adding this to your helpers
+adding this to one of your helpers:
 
 ```ruby
 def month_calendar_td_options
@@ -220,7 +220,7 @@ end
 And then your view would use `month_calendar_td_options` as the value.
 
 ```erb
-<%= month_calendar td: month_calendar_td_options do |day| %>
+<%= month_calendar td: month_calendar_td_options do |date| %>
 <% end %>
 ```
 
@@ -233,31 +233,39 @@ with a title that tells you the current month and year that you are viewing.
 To change these, you can pass in the `prev_link`, `title`, and
 `next_link` options into the calendar methods.
 
-The default `month_calendar` look like this:
-
-```erb
-<%= month_calendar prev_link: ->(range) { link_to raw("&laquo;"), param_name => range.first - 1.day },
-  title: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" },
-  next_link: ->(range) { link_to raw("&raquo;"), param_name => range.last + 1.day } do |day| %>
-
-<% end %>
-```
+**Use a method in your helpers to return a lambda instead of writing
+them inline like these examples so your views are cleaner.**
 
 * `title` option is a lambda that shows at the top of the calendar. For
 month calendars, this is the Month and Year (May 2014)
+
+```erb
+<%= calendar title: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
+<% end %>
+```
 
 * `prev_link` option is a standard `link_to` that is a left arrow and
 with the current url having `?start_date=2014-04-30` appended to it as
 a date in the previous view of the calendar.
 
+```erb
+<%= month_calendar prev_link: ->(range) { link_to raw("&laquo;"), param_name => range.first - 1.day } do |date, events| %>
+<% end %>
+```
+
 * `next_link` option is a standard `link_to` that is a right arrow and
 with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
+```erb
+<%= calendar next_link: ->(range) { link_to raw("&raquo;"), param_name => range.last + 1.day } do |date, events| %>
+<% end %>
+```
+
 * `header` lets you add options to the header tag
 
 ```erb
-<%= month_calendar header: {class: "calendar-header"} do |day| %>
+<%= calendar header: {class: "calendar-header"} do |date, events| %>
 <% end %>
 ```
 
@@ -267,7 +275,7 @@ a date in the next view of the calendar.
 You can disable the `thead` line if you like by passing in `false`.
 
 ```erb
-<%= month_calendar thead: false do |day| %>
+<%= calendar thead: false do |date, events| %>
 <% end %>
 ```
 
@@ -278,7 +286,7 @@ table header, you can pass in the `day_names` option which points to a
 validate I18n array.
 
 ```erb
-<%= calendar day_names: "date.day_names" do |day, events| %>
+<%= calendar day_names: "date.day_names" do |date, events| %>
 <% end %>
 ```
 
@@ -299,7 +307,7 @@ By default we use the `date.abbr_day_names` translation to have shorter
 header names.
 
 ```erb
-<%= calendar day_names: "date.abbr_day_names" do |day, events| %>
+<%= calendar day_names: "date.abbr_day_names" do |date, events| %>
 <% end %>
 ```
 
