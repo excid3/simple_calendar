@@ -224,24 +224,26 @@ And then your view would use `month_calendar_td_options` as the value.
 <% end %>
 ```
 
-### Custom Header Links
+### Custom Header Title And Links
 
 Each of the calendar methods will generate a header with links to the
 previous and next views. The `month_calendar` also includes a header
-that tells you the current month and year that you are viewing.
+with a title that tells you the current month and year that you are viewing.
 
-To change these, you can pass in the `prev_link`, `header`, and
+To change these, you can pass in the `prev_link`, `title`, and
 `next_link` options into the calendar methods.
 
 The default `month_calendar` look like this:
 
 ```erb
 <%= month_calendar prev_link: ->(range) { link_to raw("&laquo;"), param_name => range.first - 1.day },
-  header: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-header" },
+  title: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" },
   next_link: ->(range) { link_to raw("&raquo;"), param_name => range.last + 1.day } do |day| %>
 
 <% end %>
 ```
+
+`title` option is a lambda that
 
 `prev_link` option is a standard `link_to` that is a left arrow and
 with the current url having `?start_date=2014-04-30` appended to it as
@@ -251,16 +253,70 @@ a date in the previous view of the calendar.
 with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
-`header` option is just a simple span tag with the month and year
+`title` option is, by default, a simple span tag with the month and year
 inside of it.
 
-If you wish to disable any of these partsof the header, just pass in
-`false` and that will hide it:
+If you wish to add some styles to the header, you can use the `header`
+option:
 
 ```erb
-<%= month_calendar header: false do |day| %>
+<%= month_calendar header: {class: "calendar-header"} do |day| %>
 <% end %>
 ```
+
+The table header (thead) is the row of day names across the top. It
+tells you which column is which day. For example `Sun Mon Tue Wed`
+
+If you want to use full day names instead of the abbreviated ones in the
+table header, you can pass in the `day_names` option which points to a
+validate I18n array.
+
+```erb
+<%= calendar day_names: "date.day_names" do |day, events| %>
+<% end %>
+```
+
+Which renders:
+
+```html
+<thead>
+  <tr>
+    <th>Sunday</th>
+    <th>Monday</th>
+    <th>Tuesday</th>
+    <th>Wednesday</th>
+  </tr>
+</thead>
+```
+
+By default we use the `date.abbr_day_names` translation to have shorter
+header names.
+
+```erb
+<%= calendar day_names: "date.abbr_day_names" do |day, events| %>
+<% end %>
+```
+
+This renders:
+
+```html
+<thead>
+  <tr>
+    <th>Sun</th>
+    <th>Mon</th>
+    <th>Tue</th>
+    <th>Wed</th>
+  </tr>
+</thead>
+```
+
+You can disable the `thead` line if you like by passing in `false`.
+
+```erb
+<%= month_calendar thead: false do |day| %>
+<% end %>
+```
+
 
 ## TODO
 

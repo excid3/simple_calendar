@@ -4,8 +4,8 @@ module SimpleCalendar
       @date_range ||= start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week
     end
 
-    def default_header
-      ->(start_date) { content_tag :span, month_name(start_date), class: "calendar-header" }
+    def default_title
+      ->(start_date) { content_tag :span, month_name(start_date) }
     end
 
     def month_name(start_date)

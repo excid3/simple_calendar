@@ -9,11 +9,12 @@ module SimpleCalendar
       @events       = opts.delete(:events) { [] }
 
       opts.reverse_merge!(
+        header: {class: "calendar-header"},
         previous_link: default_previous_link,
-        header: default_header,
+        title: default_title,
         next_link: default_next_link,
         td: default_td_classes,
-        header_div: {class: "calendar-header"}
+        thead: default_thead,
       )
 
       @options      = opts
@@ -30,9 +31,9 @@ module SimpleCalendar
 
     def render_header
       capture do
-        content_tag :div, get_option(:header_div) do
+        content_tag :header, get_option(:header) do
           concat get_option(:previous_link, param_name, date_range)
-          concat get_option(:header, start_date)
+          concat get_option(:title, start_date)
           concat get_option(:next_link, param_name, date_range)
         end
       end
@@ -40,8 +41,9 @@ module SimpleCalendar
 
     def render_table
       content_tag :table, get_option(:table)  do
-        content_tag :tbody, get_option(:tbody) do
-          render_weeks
+        capture do
+          concat get_option(:thead, date_range.to_a.slice(0, 7))
+          concat content_tag(:tbody, render_weeks, get_option(:tbody))
         end
       end
     end
@@ -57,7 +59,7 @@ module SimpleCalendar
     def render_week(week)
       results = week.map do |day|
         content_tag :td, get_option(:td, start_date, day) do
-          block.call day, events_for_date(day)
+          block.call(day, events_for_date(day))
         end
       end
       safe_join results
@@ -81,7 +83,7 @@ module SimpleCalendar
       ->(param, date_range) { link_to raw("&laquo;"), param => date_range.first - 1.day }
     end
 
-    def default_header
+    def default_title
       ->(start_date) {  }
     end
 
@@ -89,8 +91,22 @@ module SimpleCalendar
       ->(param, date_range) { link_to raw("&raquo;"), param => date_range.last + 1.day }
     end
 
+    def default_thead
+      ->(dates) {
+        content_tag(:thead) do
+          content_tag(:tr) do
+            capture do
+              dates.each do |date|
+                concat content_tag(:th, I18n.t(options.fetch(:day_names, "date.abbr_day_names"))[date.wday])
+              end
+            end
+          end
+        end
+      }
+    end
+
     def start_date
-      @start_date ||= (params[param_name] ||Time.zone.now).to_date
+      @start_date ||= (params[param_name] || Time.zone.now).to_date
     end
 
     def date_range
