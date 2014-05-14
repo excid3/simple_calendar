@@ -243,29 +243,35 @@ The default `month_calendar` look like this:
 <% end %>
 ```
 
-`title` option is a lambda that
+* `title` option is a lambda that shows at the top of the calendar. For
+month calendars, this is the Month and Year (May 2014)
 
-`prev_link` option is a standard `link_to` that is a left arrow and
+* `prev_link` option is a standard `link_to` that is a left arrow and
 with the current url having `?start_date=2014-04-30` appended to it as
 a date in the previous view of the calendar.
 
-`next_link` option is a standard `link_to` that is a right arrow and
+* `next_link` option is a standard `link_to` that is a right arrow and
 with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
-`title` option is, by default, a simple span tag with the month and year
-inside of it.
-
-If you wish to add some styles to the header, you can use the `header`
-option:
+* `header` lets you add options to the header tag
 
 ```erb
 <%= month_calendar header: {class: "calendar-header"} do |day| %>
 <% end %>
 ```
 
-The table header (thead) is the row of day names across the top. It
-tells you which column is which day. For example `Sun Mon Tue Wed`
+* `thead` allows you to customize the table headers. These are the
+  abbreviated day names by default (Sun Mon Tue Wed).
+
+You can disable the `thead` line if you like by passing in `false`.
+
+```erb
+<%= month_calendar thead: false do |day| %>
+<% end %>
+```
+
+* `day_names` lets you customize the day names in the `thead` row.
 
 If you want to use full day names instead of the abbreviated ones in the
 table header, you can pass in the `day_names` option which points to a
@@ -309,14 +315,6 @@ This renders:
   </tr>
 </thead>
 ```
-
-You can disable the `thead` line if you like by passing in `false`.
-
-```erb
-<%= month_calendar thead: false do |day| %>
-<% end %>
-```
-
 
 ## TODO
 
