@@ -4,14 +4,19 @@ module SimpleCalendar
 
     attr_reader :block, :events, :options, :view_context
 
-    def initialize(view_context, options={})
+    def initialize(view_context, opts={})
       @view_context = view_context
-      @events       = options.delete(:events) { [] }
-      @options      = options
-      @options[:previous_link] ||= default_previous_link
-      @options[:header]        ||= default_header
-      @options[:next_link]     ||= default_next_link
-      @options[:td]            ||= default_td_classes
+      @events       = opts.delete(:events) { [] }
+
+      opts.reverse_merge!(
+        previous_link: default_previous_link,
+        header: default_header,
+        next_link: default_next_link,
+        td: default_td_classes,
+        header_div: {class: "calendar-header"}
+      )
+
+      @options      = opts
     end
 
     def render(block)
@@ -25,7 +30,7 @@ module SimpleCalendar
 
     def render_header
       capture do
-        content_tag :div do
+        content_tag :div, get_option(:header_div) do
           concat get_option(:previous_link, param_name, date_range)
           concat get_option(:header, start_date)
           concat get_option(:next_link, param_name, date_range)
