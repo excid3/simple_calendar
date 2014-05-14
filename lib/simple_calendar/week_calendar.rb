@@ -11,7 +11,7 @@ module SimpleCalendar
     end
 
     def default_previous_link
-      ->(param, date_range) { link_to raw("&laquo;"), param => date_range.first - 8.days }
+      ->(param, date_range) { link_to raw("&laquo;"), param => date_range.first - (((options.fetch(:number_of_weeks, 1) - 1) * 7) + 1).days }
     end
 
     def default_next_link
