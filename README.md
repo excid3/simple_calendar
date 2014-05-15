@@ -161,7 +161,7 @@ the `content_tag` method so each of them **must** be a hash.
 
 ```ruby
 
-<%= calendar table: {class: "table table-bordered"}, tr: {class: "row"}, td: {class: "day"}, do |date| %>
+<%= calendar table: {class: "table table-bordered"}, tr: {class: "calendar-row"}, td: {class: "day"}, do |date| %>
 <% end %>
 ```
 
