@@ -324,6 +324,15 @@ This renders:
 </thead>
 ```
 
+### AJAX Calendars
+
+Rendering calendars that update with AJAX is pretty simple. You'll need
+to wrap your calendar in a div, overwrite the `next_link` and `previous_link` options, and setup your
+controller to respond to JS requests. The response can simply replace
+the HTML of the div with the newly rendered calendar.
+
+Take a look at **[excid3/simple_calendar-ajax-example](https://github.com/excid3/simple_calendar-ajax-example)** to see how it is done.
+
 ## TODO
 
 - Multi-day events?
