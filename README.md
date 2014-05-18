@@ -230,7 +230,7 @@ Each of the calendar methods will generate a header with links to the
 previous and next views. The `month_calendar` also includes a header
 with a title that tells you the current month and year that you are viewing.
 
-To change these, you can pass in the `prev_link`, `title`, and
+To change these, you can pass in the `previous_link`, `title`, and
 `next_link` options into the calendar methods.
 
 **Use a method in your helpers to return a lambda instead of writing
@@ -244,12 +244,12 @@ month calendars, this is the Month and Year (May 2014)
 <% end %>
 ```
 
-* `prev_link` option is a standard `link_to` that is a left arrow and
+* `previous_link` option is a standard `link_to` that is a left arrow and
 with the current url having `?start_date=2014-04-30` appended to it as
 a date in the previous view of the calendar.
 
 ```erb
-<%= month_calendar prev_link: ->(range) { link_to raw("&laquo;"), param_name => range.first - 1.day } do |date, events| %>
+<%= month_calendar previous_link: ->(param, date_range) { link_to raw("&laquo;"), {param => date_range.first - 1.day} } do |date, events| %>
 <% end %>
 ```
 
@@ -258,7 +258,7 @@ with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
 ```erb
-<%= calendar next_link: ->(range) { link_to raw("&raquo;"), param_name => range.last + 1.day } do |date, events| %>
+<%= calendar next_link: ->(range) { link_to raw("&raquo;"), {param_name => range.last + 1.day} } do |date, events| %>
 <% end %>
 ```
 
