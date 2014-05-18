@@ -145,13 +145,20 @@ class ApplicationController < ActionController::Base
     end
 end
 ```
-
-You can also change the beginning day of the week. If you want to set
-this globally, you can put this line in
-`config/initializers/simple_calendar.rb`:
+If you want to set the time zone globally, you can set the following in
+`config/application.rb`:
 
 ```ruby
-Date.beginning_of_week = :sunday
+config.time_zone = 'Central Time (US & Canada)'
+```
+
+You can also change the beginning day of the week by setting
+`Date.beginning_of_week` in a `before_filter` just like the previous
+example. If you want to set this globally, you can put this line in
+`config/application.rb`:
+
+```ruby
+config.beginning_of_week = :sunday
 ```
 
 Setting classes on the table and elements are pretty easy.
@@ -258,7 +265,7 @@ with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
 ```erb
-<%= calendar next_link: ->(range) { link_to raw("&raquo;"), {param_name => range.last + 1.day} } do |date, events| %>
+<%= calendar next_link: ->(param, range) { link_to raw("&raquo;"), {param => range.last + 1.day} } do |date, events| %>
 <% end %>
 ```
 
