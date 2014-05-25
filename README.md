@@ -247,7 +247,7 @@ them inline like these examples so your views are cleaner.**
 month calendars, this is the Month and Year (May 2014)
 
 ```erb
-<%= calendar title: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
+<%= calendar title: ->(start_date) { content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
 <% end %>
 ```
 
@@ -265,7 +265,7 @@ with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
 ```erb
-<%= calendar next_link: ->(param, range) { link_to raw("&raquo;"), {param => range.last + 1.day} } do |date, events| %>
+<%= calendar next_link: ->(param, date_range) { link_to raw("&raquo;"), {param => date_range.last + 1.day} } do |date, events| %>
 <% end %>
 ```
 
