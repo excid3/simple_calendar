@@ -71,12 +71,17 @@ module SimpleCalendar
     end
 
     def events_for_date(current_date)
-      if events.any? && events.first.respond_to?(:simple_calendar_start_time)
+      if events.any? && events.first.respond_to?(:simple_calendar_range_time)
+        events.select do |e|
+          e.send(:simple_calendar_range_time).cover? current_date
+        end.sort_by { |e| e.send(:simple_calendar_range_time).begin}
+      else if events.any? && events.first.respond_to?(:simple_calendar_start_time)
         events.select do |e|
           current_date == e.send(:simple_calendar_start_time).in_time_zone(@timezone).to_date
         end.sort_by(&:simple_calendar_start_time)
-      else
-        events
+        else
+          events
+        end
       end
     end
 
