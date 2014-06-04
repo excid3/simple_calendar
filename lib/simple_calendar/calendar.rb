@@ -71,17 +71,31 @@ module SimpleCalendar
     end
 
     def events_for_date(current_date)
-      if events.any? && events.first.respond_to?(:simple_calendar_range_time)
-        events.select do |e|
-          e.send(:simple_calendar_range_time).cover? current_date
-        end.sort_by { |e| e.send(:simple_calendar_range_time).begin}
-      else if events.any? && events.first.respond_to?(:simple_calendar_start_time)
-        events.select do |e|
-          current_date == e.send(:simple_calendar_start_time).in_time_zone(@timezone).to_date
-        end.sort_by(&:simple_calendar_start_time)
-        else
-          events
+      if events.any?
+        # First try to see if event spans over a date range (event_start_date..event_end_date)
+        # then sort events selected by start date. 
+        # Warning: it may result that period with _same_ start date are *not* ordered by end date!
+        # If :simple_calendar_range_date is not found then we try to find if event responds to 
+        # simple_calendar_range_time, then :simple_calendar_start_time (single date events), 
+        # else events is passed as is.
+        case
+          when events.first.respond_to?(:simple_calendar_range_date)
+            events.select do |e|
+              e.send(:simple_calendar_range_date).cover? current_date
+            end.sort_by { |e| e.send(:simple_calendar_range_date).begin}
+          when events.first.respond_to?(:simple_calendar_range_time)
+            events.select do |e|
+              e.send(:simple_calendar_range_time).cover? current_date
+            end.sort_by { |e| e.send(:simple_calendar_range_time).begin}
+          when events.first.respond_to?(:simple_calendar_start_time)
+            events.select do |e|
+              current_date == e.send(:simple_calendar_start_time).in_time_zone(@timezone).to_date
+            end.sort_by(&:simple_calendar_start_time)
+          else
+            events
         end
+      else
+        events
       end
     end
 
