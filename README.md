@@ -1,7 +1,7 @@
 Simple Calendar
 ===============
 
-Simple Calendar is design to do one thing really really well: render a
+Simple Calendar is designed to do one thing really really well: render a
 calendar. It lets you render a calendar of any size. Maybe you want a
 day view, a 4 day agenda, a week view, a month view, or a 6 week
 calendar. You can do all of that with the new gem, just give it a range
@@ -97,7 +97,7 @@ end
 ```
 
 Then in your view, you can pass in the `events` option to render. The
-events will automatically be filter out by day for you.
+events will automatically be filtered out by day for you.
 
 ```erb
 <%= month_calendar events: @events do |date, events| %>
@@ -145,13 +145,20 @@ class ApplicationController < ActionController::Base
     end
 end
 ```
-
-You can also change the beginning day of the week. If you want to set
-this globally, you can put this line in
-`config/initializers/simple_calendar.rb`:
+If you want to set the time zone globally, you can set the following in
+`config/application.rb`:
 
 ```ruby
-Date.beginning_of_week = :sunday
+config.time_zone = 'Central Time (US & Canada)'
+```
+
+You can also change the beginning day of the week by setting
+`Date.beginning_of_week` in a `before_filter` just like in the previous
+example. If you want to set this globally, you can put this line in
+`config/application.rb`:
+
+```ruby
+config.beginning_of_week = :sunday
 ```
 
 Setting classes on the table and elements are pretty easy.
@@ -161,7 +168,7 @@ the `content_tag` method so each of them **must** be a hash.
 
 ```ruby
 
-<%= calendar table: {class: "table table-bordered"}, tr: {class: "row"}, td: {class: "day"}, do |date| %>
+<%= calendar table: {class: "table table-bordered"}, tr: {class: "calendar-row"}, td: {class: "day"}, do |date| %>
 <% end %>
 ```
 
@@ -230,7 +237,7 @@ Each of the calendar methods will generate a header with links to the
 previous and next views. The `month_calendar` also includes a header
 with a title that tells you the current month and year that you are viewing.
 
-To change these, you can pass in the `prev_link`, `title`, and
+To change these, you can pass in the `previous_link`, `title`, and
 `next_link` options into the calendar methods.
 
 **Use a method in your helpers to return a lambda instead of writing
@@ -240,16 +247,16 @@ them inline like these examples so your views are cleaner.**
 month calendars, this is the Month and Year (May 2014)
 
 ```erb
-<%= calendar title: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
+<%= calendar title: ->(start_date) { content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
 <% end %>
 ```
 
-* `prev_link` option is a standard `link_to` that is a left arrow and
+* `previous_link` option is a standard `link_to` that is a left arrow and
 with the current url having `?start_date=2014-04-30` appended to it as
 a date in the previous view of the calendar.
 
 ```erb
-<%= month_calendar prev_link: ->(range) { link_to raw("&laquo;"), param_name => range.first - 1.day } do |date, events| %>
+<%= month_calendar previous_link: ->(param, date_range) { link_to raw("&laquo;"), {param => date_range.first - 1.day} } do |date, events| %>
 <% end %>
 ```
 
@@ -258,7 +265,7 @@ with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
 ```erb
-<%= calendar next_link: ->(range) { link_to raw("&raquo;"), param_name => range.last + 1.day } do |date, events| %>
+<%= calendar next_link: ->(param, date_range) { link_to raw("&raquo;"), {param => date_range.last + 1.day} } do |date, events| %>
 <% end %>
 ```
 
@@ -323,6 +330,15 @@ This renders:
   </tr>
 </thead>
 ```
+
+### AJAX Calendars
+
+Rendering calendars that update with AJAX is pretty simple. You'll need
+to wrap your calendar in a div, overwrite the `next_link` and `previous_link` options, and setup your
+controller to respond to JS requests. The response can simply replace
+the HTML of the div with the newly rendered calendar.
+
+Take a look at **[excid3/simple_calendar-ajax-example](https://github.com/excid3/simple_calendar-ajax-example)** to see how it is done.
 
 ## TODO
 
