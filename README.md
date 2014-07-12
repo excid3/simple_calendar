@@ -72,6 +72,12 @@ creating calendars with events.
 The first step is to add the following to your model. We'll be using a
 model called Event, but you can add this to any model or Ruby object.
 
+Here's an example model:
+
+```bash
+rails g scaffold Event name starts_at:datetime
+```
+
 We use the `has_calendar` method to tell simple_calendar how to filter
 and sort the events on the different calendar days. This should be the
 start date/time of your event. By default it uses `starts_at` as the
