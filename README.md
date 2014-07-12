@@ -82,6 +82,12 @@ Here's an example model:
 rails g scaffold Meeting name starts_at:datetime
 ```
 
+Here's an example model:
+
+```bash
+rails g scaffold Event name starts_at:datetime
+```
+
 We use the `has_calendar` method to tell simple_calendar how to filter
 and sort the meetings on the different calendar days. This should be the
 start date/time of your meeting. By default it uses `starts_at` as the
