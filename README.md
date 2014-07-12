@@ -1,7 +1,7 @@
 Simple Calendar
 ===============
 
-Simple Calendar is design to do one thing really really well: render a
+Simple Calendar is designed to do one thing really really well: render a
 calendar. It lets you render a calendar of any size. Maybe you want a
 day view, a 4 day agenda, a week view, a month view, or a 6 week
 calendar. You can do all of that with the new gem, just give it a range
@@ -103,7 +103,7 @@ end
 ```
 
 Then in your view, you can pass in the `events` option to render. The
-events will automatically be filter out by day for you.
+events will automatically be filtered out by day for you.
 
 ```erb
 <%= month_calendar events: @events do |date, events| %>
@@ -159,7 +159,7 @@ config.time_zone = 'Central Time (US & Canada)'
 ```
 
 You can also change the beginning day of the week by setting
-`Date.beginning_of_week` in a `before_filter` just like the previous
+`Date.beginning_of_week` in a `before_filter` just like in the previous
 example. If you want to set this globally, you can put this line in
 `config/application.rb`:
 
@@ -253,7 +253,7 @@ them inline like these examples so your views are cleaner.**
 month calendars, this is the Month and Year (May 2014)
 
 ```erb
-<%= calendar title: ->{ content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
+<%= calendar title: ->(start_date) { content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
 <% end %>
 ```
 
@@ -271,7 +271,7 @@ with the current url having `?start_date=2014-06-01` appended to it as
 a date in the next view of the calendar.
 
 ```erb
-<%= calendar next_link: ->(param, range) { link_to raw("&raquo;"), {param => range.last + 1.day} } do |date, events| %>
+<%= calendar next_link: ->(param, date_range) { link_to raw("&raquo;"), {param => date_range.last + 1.day} } do |date, events| %>
 <% end %>
 ```
 
