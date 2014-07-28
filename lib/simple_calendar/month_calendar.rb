@@ -1,7 +1,7 @@
 module SimpleCalendar
   class MonthCalendar < Calendar
     def date_range
-      @date_range ||= start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week
+      @date_range ||= start_date.beginning_of_month.beginning_of_week(options.fetch(:week_start_day))..start_date.end_of_month.end_of_week(options.fetch(:week_end_day))
     end
 
     def default_title

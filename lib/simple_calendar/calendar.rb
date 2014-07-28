@@ -15,6 +15,8 @@ module SimpleCalendar
         next_link: default_next_link,
         td: default_td_classes,
         thead: default_thead,
+        week_start_day: :monday, # FIXME: from Rails 4.0.2, use Date.beginning_of_week -ivantse
+        week_end_day: :sunday # FIXME: calculate this from week_start_day instead of having to set this manually -ivantse
       )
 
       @options      = opts
