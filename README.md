@@ -66,25 +66,25 @@ Setting `number_of_days` is optional and defaults to 4.
 
 ## Rendering Events
 
-What's a calendar without events in it? There are two simple steps for
-creating calendars with events.
+What's a calendar without events in it? There are two simple steps for creating
+calendars with events.
 
 The first step is to add the following to your model. We'll be using a
-model called Event, but you can add this to any model or Ruby object.
+model called Meeting, but you can add this to any model or Ruby object.
 
 Here's an example model:
 
 ```bash
-rails g scaffold Event name starts_at:datetime
+rails g scaffold Meeting name starts_at:datetime
 ```
 
 We use the `has_calendar` method to tell simple_calendar how to filter
-and sort the events on the different calendar days. This should be the
-start date/time of your event. By default it uses `starts_at` as the
+and sort the meetings on the different calendar days. This should be the
+start date/time of your meeting. By default it uses `starts_at` as the
 attribute name.
 
 ```ruby
-class Event < ActiveRecord::Base
+class Meeting < ActiveRecord::Base
   extend SimpleCalendar
   has_calendar
 
@@ -93,32 +93,32 @@ class Event < ActiveRecord::Base
 end
 ```
 
-In your controller, query for these events and store them in an instance
-variable. We'll just load up all the events for this example.
+In your controller, query for these meetings and store them in an instance
+variable. We'll just load up all the meetings for this example.
 
 ```ruby
 def index
-  @events = Event.all
+  @meetings = Meeting.all
 end
 ```
 
 Then in your view, you can pass in the `events` option to render. The
-events will automatically be filtered out by day for you.
+meetings will automatically be filtered out by day for you.
 
 ```erb
-<%= month_calendar events: @events do |date, events| %>
+<%= month_calendar events: @meetings do |date, meetings| %>
   <%= date %>
 
-  <% events.each do |event| %>
+  <% meetings.each do |meeting| %>
     <div>
-      <%= event.name %>
+      <%= meeting.name %>
     </div>
   <% end %>
 <% end %>
 ```
 
 If you pass in objects that don't respond to the attribute method (like
-starts_at), then all the events will be yielded each day. This lets you
+starts_at), then all the meetings will be yielded each day. This lets you
 do custom filtering however you want.
 
 ## Customizing The Calendar
