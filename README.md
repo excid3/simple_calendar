@@ -151,7 +151,7 @@ class ApplicationController < ActionController::Base
     end
 end
 ```
-On the other hand, you can always pass ``ActiveSupport::TimeZone`` as an option to avoid possible timezone pollution.
+On the other hand, you can always pass a ``ActiveSupport::TimeZone`` object as an option to avoid possible timezone pollution.
 
 If you want to set the time zone globally, you can set the following in
 `config/application.rb`:
