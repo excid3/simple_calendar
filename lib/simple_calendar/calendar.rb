@@ -7,7 +7,7 @@ module SimpleCalendar
     def initialize(view_context, opts={})
       @view_context = view_context
       @events       = opts.delete(:events) { [] }
-      @timezone     = opts[:timezone]
+      @timezone     = opts.fetch(:timezone, Time.zone)
 
       opts.reverse_merge!(
         header: {class: "calendar-header"},
