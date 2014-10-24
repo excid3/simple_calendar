@@ -151,6 +151,13 @@ class ApplicationController < ActionController::Base
     end
 end
 ```
+On the other hand, you can always pass a ``ActiveSupport::TimeZone`` object as an option to avoid possible timezone pollution:
+
+```erb
+<%= calendar timezone: ActiveSupport::TimeZone.new('Taipei') do |date, events| %>
+<% end %>
+```
+
 If you want to set the time zone globally, you can set the following in
 `config/application.rb`:
 
