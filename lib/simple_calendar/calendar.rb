@@ -73,7 +73,7 @@ module SimpleCalendar
     def events_for_date(current_date)
       if events.any? && events.first.respond_to?(:simple_calendar_start_time)
         events.select do |e|
-          current_date == @timezone.utc_to_local(e.send(:simple_calendar_start_time)).to_date
+          current_date == @timezone.utc_to_local(e.send(:simple_calendar_start_time).beginning_of_day).to_date
         end.sort_by(&:simple_calendar_start_time)
       else
         events
