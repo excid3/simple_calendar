@@ -107,7 +107,7 @@ module SimpleCalendar
     end
 
     def start_date
-      @start_date ||= (params[param_name] || get_option(:start_date) || Time.zone.now).to_date
+      @start_date ||= (get_option(:start_date) || params[param_name] || Time.zone.now).to_date
     end
 
     def date_range
