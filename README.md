@@ -12,6 +12,8 @@ Mongoid, any other ORM, or pure Ruby objects.
 
 Thanks to all contributors for your wonderful help!
 
+![calendar](https://s3.amazonaws.com/f.cl.ly/items/1T0t1s0W212d28282V2M/Screen%20Shot%202013-03-28%20at%209.44.49%20AM.png)
+
 Installation
 ------------
 
