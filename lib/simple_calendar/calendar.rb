@@ -128,7 +128,7 @@ module SimpleCalendar
         td_class << "next-month"    if start_date.month != current_calendar_date.month && current_calendar_date > start_date
         td_class << "current-month" if start_date.month == current_calendar_date.month
         td_class << "wday-#{current_calendar_date.wday.to_s}"
-        td_class << "has-events" if !events_for_date(current_calendar_date).first.nil?
+        td_class << "has-events" if events_for_date(current_calendar_date).any?
 
         { class: td_class.join(" ") }
       }
