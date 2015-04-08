@@ -355,6 +355,24 @@ the HTML of the div with the newly rendered calendar.
 
 Take a look at **[excid3/simple_calendar-ajax-example](https://github.com/excid3/simple_calendar-ajax-example)** to see how it is done.
 
+## View Specs and Tests
+
+If you're running view specs against views with calendars, you may run into route generation errors like the following:
+
+```
+Failure/Error: render
+ActionView::Template::Error:
+  No route matches {:action=>"show", :controller=>"controller_name", :start_date=>Sun, 29 Mar 2015}
+```
+
+If so, you can stub out the appropriate method like so (rspec 3 and up):
+
+```
+expect_any_instance_of(SimpleCalendar::Calendar).to receive(:link_to).at_least(:once).and_return("")
+```
+
+With modifications as appropriate.
+
 ## TODO
 
 - Multi-day events?
