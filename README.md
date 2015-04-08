@@ -362,7 +362,7 @@ If you're running view specs against views with calendars, you may run into rout
 ```
 Failure/Error: render
 ActionView::Template::Error:
-  No route matches {:action=>"show", :controller=>"clubs", :start_date=>Sun, 29 Mar 2015}
+  No route matches {:action=>"show", :controller=>"controller_name", :start_date=>Sun, 29 Mar 2015}
 ```
 
 If so, you can stub out the appropriate method like so (rspec 3 and up):
