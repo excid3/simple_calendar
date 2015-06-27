@@ -1,4 +1,4 @@
-![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=master)
+![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=2.0)
 
 Simple Calendar
 ===============
@@ -21,12 +21,12 @@ Installation
 
 Just add this into your Gemfile followed by a bundle install:
 
-    gem "simple_calendar", "~> 1.1.0"
+    gem "simple_calendar", github: "excid3/simple_calendar", branch: "2.0"
 
 Usage
 -----
 
-Generating calendars is extremely simple with simple_calendar in version 1.1.
+Generating calendars is extremely simple with simple_calendar.
 
 The first parameter is a symbol that looks up the current date in
 `params`. If no date is found, it will use the current date.
