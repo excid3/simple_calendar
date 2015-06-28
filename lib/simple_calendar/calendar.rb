@@ -1,3 +1,5 @@
+require 'rails'
+
 module SimpleCalendar
   class Calendar
     delegate :capture, :concat, :content_tag, :link_to, :params, :raw, :safe_join, to: :view_context
