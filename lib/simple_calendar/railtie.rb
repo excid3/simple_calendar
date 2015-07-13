@@ -1,5 +1,5 @@
 module SimpleCalendar
-  class Railtie < Rails::Railtie
+  class Engine < Rails::Engine
     initializer "simple_calendar.view_helpers" do
       ActionView::Base.send :include, ViewHelpers
     end
