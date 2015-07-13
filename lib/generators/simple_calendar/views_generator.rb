@@ -1,3 +1,5 @@
+require 'rails/generators'
+
 module SimpleCalendar
   module Generators
     class ViewsGenerator < Rails::Generators::Base
