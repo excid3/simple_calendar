@@ -15,12 +15,28 @@ module SimpleCalendar
         locals: {
           date_range: date_range,
           start_date: start_date,
-          events: options.fetch(:events, [])
+          sorted_events: sorted_events
         }
       )
     end
 
     private
+
+      def sorted_events
+        events = options.fetch(:events, [])
+        sorted = {}
+
+        events.each do |event|
+          date = event.start_time.to_date
+          sorted[date] ||= []
+          sorted[date] << event
+          sorted[date] = sorted[date].sort_by(&:start_time)
+        end
+
+        # TODO: move sorting by start_time to after the event loop
+
+        sorted
+      end
 
       def start_date
         view_context.params.fetch(:start_date, Date.today).to_date

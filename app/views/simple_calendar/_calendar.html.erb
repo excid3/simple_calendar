@@ -17,7 +17,7 @@
         <% week.each do |day| %>
           <td>
             <%= day %>
-            <% events.select{ |m| m.start_time.to_date == day }.sort_by(&:start_time).each do |meeting| %>
+            <% sorted_events.fetch(day, []).each do |meeting| %>
               <div><%= link_to meeting.name, meeting %></div>
             <% end %>
           </td>
