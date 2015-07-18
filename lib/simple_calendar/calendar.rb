@@ -11,7 +11,7 @@ module SimpleCalendar
 
     def render(&block)
       view_context.render(
-        partial: self.class.name.underscore,
+        partial: partial_name,
         locals: {
           date_range: date_range,
           start_date: start_date,
@@ -21,6 +21,10 @@ module SimpleCalendar
     end
 
     private
+
+      def partial_name
+        self.class.name.underscore
+      end
 
       def sorted_events
         events = options.fetch(:events, [])
