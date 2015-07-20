@@ -377,7 +377,11 @@ With modifications as appropriate.
 
 ## TODO
 
-- Multi-day events?
+- Multi-day events
+- Customize the start_time attribute on events
+- Rspec tests for Calendar
+- Rspec tests for MonthCalendar
+- Rspec tests for WeekCalendar
 
 ## Author
 

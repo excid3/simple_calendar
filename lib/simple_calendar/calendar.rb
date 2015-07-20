@@ -26,15 +26,22 @@ module SimpleCalendar
         self.class.name.underscore
       end
 
+      def attribute
+        options.fetch(:attribute, :start_time).to_sym
+      end
+
       def sorted_events
         events = options.fetch(:events, [])
         sorted = {}
 
         events.each do |event|
-          date = event.start_time.to_date
-          sorted[date] ||= []
-          sorted[date] << event
-          sorted[date] = sorted[date].sort_by(&:start_time)
+          start_time = event.send(attribute)
+          if start_time.present?
+            date = start_time.to_date
+            sorted[date] ||= []
+            sorted[date] << event
+            sorted[date] = sorted[date].sort_by(&attribute)
+          end
         end
 
         # TODO: move sorting by start_time to after the event loop
