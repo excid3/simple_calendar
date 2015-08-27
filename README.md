@@ -82,10 +82,16 @@ Here's an example model:
 rails g scaffold Meeting name starts_at:datetime
 ```
 
+Here's an example model:
+
+```bash
+rails g scaffold Event name starts_at:datetime ends_at:datetime
+```
+
 We use the `has_calendar` method to tell simple_calendar how to filter
 and sort the meetings on the different calendar days. This should be the
-start date/time of your meeting. By default it uses `starts_at` as the
-attribute name.
+start and the end date/time of your meeting. By default it uses `starts_at` and 
+and `ends_at` as the attribute names.
 
 ```ruby
 class Meeting < ActiveRecord::Base
@@ -93,7 +99,10 @@ class Meeting < ActiveRecord::Base
   has_calendar
 
   # Or set a custom attribute for simple_calendar to sort by
-  # has_calendar :attribute => :your_starting_time_column_name
+  # has_calendar :attribute => [:your_starting_time_column_name, :your_ending_time_column_name]
+  # The old syntax 
+  # has_calendar :attribute => :your_starting_time_column_name 
+  # is supported extending the ending_time_column_name with the default `ends_at`
 end
 ```
 
