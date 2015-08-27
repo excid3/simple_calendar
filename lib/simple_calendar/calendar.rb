@@ -4,7 +4,7 @@ module SimpleCalendar
   class Calendar
     delegate :capture, :concat, :content_tag, :link_to, :params, :raw, :safe_join, to: :view_context
 
-    attr_reader :block, :events, :options, :view_context
+    attr_reader :block, :events, :options, :view_context, :timezone
 
     def initialize(view_context, opts={})
       @view_context = view_context
@@ -128,7 +128,7 @@ module SimpleCalendar
     end
 
     def start_date
-      @start_date ||= (get_option(:start_date) || params[param_name] || Time.zone.now).to_date
+      @start_date ||= (get_option(:start_date) || params[param_name] || timezone.now).to_date
     end
 
     def date_range
@@ -140,7 +140,7 @@ module SimpleCalendar
 
     def default_td_classes
       ->(start_date, current_calendar_date) {
-        today = Time.zone.now.to_date
+        today = timezone.now.to_date
         td_class = ["day"]
         td_class << "today"  if today == current_calendar_date
         td_class << "past"   if today > current_calendar_date
