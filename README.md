@@ -1,4 +1,4 @@
-![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=master)
+![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=2.0)
 
 Simple Calendar
 ===============
@@ -21,12 +21,12 @@ Installation
 
 Just add this into your Gemfile followed by a bundle install:
 
-    gem "simple_calendar", "~> 1.1.0"
+    gem "simple_calendar", "~> 2.0"
 
 Usage
 -----
 
-Generating calendars is extremely simple with simple_calendar in version 1.1.
+Generating calendars is extremely simple with simple_calendar.
 
 The first parameter is a symbol that looks up the current date in
 `params`. If no date is found, it will use the current date.
@@ -79,26 +79,26 @@ model called Meeting, but you can add this to any model or Ruby object.
 Here's an example model:
 
 ```bash
-rails g scaffold Meeting name starts_at:datetime
+rails g scaffold Meeting name start_time:datetime
 ```
 
-We use the `has_calendar` method to tell simple_calendar how to filter
-and sort the meetings on the different calendar days. This should be the
-start date/time of your meeting. By default it uses `starts_at` as the
-attribute name.
+By default it uses `start_time` as the attribute name.
 
-```ruby
-class Meeting < ActiveRecord::Base
-  extend SimpleCalendar
-  has_calendar
+**If you'd like to use another attribute other than start_time, just
+pass it in as the `attribute` option**
 
-  # Or set a custom attribute for simple_calendar to sort by
-  # has_calendar :attribute => :your_starting_time_column_name
-end
+```erb
+<%= month_calendar(attribute: :starts_at) do |date| %>
+  <%= day %>
+<% end %>
 ```
 
 In your controller, query for these meetings and store them in an instance
-variable. We'll just load up all the meetings for this example.
+variable. Normally you'll want to search for the ones that only show up
+inside the calendar view (for example, you may only want to grab the events for
+the current month).
+
+We'll just load up all the meetings for this example.
 
 ```ruby
 def index
@@ -127,12 +127,22 @@ do custom filtering however you want.
 
 ## Customizing The Calendar
 
-You can change a couple of global options that will affect how the
-calendars are generated:
+There are a handful of configuration options that you can use in
+simple_calendar.
 
-```ruby
-Time.zone = "Central Time (US & Canada)"
+### Customizing Views
+
+You can customize the layouts for each of the calendars by running the
+generators for simple_calendar:
+
+```bash
+rails g simple_calendar:views
 ```
+
+This will generate a folder in app/views called simple_calendar that you
+edit to your heart's desire.
+
+### Time Zones
 
 Setting `Time.zone` will make sure the calendar start days are correctly computed
 in the right timezone. You can set this globally in your `application.rb` file or
@@ -155,12 +165,6 @@ class ApplicationController < ActionController::Base
     end
 end
 ```
-On the other hand, you can always pass a ``ActiveSupport::TimeZone`` object as an option to avoid possible timezone pollution:
-
-```erb
-<%= calendar timezone: ActiveSupport::TimeZone.new('Taipei') do |date, events| %>
-<% end %>
-```
 
 If you want to set the time zone globally, you can set the following in
 `config/application.rb`:
@@ -168,6 +172,8 @@ If you want to set the time zone globally, you can set the following in
 ```ruby
 config.time_zone = 'Central Time (US & Canada)'
 ```
+
+### Beginning Of Week
 
 You can also change the beginning day of the week by setting
 `Date.beginning_of_week` in a `before_filter` just like in the previous
@@ -178,175 +184,67 @@ example. If you want to set this globally, you can put this line in
 config.beginning_of_week = :sunday
 ```
 
+### Custom CSS Classes
+
 Setting classes on the table and elements are pretty easy.
 
-Each of the options are passed directly to the
-the `content_tag` method so each of them **must** be a hash.
+You can simply run the following command to install the calendar views
+and then add your own helpers to the table, rows, headers, and days.
 
-```ruby
+simple_calendar comes with a handful of useful classes for each day in
+the calendar that you can use:
 
-<%= calendar table: {class: "table table-bordered"}, tr: {class: "calendar-row"}, td: {class: "day"}, do |date| %>
-<% end %>
+```scss
+.simple-calendar {
+  .day {}
+
+  .wday-0 {}
+  .wday-1 {}
+  .wday-2 {}
+  .wday-3 {}
+  .wday-4 {}
+  .wday-5 {}
+  .wday-6 {}
+
+  .today {}
+  .past {}
+  .future {}
+
+  .start-date {}
+
+  .prev-month {}
+  .next-month { }
+  .current-month {}
+
+  .has-events {}
+}
 ```
 
-This will set the class of `table table-bordered` on the `table` HTML
-element.
-
-### Custom Day Classes
-
-`td` is an option for setting the options on the td content tag that is
-generated. By default, simple_calendar renders the following classes for
-any given day in a calendar:
-
-
-```ruby
-td_class = ["day"]
-td_class << "today"  if today == current_calendar_date
-td_class << "past"   if today > current_calendar_date
-td_class << "future" if today < current_calendar_date
-td_class << "prev-month"    if start_date.month != current_calendar_date.month && current_calendar_date < start_date
-td_class << "next-month"    if start_date.month != current_calendar_date.month && current_calendar_date > start_date
-td_class << "current-month" if start_date.month == current_calendar_date.month
-td_class << "wday-#{current_calendar_date.wday.to_s}"
-```
-
-You can set your CSS styles based upon these if you want to highlight
-specific days or types of days. If you wish to override this
-functionality, just set the `tr` option to a lambda that accepts two
-dates and returns a hash. The hash will be passed in directly to the
-content_tag options. If you wish to set a class or data attributes, just
-set them as you normally would in a content_tag call.
-
-```erb
-<%= month_calendar td: ->(start_date, current_calendar_date) { {class: "calendar-date", data: {day: current_calendar_date}} } do |day| %>
-<% end %>
-```
-
-This generate each day in the calendar like this:
-
-```html
-<td class="calendar-date" data-day="2014-05-11">
-</td>
-```
-
-Instead of writing the lambdas inline, a cleaner approach is to write a
-helper that returns a lambda. You can duplicate the following example by
-adding this to one of your helpers:
-
-```ruby
-def month_calendar_td_options
-  ->(start_date, current_calendar_date) {
-    {class: "calendar-date", data: {day: current_calendar_date}}
-  }
-end
-```
-
-And then your view would use `month_calendar_td_options` as the value.
-
-```erb
-<%= month_calendar td: month_calendar_td_options do |date| %>
-<% end %>
-```
+Just paste this into a CSS file and add your styles and they will be
+applied to the calendar. All of these classes are inside of the
+simple-calendar class so you can scope your own classes with similar
+names.
 
 ### Custom Header Title And Links
 
-Each of the calendar methods will generate a header with links to the
-previous and next views. The `month_calendar` also includes a header
-with a title that tells you the current month and year that you are viewing.
+Header and title links are easily adjusted by generating views and
+modifying them inside your application.
 
-To change these, you can pass in the `previous_link`, `title`, and
-`next_link` options into the calendar methods.
-
-**Use a method in your helpers to return a lambda instead of writing
-them inline like these examples so your views are cleaner.**
-
-* `title` option is a lambda that shows at the top of the calendar. For
-month calendars, this is the Month and Year (May 2014)
+For example, if you'd like to use abbreviated month names, you can modify
+the views from this:
 
 ```erb
-<%= calendar title: ->(start_date) { content_tag :span, "#{I18n.t("date.month_names")[start_date.month]} #{start_date.year}", class: "calendar-title" } do |date, events| %>
-<% end %>
+<%= I18n.t("date.month_names")[start_date.month] %> <%= start_date.year %>
 ```
 
-* `previous_link` option is a standard `link_to` that is a left arrow and
-with the current url having `?start_date=2014-04-30` appended to it as
-a date in the previous view of the calendar.
+To
 
 ```erb
-<%= month_calendar previous_link: ->(param, date_range) { link_to raw("&laquo;"), {param => date_range.first - 1.day} } do |date, events| %>
-<% end %>
+<%= I18n.t("date.abbr_month_names")[start_date.month] %> <%= start_date.year %>
 ```
 
-* `next_link` option is a standard `link_to` that is a right arrow and
-with the current url having `?start_date=2014-06-01` appended to it as
-a date in the next view of the calendar.
-
-```erb
-<%= calendar next_link: ->(param, date_range) { link_to raw("&raquo;"), {param => date_range.last + 1.day} } do |date, events| %>
-<% end %>
-```
-
-* `header` lets you add options to the header tag
-
-```erb
-<%= calendar header: {class: "calendar-header"} do |date, events| %>
-<% end %>
-```
-
-* `thead` allows you to customize the table headers. These are the
-  abbreviated day names by default (Sun Mon Tue Wed).
-
-You can disable the `thead` line if you like by passing in `false`.
-
-```erb
-<%= calendar thead: false do |date, events| %>
-<% end %>
-```
-
-* `day_names` lets you customize the day names in the `thead` row.
-
-If you want to use full day names instead of the abbreviated ones in the
-table header, you can pass in the `day_names` option which points to a
-validate I18n array.
-
-```erb
-<%= calendar day_names: "date.day_names" do |date, events| %>
-<% end %>
-```
-
-Which renders:
-
-```html
-<thead>
-  <tr>
-    <th>Sunday</th>
-    <th>Monday</th>
-    <th>Tuesday</th>
-    <th>Wednesday</th>
-  </tr>
-</thead>
-```
-
-By default we use the `date.abbr_day_names` translation to have shorter
-header names.
-
-```erb
-<%= calendar day_names: "date.abbr_day_names" do |date, events| %>
-<% end %>
-```
-
-This renders:
-
-```html
-<thead>
-  <tr>
-    <th>Sun</th>
-    <th>Mon</th>
-    <th>Tue</th>
-    <th>Wed</th>
-  </tr>
-</thead>
-```
+Your calendar will now display "Sep 2015" instead of "September 2015" at
+the top! :)
 
 ### AJAX Calendars
 
@@ -356,6 +254,47 @@ controller to respond to JS requests. The response can simply replace
 the HTML of the div with the newly rendered calendar.
 
 Take a look at **[excid3/simple_calendar-ajax-example](https://github.com/excid3/simple_calendar-ajax-example)** to see how it is done.
+
+
+## Custom Calendars
+
+The three main calendars available should take care of most of your
+needs, but simple_calendar makes it easy to create completely custom
+calendars (like maybe you only want business weeks).
+
+If you'd like to make a completely custom calendar, you can create a new
+class that inherits from `SimpleCalendar::Calendar`. The name you give
+it will correspond to the name of the template it will try to render.
+
+
+The main method you'll need to implement is the `date_range` so that
+your calendar can have a custom length.
+
+```
+class SimpleCalendar::BusinessWeekCalendar
+  private
+
+    def date_range
+      beginning = start_date.beginning_of_week + 1.day
+      ending    = start_date.end_of_week - 1.day
+      (beginning..ending)
+    end
+end
+```
+
+To render this in the view, you can do:
+
+```erb
+<%= SimpleCalendar::BusinessWeekCalendar.new(self).render do |date| %>
+  <%= day %>
+<% end %>
+```
+
+And this will render the
+`app/views/simple_calendar/_business_week_calendar.html.erb` partial.
+
+You can copy one of the existing templates to use for the partial for
+your new calendar.
 
 ## View Specs and Tests
 
@@ -377,7 +316,10 @@ With modifications as appropriate.
 
 ## TODO
 
-- Multi-day events?
+- Multi-day events
+- Rspec tests for Calendar
+- Rspec tests for MonthCalendar
+- Rspec tests for WeekCalendar
 
 ## Author
 
@@ -386,3 +328,7 @@ Chris Oliver <chris@gorails.com>
 [https://gorails.com](https://gorails.com)
 
 [@excid3](https://twitter.com/excid3)
+
+## Support
+
+Need help

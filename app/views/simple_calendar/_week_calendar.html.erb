@@ -1,0 +1,27 @@
+<div class="simple-calendar">
+  <%= link_to "Previous", start_date: date_range.first - 1.day  %>
+  Week <%= start_date.strftime("%U").to_i %>
+  <%= link_to "Next", start_date: date_range.last + 1.day  %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th><%= I18n.t("date.abbr_day_names")[day.wday] %></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+              <%= block.call day, sorted_events.fetch(day, []) %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
