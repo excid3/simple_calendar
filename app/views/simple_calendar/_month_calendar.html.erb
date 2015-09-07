@@ -15,15 +15,11 @@
     <% date_range.each_slice(7) do |week| %>
       <tr>
         <% week.each do |day| %>
-          <td>
-            <%= day %>
-            <% sorted_events.fetch(day, []).each do |meeting| %>
-              <div><%= link_to meeting.name, meeting %></div>
-            <% end %>
-          </td>
+          <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+            <%= block.call day, sorted_events.fetch(day, []) %>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-
