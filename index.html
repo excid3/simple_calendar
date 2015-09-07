@@ -31,7 +31,7 @@
         <hr>
 
         <section id="main_content">
-          <p><img src="https://travis-ci.org/excid3/simple_calendar.svg?branch=master" alt="travis ci"></p>
+          <p><img src="https://travis-ci.org/excid3/simple_calendar.svg?branch=2.0" alt="travis ci"></p>
 
 <h1>
 <a id="simple-calendar" class="anchor" href="#simple-calendar" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple Calendar</h1>
@@ -54,13 +54,13 @@ Mongoid, any other ORM, or pure Ruby objects.</p>
 
 <p>Just add this into your Gemfile followed by a bundle install:</p>
 
-<pre><code>gem "simple_calendar", "~&gt; 1.1.0"
+<pre><code>gem "simple_calendar", "~&gt; 2.0"
 </code></pre>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Generating calendars is extremely simple with simple_calendar in version 1.1.</p>
+<p>Generating calendars is extremely simple with simple_calendar.</p>
 
 <p>The first parameter is a symbol that looks up the current date in
 <code>params</code>. If no date is found, it will use the current date.</p>
@@ -110,23 +110,23 @@ model called Meeting, but you can add this to any model or Ruby object.</p>
 
 <p>Here's an example model:</p>
 
-<div class="highlight highlight-bash"><pre>rails g scaffold Meeting name starts_at:datetime</pre></div>
+<div class="highlight highlight-bash"><pre>rails g scaffold Meeting name start_time:datetime</pre></div>
 
-<p>We use the <code>has_calendar</code> method to tell simple_calendar how to filter
-and sort the meetings on the different calendar days. This should be the
-start date/time of your meeting. By default it uses <code>starts_at</code> as the
-attribute name.</p>
+<p>By default it uses <code>start_time</code> as the attribute name.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Meeting<span class="pl-e"> &lt; ActiveRecord::Base</span></span>
-  <span class="pl-k">extend</span> <span class="pl-c1">SimpleCalendar</span>
-  has_calendar
+<p><strong>If you'd like to use another attribute other than start_time, just
+pass it in as the <code>attribute</code> option</strong></p>
 
-  <span class="pl-c"># Or set a custom attribute for simple_calendar to sort by</span>
-  <span class="pl-c"># has_calendar :attribute =&gt; :your_starting_time_column_name</span>
-<span class="pl-k">end</span></pre></div>
+<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> month_calendar(<span class="pl-c1">attribute:</span> <span class="pl-c1">:starts_at</span>) <span class="pl-k">do </span>|<span class="pl-smi">date</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
+  <span class="pl-pse">&lt;%=</span><span class="pl-s1"> day </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
+<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
 
 <p>In your controller, query for these meetings and store them in an instance
-variable. We'll just load up all the meetings for this example.</p>
+variable. Normally you'll want to search for the ones that only show up
+inside the calendar view (for example, you may only want to grab the events for
+the current month).</p>
+
+<p>We'll just load up all the meetings for this example.</p>
 
 <div class="highlight highlight-ruby"><pre><span class="pl-k">def</span> <span class="pl-en">index</span>
   <span class="pl-smi">@meetings</span> <span class="pl-k">=</span> <span class="pl-c1">Meeting</span>.all
@@ -152,10 +152,22 @@ do custom filtering however you want.</p>
 <h2>
 <a id="customizing-the-calendar" class="anchor" href="#customizing-the-calendar" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizing The Calendar</h2>
 
-<p>You can change a couple of global options that will affect how the
-calendars are generated:</p>
+<p>There are a handful of configuration options that you can use in
+simple_calendar.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="pl-c1">Time</span>.zone <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Central Time (US &amp; Canada)<span class="pl-pds">"</span></span></pre></div>
+<h3>
+<a id="customizing-views" class="anchor" href="#customizing-views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizing Views</h3>
+
+<p>You can customize the layouts for each of the calendars by running the
+generators for simple_calendar:</p>
+
+<div class="highlight highlight-bash"><pre>rails g simple_calendar:views</pre></div>
+
+<p>This will generate a folder in app/views called simple_calendar that you
+edit to your heart's desire.</p>
+
+<h3>
+<a id="time-zones" class="anchor" href="#time-zones" aria-hidden="true"><span class="octicon octicon-link"></span></a>Time Zones</h3>
 
 <p>Setting <code>Time.zone</code> will make sure the calendar start days are correctly computed
 in the right timezone. You can set this globally in your <code>application.rb</code> file or
@@ -177,15 +189,13 @@ using some other method of authentication.</p>
     <span class="pl-k">end</span>
 <span class="pl-k">end</span></pre></div>
 
-<p>On the other hand, you can always pass a <code>ActiveSupport::TimeZone</code> object as an option to avoid possible timezone pollution:</p>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> calendar <span class="pl-c1">timezone:</span> <span class="pl-c1">ActiveSupport</span>::<span class="pl-c1">TimeZone</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>Taipei<span class="pl-pds">'</span></span>) <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
-
 <p>If you want to set the time zone globally, you can set the following in
 <code>config/application.rb</code>:</p>
 
 <div class="highlight highlight-ruby"><pre>config.time_zone <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Central Time (US &amp; Canada)<span class="pl-pds">'</span></span></pre></div>
+
+<h3>
+<a id="beginning-of-week" class="anchor" href="#beginning-of-week" aria-hidden="true"><span class="octicon octicon-link"></span></a>Beginning Of Week</h3>
 
 <p>You can also change the beginning day of the week by setting
 <code>Date.beginning_of_week</code> in a <code>before_filter</code> just like in the previous
@@ -194,164 +204,63 @@ example. If you want to set this globally, you can put this line in
 
 <div class="highlight highlight-ruby"><pre>config.beginning_of_week <span class="pl-k">=</span> <span class="pl-c1">:sunday</span></pre></div>
 
+<h3>
+<a id="custom-css-classes" class="anchor" href="#custom-css-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom CSS Classes</h3>
+
 <p>Setting classes on the table and elements are pretty easy.</p>
 
-<p>Each of the options are passed directly to the
-the <code>content_tag</code> method so each of them <strong>must</strong> be a hash.</p>
+<p>You can simply run the following command to install the calendar views
+and then add your own helpers to the table, rows, headers, and days.</p>
 
-<div class="highlight highlight-ruby"><pre>
-<span class="pl-k">&lt;</span><span class="pl-k">%=</span> calendar <span class="pl-c1">table:</span> {<span class="pl-c1">class:</span> <span class="pl-s"><span class="pl-pds">"</span>table table-bordered<span class="pl-pds">"</span></span>}, <span class="pl-c1">tr:</span> {<span class="pl-c1">class:</span> <span class="pl-s"><span class="pl-pds">"</span>calendar-row<span class="pl-pds">"</span></span>}, <span class="pl-c1">td:</span> {<span class="pl-c1">class:</span> <span class="pl-s"><span class="pl-pds">"</span>day<span class="pl-pds">"</span></span>}, <span class="pl-k">do </span>|<span class="pl-smi">date</span>| <span class="pl-s"><span class="pl-pds">%&gt;</span></span>
-<span class="pl-s">&lt;% end %<span class="pl-pds">&gt;</span></span></pre></div>
+<p>simple_calendar comes with a handful of useful classes for each day in
+the calendar that you can use:</p>
 
-<p>This will set the class of <code>table table-bordered</code> on the <code>table</code> HTML
-element.</p>
+<div class="highlight highlight-scss"><pre><span class="pl-e">.simple-calendar</span> {
+  <span class="pl-e">.day</span> {}
 
-<h3>
-<a id="custom-day-classes" class="anchor" href="#custom-day-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom Day Classes</h3>
+  <span class="pl-e">.wday-0</span> {}
+  <span class="pl-e">.wday-1</span> {}
+  <span class="pl-e">.wday-2</span> {}
+  <span class="pl-e">.wday-3</span> {}
+  <span class="pl-e">.wday-4</span> {}
+  <span class="pl-e">.wday-5</span> {}
+  <span class="pl-e">.wday-6</span> {}
 
-<p><code>td</code> is an option for setting the options on the td content tag that is
-generated. By default, simple_calendar renders the following classes for
-any given day in a calendar:</p>
+  <span class="pl-e">.today</span> {}
+  <span class="pl-e">.past</span> {}
+  <span class="pl-e">.future</span> {}
 
-<div class="highlight highlight-ruby"><pre>td_class <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>day<span class="pl-pds">"</span></span>]
-td_class <span class="pl-k">&lt;&lt;</span> <span class="pl-s"><span class="pl-pds">"</span>today<span class="pl-pds">"</span></span>  <span class="pl-k">if</span> today <span class="pl-k">==</span> current_calendar_date
-td_class <span class="pl-k">&lt;&lt;</span> <span class="pl-s"><span class="pl-pds">"</span>past<span class="pl-pds">"</span></span>   <span class="pl-k">if</span> today <span class="pl-k">&gt;</span> current_calendar_date
-td_class <span class="pl-k">&lt;&lt;</span> <span class="pl-s"><span class="pl-pds">"</span>future<span class="pl-pds">"</span></span> <span class="pl-k">if</span> today <span class="pl-k">&lt;</span> current_calendar_date
-td_class <span class="pl-k">&lt;&lt;</span> <span class="pl-s"><span class="pl-pds">"</span>prev-month<span class="pl-pds">"</span></span>    <span class="pl-k">if</span> start_date.month <span class="pl-k">!=</span> current_calendar_date.month <span class="pl-k">&amp;&amp;</span> current_calendar_date <span class="pl-k">&lt;</span> start_date
-td_class <span class="pl-k">&lt;&lt;</span> <span class="pl-s"><span class="pl-pds">"</span>next-month<span class="pl-pds">"</span></span>    <span class="pl-k">if</span> start_date.month <span class="pl-k">!=</span> current_calendar_date.month <span class="pl-k">&amp;&amp;</span> current_calendar_date <span class="pl-k">&gt;</span> start_date
-td_class <span class="pl-k">&lt;&lt;</span> <span class="pl-s"><span class="pl-pds">"</span>current-month<span class="pl-pds">"</span></span> <span class="pl-k">if</span> start_date.month <span class="pl-k">==</span> current_calendar_date.month
-td_class <span class="pl-k">&lt;&lt;</span> <span class="pl-s"><span class="pl-pds">"</span>wday-<span class="pl-pse">#{</span><span class="pl-s1">current_calendar_date.wday.to_s</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span></pre></div>
+  <span class="pl-e">.start-date</span> {}
 
-<p>You can set your CSS styles based upon these if you want to highlight
-specific days or types of days. If you wish to override this
-functionality, just set the <code>tr</code> option to a lambda that accepts two
-dates and returns a hash. The hash will be passed in directly to the
-content_tag options. If you wish to set a class or data attributes, just
-set them as you normally would in a content_tag call.</p>
+  <span class="pl-e">.prev-month</span> {}
+  <span class="pl-e">.next-month</span> { }
+  <span class="pl-e">.current-month</span> {}
 
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> month_calendar <span class="pl-c1">td:</span> <span class="pl-k">-</span><span class="pl-k">&gt;</span>(start_date, current_calendar_date) { {<span class="pl-c1">class:</span> <span class="pl-s"><span class="pl-pds">"</span>calendar-date<span class="pl-pds">"</span></span>, <span class="pl-c1">data:</span> {<span class="pl-c1">day:</span> current_calendar_date}} } <span class="pl-k">do </span>|<span class="pl-smi">day</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
+  <span class="pl-e">.has-events</span> {}
+}</pre></div>
 
-<p>This generate each day in the calendar like this:</p>
-
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">td</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>calendar-date<span class="pl-pds">"</span></span> <span class="pl-e">data-day</span>=<span class="pl-s"><span class="pl-pds">"</span>2014-05-11<span class="pl-pds">"</span></span>&gt;
-&lt;/<span class="pl-ent">td</span>&gt;</pre></div>
-
-<p>Instead of writing the lambdas inline, a cleaner approach is to write a
-helper that returns a lambda. You can duplicate the following example by
-adding this to one of your helpers:</p>
-
-<div class="highlight highlight-ruby"><pre><span class="pl-k">def</span> <span class="pl-en">month_calendar_td_options</span>
-  <span class="pl-k">-</span><span class="pl-k">&gt;</span>(start_date, current_calendar_date) {
-    {<span class="pl-c1">class:</span> <span class="pl-s"><span class="pl-pds">"</span>calendar-date<span class="pl-pds">"</span></span>, <span class="pl-c1">data:</span> {<span class="pl-c1">day:</span> current_calendar_date}}
-  }
-<span class="pl-k">end</span></pre></div>
-
-<p>And then your view would use <code>month_calendar_td_options</code> as the value.</p>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> month_calendar <span class="pl-c1">td:</span> month_calendar_td_options <span class="pl-k">do </span>|<span class="pl-smi">date</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
+<p>Just paste this into a CSS file and add your styles and they will be
+applied to the calendar. All of these classes are inside of the
+simple-calendar class so you can scope your own classes with similar
+names.</p>
 
 <h3>
 <a id="custom-header-title-and-links" class="anchor" href="#custom-header-title-and-links" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom Header Title And Links</h3>
 
-<p>Each of the calendar methods will generate a header with links to the
-previous and next views. The <code>month_calendar</code> also includes a header
-with a title that tells you the current month and year that you are viewing.</p>
+<p>Header and title links are easily adjusted by generating views and
+modifying them inside your application.</p>
 
-<p>To change these, you can pass in the <code>previous_link</code>, <code>title</code>, and
-<code>next_link</code> options into the calendar methods.</p>
+<p>For example, if you'd like to use abbreviated month names, you can modify
+the views from this:</p>
 
-<p><strong>Use a method in your helpers to return a lambda instead of writing
-them inline like these examples so your views are cleaner.</strong></p>
+<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> <span class="pl-c1">I18n</span>.t(<span class="pl-s"><span class="pl-pds">"</span>date.month_names<span class="pl-pds">"</span></span>)[start_date.month] </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span> <span class="pl-pse">&lt;%=</span><span class="pl-s1"> start_date.year </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
 
-<ul>
-<li>
-<code>title</code> option is a lambda that shows at the top of the calendar. For
-month calendars, this is the Month and Year (May 2014)</li>
-</ul>
+<p>To</p>
 
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> calendar <span class="pl-c1">title:</span> <span class="pl-k">-</span><span class="pl-k">&gt;</span>(start_date) { content_tag <span class="pl-c1">:span</span>, <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">#{</span><span class="pl-s1"><span class="pl-c1">I18n</span>.t(<span class="pl-s"><span class="pl-pds">"</span>date.month_names<span class="pl-pds">"</span></span>)[start_date.month]</span><span class="pl-pse"><span class="pl-s1">}</span></span> <span class="pl-pse">#{</span><span class="pl-s1">start_date.year</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span>, <span class="pl-c1">class:</span> <span class="pl-s"><span class="pl-pds">"</span>calendar-title<span class="pl-pds">"</span></span> } <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
+<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> <span class="pl-c1">I18n</span>.t(<span class="pl-s"><span class="pl-pds">"</span>date.abbr_month_names<span class="pl-pds">"</span></span>)[start_date.month] </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span> <span class="pl-pse">&lt;%=</span><span class="pl-s1"> start_date.year </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
 
-<ul>
-<li>
-<code>previous_link</code> option is a standard <code>link_to</code> that is a left arrow and
-with the current url having <code>?start_date=2014-04-30</code> appended to it as
-a date in the previous view of the calendar.</li>
-</ul>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> month_calendar <span class="pl-c1">previous_link:</span> <span class="pl-k">-</span><span class="pl-k">&gt;</span>(param, date_range) { link_to raw(<span class="pl-s"><span class="pl-pds">"</span>&amp;laquo;<span class="pl-pds">"</span></span>), {param =&gt; date_range.first <span class="pl-k">-</span> <span class="pl-c1">1</span>.day} } <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
-
-<ul>
-<li>
-<code>next_link</code> option is a standard <code>link_to</code> that is a right arrow and
-with the current url having <code>?start_date=2014-06-01</code> appended to it as
-a date in the next view of the calendar.</li>
-</ul>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> calendar <span class="pl-c1">next_link:</span> <span class="pl-k">-</span><span class="pl-k">&gt;</span>(param, date_range) { link_to raw(<span class="pl-s"><span class="pl-pds">"</span>&amp;raquo;<span class="pl-pds">"</span></span>), {param =&gt; date_range.last <span class="pl-k">+</span> <span class="pl-c1">1</span>.day} } <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
-
-<ul>
-<li>
-<code>header</code> lets you add options to the header tag</li>
-</ul>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> calendar <span class="pl-c1">header:</span> {<span class="pl-c1">class:</span> <span class="pl-s"><span class="pl-pds">"</span>calendar-header<span class="pl-pds">"</span></span>} <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
-
-<ul>
-<li>
-<code>thead</code> allows you to customize the table headers. These are the
-abbreviated day names by default (Sun Mon Tue Wed).</li>
-</ul>
-
-<p>You can disable the <code>thead</code> line if you like by passing in <code>false</code>.</p>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> calendar <span class="pl-c1">thead:</span> <span class="pl-c1">false</span> <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
-
-<ul>
-<li>
-<code>day_names</code> lets you customize the day names in the <code>thead</code> row.</li>
-</ul>
-
-<p>If you want to use full day names instead of the abbreviated ones in the
-table header, you can pass in the <code>day_names</code> option which points to a
-validate I18n array.</p>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> calendar <span class="pl-c1">day_names:</span> <span class="pl-s"><span class="pl-pds">"</span>date.day_names<span class="pl-pds">"</span></span> <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
-
-<p>Which renders:</p>
-
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">thead</span>&gt;
-  &lt;<span class="pl-ent">tr</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Sunday&lt;/<span class="pl-ent">th</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Monday&lt;/<span class="pl-ent">th</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Tuesday&lt;/<span class="pl-ent">th</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Wednesday&lt;/<span class="pl-ent">th</span>&gt;
-  &lt;/<span class="pl-ent">tr</span>&gt;
-&lt;/<span class="pl-ent">thead</span>&gt;</pre></div>
-
-<p>By default we use the <code>date.abbr_day_names</code> translation to have shorter
-header names.</p>
-
-<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> calendar <span class="pl-c1">day_names:</span> <span class="pl-s"><span class="pl-pds">"</span>date.abbr_day_names<span class="pl-pds">"</span></span> <span class="pl-k">do </span>|<span class="pl-smi">date</span>, <span class="pl-smi">events</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
-<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
-
-<p>This renders:</p>
-
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">thead</span>&gt;
-  &lt;<span class="pl-ent">tr</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Sun&lt;/<span class="pl-ent">th</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Mon&lt;/<span class="pl-ent">th</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Tue&lt;/<span class="pl-ent">th</span>&gt;
-    &lt;<span class="pl-ent">th</span>&gt;Wed&lt;/<span class="pl-ent">th</span>&gt;
-  &lt;/<span class="pl-ent">tr</span>&gt;
-&lt;/<span class="pl-ent">thead</span>&gt;</pre></div>
+<p>Your calendar will now display "Sep 2015" instead of "September 2015" at
+the top! :)</p>
 
 <h3>
 <a id="ajax-calendars" class="anchor" href="#ajax-calendars" aria-hidden="true"><span class="octicon octicon-link"></span></a>AJAX Calendars</h3>
@@ -362,6 +271,43 @@ controller to respond to JS requests. The response can simply replace
 the HTML of the div with the newly rendered calendar.</p>
 
 <p>Take a look at <strong><a href="https://github.com/excid3/simple_calendar-ajax-example">excid3/simple_calendar-ajax-example</a></strong> to see how it is done.</p>
+
+<h2>
+<a id="custom-calendars" class="anchor" href="#custom-calendars" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom Calendars</h2>
+
+<p>The three main calendars available should take care of most of your
+needs, but simple_calendar makes it easy to create completely custom
+calendars (like maybe you only want business weeks).</p>
+
+<p>If you'd like to make a completely custom calendar, you can create a new
+class that inherits from <code>SimpleCalendar::Calendar</code>. The name you give
+it will correspond to the name of the template it will try to render.</p>
+
+<p>The main method you'll need to implement is the <code>date_range</code> so that
+your calendar can have a custom length.</p>
+
+<pre><code>class SimpleCalendar::BusinessWeekCalendar
+  private
+
+    def date_range
+      beginning = start_date.beginning_of_week + 1.day
+      ending    = start_date.end_of_week - 1.day
+      (beginning..ending)
+    end
+end
+</code></pre>
+
+<p>To render this in the view, you can do:</p>
+
+<div class="highlight highlight-erb"><pre><span class="pl-pse">&lt;%=</span><span class="pl-s1"> <span class="pl-c1">SimpleCalendar</span>::<span class="pl-c1">BusinessWeekCalendar</span>.<span class="pl-k">new</span>(<span class="pl-v">self</span>).render <span class="pl-k">do </span>|<span class="pl-smi">date</span>| </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
+  <span class="pl-pse">&lt;%=</span><span class="pl-s1"> day </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span>
+<span class="pl-pse">&lt;%</span><span class="pl-s1"> <span class="pl-k">end</span> </span><span class="pl-pse"><span class="pl-s1">%</span>&gt;</span></pre></div>
+
+<p>And this will render the
+<code>app/views/simple_calendar/_business_week_calendar.html.erb</code> partial.</p>
+
+<p>You can copy one of the existing templates to use for the partial for
+your new calendar.</p>
 
 <h2>
 <a id="view-specs-and-tests" class="anchor" href="#view-specs-and-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>View Specs and Tests</h2>
@@ -384,7 +330,10 @@ ActionView::Template::Error:
 <a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h2>
 
 <ul>
-<li>Multi-day events?</li>
+<li>Multi-day events</li>
+<li>Rspec tests for Calendar</li>
+<li>Rspec tests for MonthCalendar</li>
+<li>Rspec tests for WeekCalendar</li>
 </ul>
 
 <h2>
@@ -395,6 +344,11 @@ ActionView::Template::Error:
 <p><a href="https://gorails.com">https://gorails.com</a></p>
 
 <p><a href="https://twitter.com/excid3">@excid3</a></p>
+
+<h2>
+<a id="support" class="anchor" href="#support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support</h2>
+
+<p>Need help</p>
         </section>
 
         <footer>
