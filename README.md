@@ -1,4 +1,4 @@
-![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=2.0)
+![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=master)
 
 Simple Calendar
 ===============
