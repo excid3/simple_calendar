@@ -17,7 +17,7 @@
         <tr>
           <% week.each do |day| %>
             <%= content_tag :td, class: calendar.td_classes_for(day) do %>
-              <%= block.call day, sorted_events.fetch(day, []) %>
+              <% block.call day, sorted_events.fetch(day, []) %>
             <% end %>
           <% end %>
         </tr>
