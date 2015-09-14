@@ -50,7 +50,7 @@ module SimpleCalendar
       end
 
       def sorted_events
-        events = options.fetch(:events, [])
+        events = options.fetch(:events, []).sort_by(&attribute)
         sorted = {}
 
         events.each do |event|
@@ -59,11 +59,8 @@ module SimpleCalendar
             date = start_time.to_date
             sorted[date] ||= []
             sorted[date] << event
-            sorted[date] = sorted[date].sort_by(&attribute)
           end
         end
-
-        # TODO: move sorting by start_time to after the event loop
 
         sorted
       end
