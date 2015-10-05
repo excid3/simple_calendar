@@ -184,6 +184,18 @@ example. If you want to set this globally, you can put this line in
 config.beginning_of_week = :sunday
 ```
 
+### Default Stylesheet
+
+If you're using Bootstrap, the calendar should already have a border and
+nice spacing for days.
+
+Optionally, you can include the default stylesheet for the calendar in
+your `app/assets/stylesheets/application.css` file:
+
+```scss
+*= require simple_calendar
+```
+
 ### Custom CSS Classes
 
 Setting classes on the table and elements are pretty easy.
