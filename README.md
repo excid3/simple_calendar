@@ -92,6 +92,16 @@ pass it in as the `attribute` option**
   <%= day %>
 <% end %>
 ```
+**If you already have a model with a start time attribute called something other than `start_time` or accesses it through a relationship, you can alias the attribute by defining a `start_time` method in the my_model.rb file and not have to specify it separately as in the above example**
+```ruby
+class MyModel
+    ## Other code related to your model lives here
+    
+    def start_time
+        self.my_related_model.start ##Where 'start' is a attribute of type 'Date' accessible through MyModel's relationship
+    end
+end
+```
 
 In your controller, query for these meetings and store them in an instance
 variable. Normally you'll want to search for the ones that only show up
