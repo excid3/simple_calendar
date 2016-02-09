@@ -1,7 +1,7 @@
 <div class="simple-calendar">
-  <%= link_to "Previous", start_date: date_range.first - 1.day  %>
+  <%= link_to "Previous", url_for(params.merge(start_date: date_range.first - 1.day)) %>
   Week <%= start_date.strftime("%U").to_i %>
-  <%= link_to "Next", start_date: date_range.last + 1.day  %>
+  <%= link_to "Next", url_for(params.merge(start_date: date_range.last + 1.day)) %>
 
   <table class="table table-striped">
     <thead>
