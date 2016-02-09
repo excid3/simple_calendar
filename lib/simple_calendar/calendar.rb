@@ -66,7 +66,11 @@ module SimpleCalendar
       end
 
       def start_date
-        view_context.params.fetch(:start_date, Date.today).to_date
+        if options.has_key?(:start_date)
+          options.fetch(:start_date).to_date
+        else
+          view_context.params.fetch(:start_date, Date.today).to_date
+        end
       end
 
       def date_range

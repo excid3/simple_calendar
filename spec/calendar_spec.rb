@@ -45,10 +45,16 @@ describe SimpleCalendar::Calendar do
       expect(calendar.send(:start_date)).to eq(Date.today)
     end
 
-    it "uses the params start_date to override" do
+    it "uses the view context's params start_date to override" do
       view_context = ViewContext.new(Date.yesterday)
       calendar = SimpleCalendar::Calendar.new(view_context)
       expect(calendar.send(:start_date)).to eq(Date.yesterday)
+    end
+
+    it "uses the optional argument's start_date to override view_context's start_date" do
+      view_context = ViewContext.new(Date.yesterday)
+      calendar = SimpleCalendar::Calendar.new(view_context, start_date: Date.tomorrow)
+      expect(calendar.send(:start_date)).to eq(Date.tomorrow)
     end
   end
 
