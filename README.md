@@ -308,7 +308,7 @@ To render this in the view, you can do:
 
 ```erb
 <%= SimpleCalendar::BusinessWeekCalendar.new(self).render do |date| %>
-  <%= day %>
+  <%= date %>
 <% end %>
 ```
 
