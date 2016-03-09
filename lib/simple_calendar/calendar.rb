@@ -51,18 +51,7 @@ module SimpleCalendar
 
       def sorted_events
         events = options.fetch(:events, []).sort_by(&attribute)
-        sorted = {}
-
-        events.each do |event|
-          start_time = event.send(attribute)
-          if start_time.present?
-            date = start_time.to_date
-            sorted[date] ||= []
-            sorted[date] << event
-          end
-        end
-
-        sorted
+        events.group_by { |e| e.send(attribute).to_date }
       end
 
       def start_date
