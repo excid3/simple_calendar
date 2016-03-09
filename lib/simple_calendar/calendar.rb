@@ -51,7 +51,9 @@ module SimpleCalendar
 
       def sorted_events
         events = options.fetch(:events, []).sort_by(&attribute)
-        events.group_by { |e| e.send(attribute).to_date }
+
+        scheduled = events.reject { |e| e.send(attribute).nil? }
+        scheduled.group_by { |e| e.send(attribute).to_date }
       end
 
       def start_date

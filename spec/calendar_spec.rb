@@ -50,6 +50,13 @@ describe SimpleCalendar::Calendar do
       expect(sorted_events[today]).to eq([event1, event2])
       expect(sorted_events[tomorrow]).to eq([event3])
     end
+
+    it 'handles events without a start time' do
+      event = double(start_time: nil)
+      calendar = SimpleCalendar::Calendar.new(nil, events: [event])
+
+      expect{calendar.send(:sorted_events)}.not_to raise_error
+    end
   end
 
   describe "#start_date" do
