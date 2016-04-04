@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'action_controller'
 require 'simple_calendar/calendar'
 
 class ViewContext
@@ -10,15 +11,15 @@ class ViewContext
 
   def params
     if @start_date.present?
-      {start_date: @start_date}
+      ActionController::Parameters.new({start_date: @start_date})
     else
-      {}
+      ActionController::Parameters.new
     end
   end
 end
 
 describe SimpleCalendar::Calendar do
-  let(:calendar) { SimpleCalendar::Calendar.new(nil) }
+  let(:calendar) { SimpleCalendar::Calendar.new(ViewContext.new) }
 
   it 'renders a partial with the same name as the class' do
     expect(calendar.send(:partial_name)).to eq("simple_calendar/calendar")
@@ -30,7 +31,7 @@ describe SimpleCalendar::Calendar do
     end
 
     it 'allows you to override the default attribute' do
-      expect(SimpleCalendar::Calendar.new(nil, attribute: :starts_at).send(:attribute)).to eq(:starts_at)
+      expect(SimpleCalendar::Calendar.new(ViewContext.new, attribute: :starts_at).send(:attribute)).to eq(:starts_at)
     end
   end
 
@@ -43,7 +44,7 @@ describe SimpleCalendar::Calendar do
       event3 = double(start_time: tomorrow.at_noon)
 
       events = [event1, event2, event3].shuffle
-      calendar = SimpleCalendar::Calendar.new(nil, events: events)
+      calendar = SimpleCalendar::Calendar.new(ViewContext.new, events: events)
 
       sorted_events = calendar.send(:sorted_events)
 
@@ -53,7 +54,7 @@ describe SimpleCalendar::Calendar do
 
     it 'handles events without a start time' do
       event = double(start_time: nil)
-      calendar = SimpleCalendar::Calendar.new(nil, events: [event])
+      calendar = SimpleCalendar::Calendar.new(ViewContext.new, events: [event])
 
       expect{calendar.send(:sorted_events)}.not_to raise_error
     end
