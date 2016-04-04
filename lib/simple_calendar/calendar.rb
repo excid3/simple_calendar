@@ -2,11 +2,17 @@ require 'rails'
 
 module SimpleCalendar
   class Calendar
+    PARAM_KEY_BLACKLIST = :authenticity_token, :commit, :utf8, :_method, :script_name
+
     attr_accessor :view_context, :options
 
     def initialize(view_context, opts={})
       @view_context = view_context
       @options = opts
+
+      @params = @view_context.params
+      @params = @params.to_unsafe_h if @params.respond_to?(:to_unsafe_h)
+      @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST)
     end
 
     def render(&block)
@@ -37,6 +43,14 @@ module SimpleCalendar
       td_class << "has-events"    if sorted_events.fetch(day, []).any?
 
       td_class
+    end
+
+    def url_for_next_view
+      view_context.url_for(@params.merge(start_date: date_range.last + 1.day))
+    end
+
+    def url_for_previous_view
+      view_context.url_for(@params.merge(start_date: date_range.first - 1.day))
     end
 
     private
