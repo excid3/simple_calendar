@@ -89,7 +89,7 @@ pass it in as the `attribute` option**
 
 ```erb
 <%= month_calendar(attribute: :starts_at) do |date| %>
-  <%= day %>
+  <%= date %>
 <% end %>
 ```
 **If you already have a model with a start time attribute called something other than `start_time` or accesses it through a relationship, you can alias the attribute by defining a `start_time` method in the my_model.rb file and not have to specify it separately as in the above example**
