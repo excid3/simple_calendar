@@ -12,7 +12,7 @@ module SimpleCalendar
 
       @params = @view_context.params
       @params = @params.to_unsafe_h if @params.respond_to?(:to_unsafe_h)
-      @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST)
+      @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST) unless @params.nil?
     end
 
     def render(&block)
