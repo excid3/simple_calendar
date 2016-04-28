@@ -10,9 +10,9 @@ module SimpleCalendar
       @view_context = view_context
       @options = opts
 
-      @params = @view_context.params
+      @params = @view_context.respond_to?(:params) ? @view_context.params : Hash.new
       @params = @params.to_unsafe_h if @params.respond_to?(:to_unsafe_h)
-      @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST) unless @params.nil?
+      @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST)
     end
 
     def render(&block)
