@@ -1,7 +1,7 @@
 <div class="simple-calendar">
-  <%= link_to "Previous", calendar.url_for_previous_view %>
+  <%= link_to I18n.t('simple_calendar.previous', :default => "Previous"), calendar.url_for_previous_view %>
   Week <%= start_date.strftime("%U").to_i %>
-  <%= link_to "Next", calendar.url_for_next_view %>
+  <%= link_to I18n.t('simple_calendar.next', :default => "Next"), calendar.url_for_next_view %>
 
   <table class="table table-striped">
     <thead>
