@@ -1,7 +1,9 @@
 <div class="simple-calendar">
-  <%= link_to I18n.t('simple_calendar.previous', :default => "Previous"), calendar.url_for_previous_view %>
-  <%= I18n.t("date.month_names")[start_date.month] %> <%= start_date.year %>
-  <%= link_to I18n.t('simple_calendar.next', :default => "Next"), calendar.url_for_next_view %>
+  <div class="calendar-heading">
+    <%= link_to I18n.t('simple_calendar.previous', :default => "Previous"), calendar.url_for_previous_view %>
+    <span class="calendar-title"><%= I18n.t("date.month_names")[start_date.month] %> <%= start_date.year %></span>
+    <%= link_to I18n.t('simple_calendar.next', :default => "Next"), calendar.url_for_next_view %>
+  </div>
 
   <table class="table table-striped">
     <thead>
