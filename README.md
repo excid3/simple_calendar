@@ -256,13 +256,13 @@ For example, if you'd like to use abbreviated month names, you can modify
 the views from this:
 
 ```erb
-<%= I18n.t("date.month_names")[start_date.month] %> <%= start_date.year %>
+<%= t('date.month_names')[start_date.month] %> <%= start_date.year %>
 ```
 
 To
 
 ```erb
-<%= I18n.t("date.abbr_month_names")[start_date.month] %> <%= start_date.year %>
+<%= t('date.abbr_month_names')[start_date.month] %> <%= start_date.year %>
 ```
 
 Your calendar will now display "Sep 2015" instead of "September 2015" at
