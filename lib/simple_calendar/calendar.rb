@@ -56,7 +56,7 @@ module SimpleCalendar
     private
 
       def partial_name
-        self.class.name.underscore
+        @options[:partial] || self.class.name.underscore
       end
 
       def attribute
