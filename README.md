@@ -68,6 +68,18 @@ You can generate calendars of any length by passing in the number of days you wa
 
 Setting `number_of_days` is optional and defaults to 4.
 
+### Custom Partial
+
+You can set a different partial name for calendars by passing the partial path.
+
+```erb
+<%= calendar partial: 'products/calendar' do |date| %>
+  <%= date %>
+<% end %>
+```
+
+Setting `number_of_days` is optional and defaults to 4.
+
 ## Rendering Events
 
 What's a calendar without events in it? There are two simple steps for creating
@@ -96,7 +108,7 @@ pass it in as the `attribute` option**
 ```ruby
 class MyModel
     ## Other code related to your model lives here
-    
+
     def start_time
         self.my_related_model.start ##Where 'start' is a attribute of type 'Date' accessible through MyModel's relationship
     end
