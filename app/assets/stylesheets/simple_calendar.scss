@@ -81,8 +81,17 @@
     font-size:3em;
   }
 
-  .calendar-heading
+ .calendar-heading
   {
-      text-align:center;
+    a
+    {
+      .prev-month
+      {
+        font-size:1.5em;
+        
+      }
+
+    }
+    
   }
 }
