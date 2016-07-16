@@ -222,9 +222,6 @@ your `app/assets/stylesheets/application.css` file:
 
 Setting classes on the table and elements are pretty easy.
 
-You can simply run the following command to install the calendar views
-and then add your own helpers to the table, rows, headers, and days.
-
 simple_calendar comes with a handful of useful classes for each day in
 the calendar that you can use:
 
