@@ -301,14 +301,14 @@ it will correspond to the name of the template it will try to render.
 The main method you'll need to implement is the `date_range` so that
 your calendar can have a custom length.
 
-```
+```ruby
 class SimpleCalendar::BusinessWeekCalendar
   private
 
     def date_range
       beginning = start_date.beginning_of_week + 1.day
       ending    = start_date.end_of_week - 1.day
-      (beginning..ending)
+      (beginning..ending).to_a
     end
 end
 ```
