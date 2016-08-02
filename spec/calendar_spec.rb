@@ -33,6 +33,16 @@ describe SimpleCalendar::Calendar do
     it 'allows you to override the default attribute' do
       expect(SimpleCalendar::Calendar.new(ViewContext.new, attribute: :starts_at).send(:attribute)).to eq(:starts_at)
     end
+
+    it "set a default when `partial` option isn't present" do
+      expect(SimpleCalendar::Calendar.new(ViewContext.new).send(:partial_name)).to eq('simple_calendar/calendar')
+      expect(SimpleCalendar::MonthCalendar.new(ViewContext.new).send(:partial_name)).to eq('simple_calendar/month_calendar')
+      expect(SimpleCalendar::WeekCalendar.new(ViewContext.new).send(:partial_name)).to eq('simple_calendar/week_calendar')
+    end
+
+    it 'allows to override the default partial' do
+      expect(SimpleCalendar::Calendar.new(ViewContext.new, partial: 'simple_calendar/custom_calendar').send(:partial_name)).to eq('simple_calendar/custom_calendar')
+    end
   end
 
   describe "#sorted_events" do
