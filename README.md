@@ -20,8 +20,9 @@ Installation
 ------------
 
 Just add this into your Gemfile followed by a bundle install:
-
-    gem "simple_calendar", "~> 2.0"
+```ruby
+gem "simple_calendar", "~> 2.0"
+```
 
 Usage
 -----
@@ -91,7 +92,7 @@ model called Meeting, but you can add this to any model or Ruby object.
 Here's an example model:
 
 ```bash
-rails g scaffold Meeting name start_time:datetime
+$ rails g scaffold Meeting name start_time:datetime
 ```
 
 By default it uses `start_time` as the attribute name.
@@ -158,7 +159,7 @@ You can customize the layouts for each of the calendars by running the
 generators for simple_calendar:
 
 ```bash
-rails g simple_calendar:views
+$ rails g simple_calendar:views
 ```
 
 This will generate a folder in app/views called simple_calendar that you
