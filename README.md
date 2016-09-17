@@ -92,13 +92,18 @@ model called Meeting, but you can add this to any model or Ruby object.
 Here's an example model:
 
 ```bash
+# single day events
 $ rails g scaffold Meeting name start_time:datetime
+
+# multi-day events
+$ rails g scaffold Meeting name start_time:datetime end_time:datetime
 ```
 
-By default it uses `start_time` as the attribute name.
+By default it uses `start_time` as the attribute name.  Optionally the `end_time`
+attribute can be used which enables multi-day event rendering.
 
-**If you'd like to use another attribute other than start_time, just
-pass it in as the `attribute` option**
+**If you'd like to use another attribute other than start_time or end_time, just
+pass it in as the `attribute` or `end_attribute` options respectively**
 
 ```erb
 <%= month_calendar(attribute: :starts_at) do |date| %>
@@ -348,7 +353,6 @@ With modifications as appropriate.
 
 ## TODO
 
-- Multi-day events
 - Rspec tests for Calendar
 - Rspec tests for MonthCalendar
 - Rspec tests for WeekCalendar
