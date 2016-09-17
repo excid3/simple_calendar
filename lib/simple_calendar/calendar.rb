@@ -63,11 +63,32 @@ module SimpleCalendar
         options.fetch(:attribute, :start_time).to_sym
       end
 
+      def end_attribute
+        options.fetch(:end_attribute, :end_time).to_sym
+      end
+
       def sorted_events
         events = options.fetch(:events, []).sort_by(&attribute)
-
         scheduled = events.reject { |e| e.send(attribute).nil? }
-        scheduled.group_by { |e| e.send(attribute).to_date }
+        group_events_by_date(scheduled)
+      end
+
+      def group_events_by_date(events)
+        events_grouped_by_date = Hash.new {|h,k| h[k] = [] }
+        events.each do |event|
+          if event.respond_to?(end_attribute) && !event.respond_to?(end_attribute).nil?
+            event_start_date = event.send(attribute).to_date
+            event_end_date = event.send(end_attribute).to_date
+            max_end_date = event_end_date > end_date ? end_date : event_end_date
+
+            (event_start_date..max_end_date).to_a.each do |enumerated_date|
+              events_grouped_by_date[enumerated_date] << event
+            end
+          else
+            events_grouped_by_date[event.send(attribute).to_date] << event
+          end
+        end
+        events_grouped_by_date
       end
 
       def start_date
@@ -76,6 +97,10 @@ module SimpleCalendar
         else
           view_context.params.fetch(:start_date, Date.current).to_date
         end
+      end
+
+      def end_date
+        date_range.last
       end
 
       def date_range

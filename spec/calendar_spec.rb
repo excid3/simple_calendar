@@ -62,6 +62,22 @@ describe SimpleCalendar::Calendar do
       expect(sorted_events[tomorrow]).to eq([event3])
     end
 
+    it 'converts an array of multi-day events to a hash sorted by days' do
+      today, tomorrow = Date.today, Date.tomorrow
+
+      event1 = double(start_time: today.at_midnight, end_time: tomorrow.at_midnight)
+      event2 = double(start_time: today.at_noon)
+      event3 = double(start_time: tomorrow.at_noon)
+
+      events = [event1, event2, event3].shuffle
+      calendar = SimpleCalendar::Calendar.new(ViewContext.new, events: events)
+
+      sorted_events = calendar.send(:sorted_events)
+
+      expect(sorted_events[today]).to eq([event1, event2])
+      expect(sorted_events[tomorrow]).to eq([event1, event3])
+    end
+
     it 'handles events without a start time' do
       event = double(start_time: nil)
       calendar = SimpleCalendar::Calendar.new(ViewContext.new, events: [event])
