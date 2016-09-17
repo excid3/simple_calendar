@@ -75,17 +75,12 @@ module SimpleCalendar
 
       def group_events_by_date(events)
         events_grouped_by_date = Hash.new {|h,k| h[k] = [] }
-        events.each do |event|
-          if event.respond_to?(end_attribute) && !event.respond_to?(end_attribute).nil?
-            event_start_date = event.send(attribute).to_date
-            event_end_date = event.send(end_attribute).to_date
-            max_end_date = event_end_date > end_date ? end_date : event_end_date
 
-            (event_start_date..max_end_date).to_a.each do |enumerated_date|
-              events_grouped_by_date[enumerated_date] << event
-            end
-          else
-            events_grouped_by_date[event.send(attribute).to_date] << event
+        events.each do |event|
+          event_start_date = event.send(attribute).to_date
+          event_end_date = (event.respond_to?(end_attribute) && !event.respond_to?(end_attribute).nil?) ? event.send(end_attribute).to_date : event_start_date
+          (event_start_date..event_end_date).to_a.each do |enumerated_date|
+            events_grouped_by_date[enumerated_date] << event
           end
         end
         events_grouped_by_date
