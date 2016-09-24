@@ -1,3 +1,3 @@
 module SimpleCalendar
-  VERSION = "2.1.5"
+  VERSION = "2.2.0"
 end
