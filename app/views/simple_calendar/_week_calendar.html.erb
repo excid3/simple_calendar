@@ -1,7 +1,7 @@
 <div class="simple-calendar">
   <div class="calendar-heading">
     <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view %>
-    <span class="calendar-title">Week <%= start_date.strftime("%U").to_i %></span>
+    <span class="calendar-title">Week <%= calendar.week_number %></span>
     <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view %>
   </div>
 
