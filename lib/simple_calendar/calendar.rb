@@ -68,9 +68,10 @@ module SimpleCalendar
       end
 
       def sorted_events
-        events = options.fetch(:events, []).sort_by(&attribute)
-        scheduled = events.reject { |e| e.send(attribute).nil? }
-        group_events_by_date(scheduled)
+        @sorted_events ||= begin
+                             events = options.fetch(:events, []).reject { |e| e.send(attribute).nil? }.sort_by(&attribute)
+                             group_events_by_date(events)
+                           end
       end
 
       def group_events_by_date(events)
@@ -78,11 +79,12 @@ module SimpleCalendar
 
         events.each do |event|
           event_start_date = event.send(attribute).to_date
-          event_end_date = (event.respond_to?(end_attribute) && !event.respond_to?(end_attribute).nil?) ? event.send(end_attribute).to_date : event_start_date
-          (event_start_date..event_end_date).to_a.each do |enumerated_date|
+          event_end_date = (event.respond_to?(end_attribute) && !event.send(end_attribute).nil?) ? event.send(end_attribute).to_date : event_start_date
+          (event_start_date..event_end_date.to_date).each do |enumerated_date|
             events_grouped_by_date[enumerated_date] << event
           end
         end
+
         events_grouped_by_date
       end
 
