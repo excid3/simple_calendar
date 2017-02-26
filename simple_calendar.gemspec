@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Chris Oliver"]
   s.email       = ["excid3@gmail.com"]
   s.homepage    = "https://github.com/excid3/simple_calendar"
-  s.summary     = %q{A simple Rails 3 and Rails 4 calendar}
-  s.description = %q{A simple Rails 3 and Rails 4 calendar}
+  s.summary     = %q{A simple Rails calendar}
+  s.description = %q{A simple Rails calendar}
   s.license     = "MIT"
-  
+
   s.rubyforge_project = "simple_calendar"
 
   s.files         = `git ls-files`.split("\n")
