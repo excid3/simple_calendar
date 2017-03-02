@@ -46,11 +46,11 @@ module SimpleCalendar
     end
 
     def url_for_next_view
-      view_context.url_for(@params.merge(start_date: date_range.last + 1.day))
+      view_context.url_for(@params.merge(start_date_param => date_range.last + 1.day))
     end
 
     def url_for_previous_view
-      view_context.url_for(@params.merge(start_date: date_range.first - 1.day))
+      view_context.url_for(@params.merge(start_date_param => date_range.first - 1.day))
     end
 
     private
@@ -65,6 +65,10 @@ module SimpleCalendar
 
       def end_attribute
         options.fetch(:end_attribute, :end_time).to_sym
+      end
+
+      def start_date_param
+        options.fetch(:start_date_param, :start_date).to_sym
       end
 
       def sorted_events
@@ -92,7 +96,7 @@ module SimpleCalendar
         if options.has_key?(:start_date)
           options.fetch(:start_date).to_date
         else
-          view_context.params.fetch(:start_date, Date.current).to_date
+          view_context.params.fetch(start_date_param, Date.current).to_date
         end
       end
 
