@@ -3,15 +3,16 @@ require 'action_controller'
 require 'simple_calendar/calendar'
 
 class ViewContext
-  attr_accessor :start_date
+  attr_accessor :start_date, :start_date_param
 
-  def initialize(start_date=nil)
+  def initialize(start_date=nil, options={})
     @start_date = start_date
+    @start_date_param = options.fetch(:start_date_param, :start_date)
   end
 
   def params
     if @start_date.present?
-      ActionController::Parameters.new({start_date: @start_date})
+      ActionController::Parameters.new({start_date_param => @start_date})
     else
       ActionController::Parameters.new
     end
@@ -103,6 +104,12 @@ describe SimpleCalendar::Calendar do
       view_context = ViewContext.new(Date.yesterday)
       calendar = SimpleCalendar::Calendar.new(view_context, start_date: Date.tomorrow)
       expect(calendar.send(:start_date)).to eq(Date.tomorrow)
+    end
+
+    it "takes an option to override the start_date parameter" do
+      view_context = ViewContext.new(Date.yesterday, start_date_param: :date)
+      calendar = SimpleCalendar::Calendar.new(view_context, start_date_param: :date)
+      expect(calendar.send(:start_date)).to eq(Date.yesterday)
     end
   end
 
