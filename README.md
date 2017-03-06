@@ -69,6 +69,17 @@ You can generate calendars of any length by passing in the number of days you wa
 
 Setting `number_of_days` is optional and defaults to 4.
 
+### Custom Parameter Name
+
+You can pass in `start_date_param` to change the name of the parameter
+in the URL for the current calendar view.
+
+```erb
+<%= calendar start_date_param: :my_date do |date| %>
+  <%= date %>
+<% end %>
+```
+
 ### Custom Partial
 
 You can set a different partial name for calendars by passing the partial path.
