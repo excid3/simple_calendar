@@ -121,7 +121,8 @@ pass it in as the `attribute`**
 ```
 
 Optionally the `end_time` attribute can be used which enables multi-day event rendering.
-**just pass in the `attribute` or `end_attribute` options respectively**
+
+**Just pass in the `attribute` and `end_attribute` options respectively**
 
 ```erb
 <%= month_calendar(attribute: :start_date, end_attribute: :end_date) do |date| %>
