@@ -328,7 +328,7 @@ The main method you'll need to implement is the `date_range` so that
 your calendar can have a custom length.
 
 ```ruby
-class SimpleCalendar::BusinessWeekCalendar
+class SimpleCalendar::BusinessWeekCalendar < SimpleCalendar::Calendar
   private
 
     def date_range
@@ -342,7 +342,7 @@ end
 To render this in the view, you can do:
 
 ```erb
-<%= SimpleCalendar::BusinessWeekCalendar.new(self).render do |date| %>
+<%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <%= date %>
 <% end %>
 ```
