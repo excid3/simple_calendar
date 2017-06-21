@@ -45,6 +45,8 @@ method.
 <% end %>
 ```
 
+To show the day of the month instead of the date, use `<%= date.day %>`
+
 ### Week Calendar
 
 You can generate a week calendar with the `week_calendar` method.
