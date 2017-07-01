@@ -10,9 +10,13 @@ module SimpleCalendar
       @view_context = view_context
       @options = opts
 
+      # Next and previous view links should use the same params as the current view
       @params = @view_context.respond_to?(:params) ? @view_context.params : Hash.new
       @params = @params.to_unsafe_h if @params.respond_to?(:to_unsafe_h)
       @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST)
+
+      # Add in any additonal params the user passed in
+      @params.merge!(@options.fetch(:params, {}))
     end
 
     def render(&block)
