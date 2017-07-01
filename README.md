@@ -45,6 +45,8 @@ method.
 <% end %>
 ```
 
+To show the day of the month instead of the date, use `<%= date.day %>`
+
 ### Week Calendar
 
 You can generate a week calendar with the `week_calendar` method.
@@ -110,17 +112,26 @@ $ rails g scaffold Meeting name start_time:datetime
 $ rails g scaffold Meeting name start_time:datetime end_time:datetime
 ```
 
-By default it uses `start_time` as the attribute name.  Optionally the `end_time`
-attribute can be used which enables multi-day event rendering.
-
-**If you'd like to use another attribute other than start_time or end_time, just
-pass it in as the `attribute` or `end_attribute` options respectively**
+By default it uses `start_time` as the attribute name.  
+**If you'd like to use another attribute other than start_time, just
+pass it in as the `attribute`**
 
 ```erb
 <%= month_calendar(attribute: :starts_at) do |date| %>
   <%= date %>
 <% end %>
 ```
+
+Optionally the `end_time` attribute can be used which enables multi-day event rendering.
+
+**Just pass in the `attribute` and `end_attribute` options respectively**
+
+```erb
+<%= month_calendar(attribute: :start_date, end_attribute: :end_date) do |date| %>
+  <%= date %>
+<% end %>
+```
+
 **If you already have a model with a start time attribute called something other than `start_time` or accesses it through a relationship, you can alias the attribute by defining a `start_time` method in the my_model.rb file and not have to specify it separately as in the above example**
 ```ruby
 class MyModel
@@ -319,7 +330,7 @@ The main method you'll need to implement is the `date_range` so that
 your calendar can have a custom length.
 
 ```ruby
-class SimpleCalendar::BusinessWeekCalendar
+class SimpleCalendar::BusinessWeekCalendar < SimpleCalendar::Calendar
   private
 
     def date_range
@@ -333,7 +344,7 @@ end
 To render this in the view, you can do:
 
 ```erb
-<%= SimpleCalendar::BusinessWeekCalendar.new(self).render do |date| %>
+<%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <%= date %>
 <% end %>
 ```
