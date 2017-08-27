@@ -51,7 +51,8 @@ module SimpleCalendar
 
     def tr_classes_for(week)
       today = Date.current
-      tr_class = ['current-week'] if week.include?(today)
+      tr_class = ['week']
+      tr_class << 'current-week' if week.include?(today)
 
       tr_class
     end
