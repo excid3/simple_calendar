@@ -113,6 +113,20 @@ describe SimpleCalendar::Calendar do
     end
   end
 
+  describe 'current week class' do
+    it 'should have the current week' do
+      calendar = SimpleCalendar::Calendar.new(ViewContext.new)
+      week = calendar.send(:date_range).each_slice(7).to_a[0]
+      expect(calendar.send(:tr_classes_for, week)).to include('current-week')
+    end
+
+    it 'should not have the current week if it does not contain today' do
+      calendar = SimpleCalendar::MonthCalendar.new(ViewContext.new)
+      week = calendar.send(:date_range).each_slice(7).to_a[0]
+      expect(calendar.send(:tr_classes_for, week)).to_not include('current-week')
+    end
+  end
+
   it 'has a param that determines the start date of the calendar'
   it 'generates a default date if no start date is present'
   it 'has a range of dates'
