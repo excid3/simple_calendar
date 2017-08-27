@@ -49,6 +49,14 @@ module SimpleCalendar
       td_class
     end
 
+    def tr_classes_for(week)
+      today = Date.current
+      tr_class = ['week']
+      tr_class << 'current-week' if week.include?(today)
+
+      tr_class
+    end
+
     def url_for_next_view
       view_context.url_for(@params.merge(start_date_param => date_range.last + 1.day))
     end
