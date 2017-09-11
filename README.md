@@ -197,7 +197,7 @@ edit to your heart's desire.
 Setting `Time.zone` will make sure the calendar start days are correctly computed
 in the right timezone. You can set this globally in your `application.rb` file or
 if you have a User model with a time_zone attribute, you can set it on every request by using
-a before_filter like the following example.
+a before_action like the following example.
 
 This code example uses [Devise](https://github.com/plataformatec/devise)'s
 `current_user` and `user_signed_in?` methods to retrieve the user's timezone and set it for the duration of the request.
@@ -206,7 +206,7 @@ using some other method of authentication.
 
 ```ruby
 class ApplicationController < ActionController::Base
-  before_filter :set_time_zone, if: :user_signed_in?
+  before_action :set_time_zone, if: :user_signed_in?
 
   private
 
@@ -226,7 +226,7 @@ config.time_zone = 'Central Time (US & Canada)'
 ### Beginning Of Week
 
 You can also change the beginning day of the week by setting
-`Date.beginning_of_week` in a `before_filter` just like in the previous
+`Date.beginning_of_week` in a `before_action` just like in the previous
 example. If you want to set this globally, you can put this line in
 `config/application.rb`:
 
