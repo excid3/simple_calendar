@@ -92,8 +92,6 @@ You can set a different partial name for calendars by passing the partial path.
 <% end %>
 ```
 
-Setting `number_of_days` is optional and defaults to 4.
-
 ## Rendering Events
 
 What's a calendar without events in it? There are two simple steps for creating
