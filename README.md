@@ -24,6 +24,16 @@ Just add this into your Gemfile followed by a bundle install:
 gem "simple_calendar", "~> 2.0"
 ```
 
+If you're using Bootstrap, the calendar should already have a border and
+nice spacing for days.
+
+Optionally, you can include the default stylesheet for the calendar in
+your `app/assets/stylesheets/application.css` file:
+
+```scss
+*= require simple_calendar
+```
+
 Usage
 -----
 
@@ -230,18 +240,6 @@ example. If you want to set this globally, you can put this line in
 
 ```ruby
 config.beginning_of_week = :sunday
-```
-
-### Default Stylesheet
-
-If you're using Bootstrap, the calendar should already have a border and
-nice spacing for days.
-
-Optionally, you can include the default stylesheet for the calendar in
-your `app/assets/stylesheets/application.css` file:
-
-```scss
-*= require simple_calendar
 ```
 
 ### Custom CSS Classes
