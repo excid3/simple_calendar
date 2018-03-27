@@ -1,23 +1,8 @@
 require 'spec_helper'
 require 'action_controller'
 require 'simple_calendar/calendar'
-
-class ViewContext
-  attr_accessor :start_date, :start_date_param
-
-  def initialize(start_date=nil, options={})
-    @start_date = start_date
-    @start_date_param = options.fetch(:start_date_param, :start_date)
-  end
-
-  def params
-    if @start_date.present?
-      ActionController::Parameters.new({start_date_param => @start_date})
-    else
-      ActionController::Parameters.new
-    end
-  end
-end
+require_relative 'support/fake_event'
+require_relative 'support/view_context'
 
 describe SimpleCalendar::Calendar do
   let(:calendar) { SimpleCalendar::Calendar.new(ViewContext.new) }
@@ -127,18 +112,65 @@ describe SimpleCalendar::Calendar do
     end
   end
 
-  it 'has a param that determines the start date of the calendar'
-  it 'generates a default date if no start date is present'
-  it 'has a range of dates'
+  it 'has a param that determines the start date of the calendar' do
+    calendar = SimpleCalendar::Calendar.new(ViewContext.new)
+
+    rendering_variables = calendar.render[:locals]
+
+    expect(rendering_variables[:start_date]).not_to be_nil
+  end
+
+  it 'generates a default date if no start date is present' do
+    calendar = SimpleCalendar::Calendar.new(ViewContext.new)
+
+    calendar_start_date = calendar.render[:locals][:start_date]
+
+    expect(calendar_start_date).not_to be_nil
+    expect(calendar_start_date).to be_a(Date)
+  end
+
+  it 'has a range of dates' do
+    calendar = SimpleCalendar::Calendar.new(ViewContext.new)
+
+    calendar_date_range = calendar.render[:locals][:date_range]
+
+    expect(calendar_date_range).to be_an(Array)
+    expect(calendar_date_range).to all(be_an(Date))
+  end
 
   it 'can split the range of dates into weeks'
   it 'has a title'
   it 'has a next view link'
   it 'has a previous view link'
 
-  it 'accepts an array of events'
-  it 'sorts the events'
-  it 'yields the events for each day'
+  it 'accepts an array of events' do
+    first_event = FakeEvent.new('event1', Date.today)
+    second_event = FakeEvent.new('event2', Date.today + 1.day)
+    events = [first_event, second_event]
+    calendar = SimpleCalendar::Calendar.new(ViewContext.new, events: events)
 
+    calendar_sorted_events = calendar.render[:locals][:sorted_events]
+
+    expect(calendar_sorted_events.length).to eq(2)
+  end
+
+  it 'sorts the events' do
+    first_event = FakeEvent.new('event1', Date.today + 2.days)
+    second_event = FakeEvent.new('event2', Date.today + 1.day)
+    third_event = FakeEvent.new('event3', Date.today)
+    events = [first_event, third_event, second_event]
+    calendar = SimpleCalendar::Calendar.new(ViewContext.new, events: events)
+
+    calendar_sorted_events = calendar.render[:locals][:sorted_events]
+    first_key = calendar_sorted_events.keys[0]
+    second_key = calendar_sorted_events.keys[1]
+    third_key = calendar_sorted_events.keys[2]
+
+    expect(calendar_sorted_events[first_key][0]).to eq(third_event)
+    expect(calendar_sorted_events[second_key][0]).to eq(second_event)
+    expect(calendar_sorted_events[third_key][0]).to eq(first_event)
+  end
+
+  it 'yields the events for each day'
   it "doesn't crash when an event has a nil start_time"
 end
