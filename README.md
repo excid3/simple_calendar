@@ -351,6 +351,19 @@ And this will render the
 You can copy one of the existing templates to use for the partial for
 your new calendar.
 
+## Use HTML for previous and next links
+
+You can use something like font-awesome to make your next and previous links have a little more flair.
+
+Use your internationalization files to put in the html you want to use.
+In a rails project: config/locales/en.yml
+```
+en:
+  simple_calendar:
+    previous_html: <i class="fas fa-chevron-circle-left"></i>
+    next_html: <i class="fas fa-chevron-circle-right"></i>
+```
+
 ## View Specs and Tests
 
 If you're running view specs against views with calendars, you may run into route generation errors like the following:
@@ -365,19 +378,6 @@ If so, you can stub out the appropriate method like so (rspec 3 and up):
 
 ```
 expect_any_instance_of(SimpleCalendar::Calendar).to receive(:link_to).at_least(:once).and_return("")
-```
-
-## Use HTML for previous and next links
-
-You can use something like font-awesome to make your next and previous links have a little more flair.
-
-Use your internationalization files to put in the html you want to use.
-In a rails project: config/locales/en.yml
-```
-en:
-  simple_calendar:
-    previous_html: <i class="fas fa-chevron-circle-left"></i>
-    next_html: <i class="fas fa-chevron-circle-right"></i>
 ```
 
 With modifications as appropriate.
