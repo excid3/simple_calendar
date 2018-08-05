@@ -65,6 +65,10 @@ module SimpleCalendar
       view_context.url_for(@params.merge(start_date_param => date_range.first - 1.day))
     end
 
+    def date_range
+      (start_date..(start_date + additional_days.days)).to_a
+    end
+
     private
 
       def partial_name
@@ -114,10 +118,6 @@ module SimpleCalendar
 
       def end_date
         date_range.last
-      end
-
-      def date_range
-        (start_date..(start_date + additional_days.days)).to_a
       end
 
       def additional_days

@@ -13,13 +13,11 @@ module SimpleCalendar
       week_number + number_of_weeks - 1
     end
 
-    private
+    def date_range
+      starting = start_date.beginning_of_week
+      ending = (starting + (number_of_weeks - 1).weeks).end_of_week
 
-      def date_range
-        starting = start_date.beginning_of_week
-        ending = (starting + (number_of_weeks - 1).weeks).end_of_week
-
-        (starting..ending).to_a
-      end
+      (starting..ending).to_a
+    end
   end
 end

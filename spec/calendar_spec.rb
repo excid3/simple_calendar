@@ -101,13 +101,13 @@ describe SimpleCalendar::Calendar do
   describe 'current week class' do
     it 'should have the current week' do
       calendar = SimpleCalendar::Calendar.new(ViewContext.new)
-      week = calendar.send(:date_range).each_slice(7).to_a[0]
+      week = calendar.date_range.each_slice(7).to_a[0]
       expect(calendar.send(:tr_classes_for, week)).to include('current-week')
     end
 
     it 'should not have the current week if it does not contain today' do
       calendar = SimpleCalendar::MonthCalendar.new(ViewContext.new)
-      week = calendar.send(:date_range).each_slice(7).to_a[0]
+      week = calendar.date_range.each_slice(7).to_a[0]
       expect(calendar.send(:tr_classes_for, week)).to_not include('current-week')
     end
   end
@@ -132,7 +132,7 @@ describe SimpleCalendar::Calendar do
   it 'has a range of dates' do
     calendar = SimpleCalendar::Calendar.new(ViewContext.new)
 
-    calendar_date_range = calendar.render[:locals][:date_range]
+    calendar_date_range = calendar.date_range
 
     expect(calendar_date_range).to be_an(Array)
     expect(calendar_date_range).to all(be_an(Date))
