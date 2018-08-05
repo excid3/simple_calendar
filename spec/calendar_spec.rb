@@ -106,7 +106,7 @@ describe SimpleCalendar::Calendar do
     end
 
     it 'should not have the current week if it does not contain today' do
-      calendar = SimpleCalendar::MonthCalendar.new(ViewContext.new)
+      calendar = SimpleCalendar::MonthCalendar.new(ViewContext.new(6.months.ago))
       week = calendar.date_range.each_slice(7).to_a[0]
       expect(calendar.send(:tr_classes_for, week)).to_not include('current-week')
     end
