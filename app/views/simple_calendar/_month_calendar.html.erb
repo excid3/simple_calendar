@@ -1,35 +1,4 @@
 <div class="simple-calendar">
- <div class="calendar-heading">
-    <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view %>
-    <span class="calendar-title"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></span>
-    <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view %>
- </div>
-  
- 
- <div class="fc-toolbar fc-header-toolbar">
-  <div class="fc-left">
-    <div class="fc-button-group">
-      <button class="fc-prev-button fc-button fc-state-default fc-corner-left">{"aria-label" => "prev", :type => "button"}
-        <span class="fc-icon fc-icon-left-single-arrow"></span></button>
-      <button class="fc-next-button fc-button fc-state-default fc-corner-right">{"aria-label" => "next", :type => "button"}
-        <span class="fc-icon fc-icon-right-single-arrow"></span></button>
-    </div>
-    <button class="fc-today-button fc-button fc-state-default fc-corner-left fc-corner-right fc-state-disabled">{:disabled => "disabled", :type => "button"} today</button>
-  </div>
-  <div class="fc-right">
-    <div class="fc-button-group">
-      <button class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active">{:type => "button"} month</button>
-      <button class="fc-agendaWeek-button fc-button fc-state-default">{:type => "button"} week</button>
-      <button class="fc-agendaDay-button fc-button fc-state-default fc-corner-right">{:type => "button"} day</button>
-    </div>
-  </div>
-  <div class="fc-center">
-    <h2>April 2019</h2>
-  </div>
-  <div class="fc-clear"></div>
-</div>
-
- 
   <table class="table table-striped">
     <thead>
       <tr>
