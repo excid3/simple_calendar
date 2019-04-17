@@ -5,7 +5,7 @@
 <div class="fc-toolbar fc-header-toolbar">
 <div class="fc-left">
 <div class="fc-button-group">
-<button aria-label="prev" class="fc-prev-button fc-button fc-state-default fc-corner-left" type="button">
+<button aria-label="prev" class="fc-prev-button fc-button fc-state-default fc-corner-left" type="button"><%= link_to t('simple_calendar.previous'), calendar.url_for_previous_view %>
 <span class="fc-icon fc-icon-left-single-arrow"></span>
 </button>
 <button aria-label="next" class="fc-next-button fc-button fc-state-default fc-corner-right" type="button">
@@ -22,7 +22,7 @@
 </div>
 </div>
 <div class="fc-center">
-<h2>April 2019</h2>
+<h2><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></h2>
 </div>
 <div class="fc-clear"></div>
 </div>
