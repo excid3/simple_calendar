@@ -15,7 +15,7 @@ module SimpleCalendar
       @params = @params.to_unsafe_h if @params.respond_to?(:to_unsafe_h)
       @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST)
 
-      # Add in any additonal params the user passed in
+      # Add in any additional params the user passed in
       @params.merge!(@options.fetch(:params, {}))
     end
 
