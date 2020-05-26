@@ -23,7 +23,7 @@ module SimpleCalendar
       view_context.render(
         partial: partial_name,
         locals: {
-          block: block,
+          passed_block: block,
           calendar: self,
           date_range: date_range,
           start_date: start_date,
