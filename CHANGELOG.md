@@ -1,3 +1,9 @@
+### 2.4.1
+
+* [FIX] Use iso8601 format for start_date links in the header. Fixes any
+  customization to the Rails default date format that might cause the
+  parser to fail parsing that with `to_date`
+
 ### 2.4.0
 
 * [BREAKING] Fixes Rails 4.2 by changing `block` to `passed_block`. A
