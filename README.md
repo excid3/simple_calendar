@@ -34,6 +34,13 @@ your `app/assets/stylesheets/application.css` file:
 *= require simple_calendar
 ```
 
+or in your SCSS `app/assets/stylesheets/application.scss` file:
+
+```scss
+@import "simple_calendar";
+```
+
+
 Usage
 -----
 
