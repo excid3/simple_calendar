@@ -6,7 +6,7 @@ module SimpleCalendar
       source_root File.expand_path("../../../..", __FILE__)
 
       def copy_views
-        directory 'app/views/simple_calendar', 'app/views/simple_calendar'
+        directory 'app/views/simple_calendar', 'app/views/web/components/shared/simple_calendar'
       end
     end
   end
