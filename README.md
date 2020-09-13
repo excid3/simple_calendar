@@ -205,7 +205,14 @@ $ rails g simple_calendar:views
 ```
 
 This will generate a folder in app/views called simple_calendar that you
-edit to your heart's desire.
+edit to your heart's desire. You can copy the generated partials (or create your own) to a
+folder of your preference and use the `partial` option.
+
+```erb
+  <%= month_calendar(events: @meetings, partial: 'calendars/special_calendar') do |date, meetings| %>
+    ...
+  <% end %>
+```
 
 ### Time Zones
 
