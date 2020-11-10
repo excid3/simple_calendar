@@ -69,7 +69,7 @@ To show the day of the month instead of the date, use `<%= date.day %>`
 You can generate a week calendar with the `week_calendar` method.
 
 ```erb
-<%= week_calendar number_of_weeks: 2 do |date| %>
+<%= week_calendar(number_of_weeks: 2) do |date| %>
   <%= date %>
 <% end %>
 ```
@@ -81,7 +81,7 @@ Setting `number_of_weeks` is optional and defaults to 1.
 You can generate calendars of any length by passing in the number of days you want to render.
 
 ```erb
-<%= calendar number_of_days: 4 do |date| %>
+<%= calendar(number_of_days: 4) do |date| %>
   <%= date %>
 <% end %>
 ```
@@ -94,7 +94,7 @@ You can pass in `start_date_param` to change the name of the parameter
 in the URL for the current calendar view.
 
 ```erb
-<%= calendar start_date_param: :my_date do |date| %>
+<%= calendar(start_date_param: :my_date) do |date| %>
   <%= date %>
 <% end %>
 ```
@@ -104,7 +104,7 @@ in the URL for the current calendar view.
 You can set a different partial name for calendars by passing the partial path.
 
 ```erb
-<%= calendar partial: 'products/calendar' do |date| %>
+<%= calendar(partial: 'products/calendar') do |date| %>
   <%= date %>
 <% end %>
 ```
@@ -175,7 +175,7 @@ Then in your view, you can pass in the `events` option to render. The
 meetings will automatically be filtered out by day for you.
 
 ```erb
-<%= month_calendar events: @meetings do |date, meetings| %>
+<%= month_calendar(events: @meetings) do |date, meetings| %>
   <%= date %>
 
   <% meetings.each do |meeting| %>
