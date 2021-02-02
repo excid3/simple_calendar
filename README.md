@@ -1,16 +1,17 @@
+# Simple Calendar
+
+### 📆 Notifications for your Ruby on Rails app.
+
 [![Build Status](https://github.com/excid3/simple_calendar/workflows/Tests/badge.svg)](https://github.com/excid3/simple_calendar/actions) [![Gem Version](https://badge.fury.io/rb/simple_calendar.svg)](https://badge.fury.io/rb/simple_calendar)
 
-Simple Calendar
-===============
+Simple Calendar is designed to do one thing really really well: render a calendar. 
 
-Simple Calendar is designed to do one thing really really well: render a
-calendar. It lets you render a calendar of any size. Maybe you want a
+It lets you render a calendar of any size. Maybe you want a
 day view, a 4 day agenda, a week view, a month view, or a 6 week
 calendar. You can do all of that with the new gem, just give it a range
 of dates to render.
 
-It doesn't depend on any ORM so you're free to use it with ActiveRecord,
-Mongoid, any other ORM, or pure Ruby objects.
+It doesn't depend on any ORM so you're free to use it with ActiveRecord, Mongoid, any other ORM, or pure Ruby objects.
 
 Thanks to all contributors for your wonderful help!
 
