@@ -3,6 +3,7 @@
 source "http://rubygems.org"
 
 gem "appraisal"
+gem "standard"
 gem "rails", "~> 6.1.0"
 
 gemspec path: "../"
