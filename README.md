@@ -1,4 +1,4 @@
-![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=master) [![Gem Version](https://badge.fury.io/rb/simple_calendar.svg)](https://badge.fury.io/rb/simple_calendar)
+[![Build Status](https://github.com/excid3/simple_calendar/workflows/Tests/badge.svg)] [![Gem Version](https://badge.fury.io/rb/simple_calendar.svg)](https://badge.fury.io/rb/simple_calendar)
 
 Simple Calendar
 ===============
@@ -127,7 +127,7 @@ $ rails g scaffold Meeting name start_time:datetime
 $ rails g scaffold Meeting name start_time:datetime end_time:datetime
 ```
 
-By default it uses `start_time` as the attribute name.  
+By default it uses `start_time` as the attribute name.
 **If you'd like to use another attribute other than start_time, just
 pass it in as the `attribute`**
 
