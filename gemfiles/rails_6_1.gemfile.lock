@@ -153,7 +153,9 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  ruby
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   appraisal
@@ -162,4 +164,4 @@ DEPENDENCIES
   simple_calendar!
 
 BUNDLED WITH
-   2.2.6
+   2.2.7
