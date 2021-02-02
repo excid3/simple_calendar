@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/excid3/simple_calendar/workflows/Tests/badge.svg)] [![Gem Version](https://badge.fury.io/rb/simple_calendar.svg)](https://badge.fury.io/rb/simple_calendar)
+[![Build Status](https://github.com/excid3/simple_calendar/workflows/Tests/badge.svg)](https://github.com/excid3/simple_calendar/actions) [![Gem Version](https://badge.fury.io/rb/simple_calendar.svg)](https://badge.fury.io/rb/simple_calendar)
 
 Simple Calendar
 ===============
