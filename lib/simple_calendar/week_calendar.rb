@@ -1,7 +1,7 @@
 module SimpleCalendar
   class WeekCalendar < SimpleCalendar::Calendar
     def week_number
-      format = (Date.beginning_of_week == :sunday) ? "%U" : "%V"
+      format = Date.beginning_of_week == :sunday ? "%U" : "%V"
       start_date.beginning_of_week.strftime(format).to_i
     end
 

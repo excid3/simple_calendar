@@ -5,4 +5,3 @@ module SimpleCalendar
     end
   end
 end
-
