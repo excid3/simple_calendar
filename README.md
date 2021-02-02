@@ -1,4 +1,4 @@
-![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=master)
+![travis ci](https://travis-ci.org/excid3/simple_calendar.svg?branch=master) [![Gem Version](https://badge.fury.io/rb/simple_calendar.svg)](https://badge.fury.io/rb/simple_calendar)
 
 Simple Calendar
 ===============
