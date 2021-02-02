@@ -22,7 +22,7 @@ Installation
 
 Just add this into your Gemfile followed by a bundle install:
 ```ruby
-gem "simple_calendar", "~> 2.0"
+gem "simple_calendar", "~> 2.4"
 ```
 
 If you're using Bootstrap, the calendar should already have a border and
