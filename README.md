@@ -122,7 +122,7 @@ In a Rails 6 app, the configuration could look like the following:
   * Define the available and default locale e.g. in `config/application.rb`:
 ```ruby  
 # config/application.rb
-config.i18n.available_locales = [:de, :fr]
+config.i18n.available_locales = [:en, :de, :fr]
 config.i18n.default_locale = :en
 ```
        
