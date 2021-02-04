@@ -393,6 +393,10 @@ Chris Oliver <chris@gorails.com>
 
 [@excid3](https://twitter.com/excid3)
 
+## License
+
+Simple Calendar is licensed under the [MIT License](LICENSE.txt).
+
 ## Support
 
 Need help
