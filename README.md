@@ -110,6 +110,24 @@ You can set a different partial name for calendars by passing the partial path.
 <% end %>
 ```
 
+### Internationalization (I18n)
+
+The default views are prepared to do translation lookups for month names and weekdays.
+
+To profit from that, you can take advantage of the [`rails-i18n`](https://github.com/svenfuchs/rails-i18n/) gem which comes with translations for many languages already.
+
+In a Rails 6 app, the configuration could look like the following:
+
+  * Add `gem 'rails-i18n'` to your `Gemfile` and run `bundle`.
+  * Define the available and default locale e.g. in `config/application.rb`:
+```ruby  
+# config/application.rb
+config.i18n.available_locales = [:de, :fr]
+config.i18n.default_locale = :en
+```
+       
+See the [Rails I18n Guide](https://guides.rubyonrails.org/i18n.html) for further information.
+
 ## Rendering Events
 
 What's a calendar without events in it? There are two simple steps for creating
