@@ -125,6 +125,15 @@ In a Rails 6 app, the configuration could look like the following:
 config.i18n.available_locales = [:en, :de, :fr]
 config.i18n.default_locale = :en
 ```
+  * Define the following translation keys:
+```yaml
+# e.g. config/locales/de.yml
+de:
+  simple_calendar:
+    previous: "<<"
+    next: ">>"
+    week: Woche
+```
        
 See the [Rails I18n Guide](https://guides.rubyonrails.org/i18n.html) for further information.
 
