@@ -1,3 +1,7 @@
+### 2.4.2
+
+* Translation improvements - @fwolfst
+
 ### 2.4.1
 
 * [FIX] Use iso8601 format for start_date links in the header. Fixes any

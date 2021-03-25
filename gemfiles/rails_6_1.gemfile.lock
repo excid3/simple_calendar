@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    simple_calendar (2.4.1)
+    simple_calendar (2.4.2)
       rails (>= 3.0)
 
 GEM
@@ -197,4 +197,4 @@ DEPENDENCIES
   standard
 
 BUNDLED WITH
-   2.2.7
+   2.2.13
