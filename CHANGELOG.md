@@ -1,3 +1,7 @@
+### 2.4.3
+
+* Fix deprecation warnings - @mbobin
+
 ### 2.4.2
 
 * Translation improvements - @fwolfst
