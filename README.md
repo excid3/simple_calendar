@@ -353,6 +353,17 @@ the HTML of the div with the newly rendered calendar.
 
 Take a look at **[excid3/simple_calendar-ajax-example](https://github.com/excid3/simple_calendar-ajax-example)** to see how it is done.
 
+If you are using [Hotwire](https://hotwired.dev/), just wrap in a Turbo Frame.
+Like this:
+
+```erb
+<%= turbo_frame_tag 'calendar' do %>
+  <%= month_calendar do |date| %>
+    <%= date.day %>
+  <% end %>
+<% end %>
+```
+
 
 ## Custom Calendars
 
