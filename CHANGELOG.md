@@ -1,3 +1,8 @@
+### 2.4.4
+
+* [FIX] Make previous navigation button for generic calendars render the same calendar for the previous range, instead of going only 1 days backwards - @EmCousin
+* [FEATURE] Added a Today navigation button for all calendars - - @EmCousin
+
 ### 2.4.3
 
 * Fix deprecation warnings - @mbobin
