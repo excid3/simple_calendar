@@ -17,4 +17,8 @@ class ViewContext
   def render(options = {})
     options
   end
+
+  def url_for(query_params = {})
+    "/my-calendar?#{query_params.to_query}"
+  end
 end
