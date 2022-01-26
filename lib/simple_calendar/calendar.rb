@@ -61,8 +61,12 @@ module SimpleCalendar
       view_context.url_for(@params.merge(start_date_param => (date_range.last + 1.day).iso8601))
     end
 
+    def url_for_today_view
+      view_context.url_for(@params.merge(start_date_param => Date.current.iso8601))
+    end
+
     def url_for_previous_view
-      view_context.url_for(@params.merge(start_date_param => (date_range.first - 1.day).iso8601))
+      view_context.url_for(@params.merge(start_date_param => (date_range.first - (date_range.count).days).iso8601))
     end
 
     def date_range
@@ -100,7 +104,7 @@ module SimpleCalendar
       events.each do |event|
         event_start_date = event.send(attribute).to_date
         event_end_date = event.respond_to?(end_attribute) && !event.send(end_attribute).nil? ? event.send(end_attribute).to_date : event_start_date
-        (event_start_date..event_end_date.to_date).each do |enumerated_date|
+        (event_start_date..(event_end_date.to_date)).each do |enumerated_date|
           events_grouped_by_date[enumerated_date] << event
         end
       end
