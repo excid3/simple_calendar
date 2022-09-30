@@ -1,0 +1,113 @@
+Started GET "/" for ::1 at 2022-09-30 11:40:22 -0700
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/gustavo/.rbenv/versions/3.1.0/lib/ruby/gems/3.1.0/gems/railties-7.0.4/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/gustavo/.rbenv/versions/3.1.0/lib/ruby/gems/3.1.0/gems/railties-7.0.4/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.4ms | Allocations: 536)
+Completed 200 OK in 16ms (Views: 6.9ms | ActiveRecord: 0.0ms | Allocations: 3969)
+
+
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateMeetings (20220930184313)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "meetings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "start_time" datetime(6), "end_time" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20220930184313"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2022-09-30 18:47:06.323976"], ["updated_at", "2022-09-30 18:47:06.323976"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for ::1 at 2022-09-30 11:49:09 -0700
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by MeetingsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering meetings/index.html.erb within layouts/application
+  [1m[36mMeeting Load (0.5ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/views/meetings/index.html.erb:6
+  Rendered meetings/index.html.erb within layouts/application (Duration: 9.6ms | Allocations: 1834)
+  Rendered layout layouts/application.html.erb (Duration: 14.5ms | Allocations: 2393)
+Completed 200 OK in 22ms (Views: 16.9ms | ActiveRecord: 0.5ms | Allocations: 4090)
+
+
+Started GET "/stylesheets/application.css" for ::1 at 2022-09-30 11:49:09 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+  
+Started GET "/" for ::1 at 2022-09-30 11:52:45 -0700
+Processing by MeetingsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering meetings/index.html.erb within layouts/application
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/views/meetings/index.html.erb:4
+  Rendered /Users/gustavo/dev/projects/opensource/simple_calendar/app/views/simple_calendar/_month_calendar.html.erb (Duration: 28.5ms | Allocations: 9348)
+  Rendered meetings/index.html.erb within layouts/application (Duration: 40.1ms | Allocations: 11638)
+  Rendered layout layouts/application.html.erb (Duration: 43.2ms | Allocations: 12082)
+Completed 200 OK in 48ms (Views: 46.2ms | ActiveRecord: 0.2ms | Allocations: 12898)
+
+
+Started GET "/stylesheets/application.css" for ::1 at 2022-09-30 11:52:46 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+  
+Started GET "/meetings/new" for ::1 at 2022-09-30 11:52:55 -0700
+Processing by MeetingsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering meetings/new.html.erb within layouts/application
+  Rendered meetings/_form.html.erb (Duration: 14.2ms | Allocations: 3298)
+  Rendered meetings/new.html.erb within layouts/application (Duration: 15.9ms | Allocations: 3612)
+  Rendered layout layouts/application.html.erb (Duration: 16.4ms | Allocations: 3873)
+Completed 200 OK in 88ms (Views: 16.9ms | ActiveRecord: 1.0ms | Allocations: 8755)
+
+
+Started GET "/stylesheets/application.css" for ::1 at 2022-09-30 11:52:55 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+  
+Started POST "/meetings" for ::1 at 2022-09-30 11:54:14 -0700
+Processing by MeetingsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "meeting"=>{"name"=>"meeting one", "start_time"=>"2022-09-29T17:58", "end_time"=>"2022-09-30T11:54"}, "commit"=>"Create Meeting"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/meetings_controller.rb:26:in `create'
+  [1m[36mMeeting Create (1.0ms)[0m  [1m[32mINSERT INTO "meetings" ("name", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["name", "meeting one"], ["start_time", "2022-09-29 17:58:00"], ["end_time", "2022-09-30 11:54:00"], ["created_at", "2022-09-30 18:54:14.880106"], ["updated_at", "2022-09-30 18:54:14.880106"]]
+  ↳ app/controllers/meetings_controller.rb:26:in `create'
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/meetings_controller.rb:26:in `create'
+Redirected to http://localhost:3000/meetings/1
+Completed 302 Found in 14ms (ActiveRecord: 2.3ms | Allocations: 3776)
+
+
+Started GET "/meetings/1" for ::1 at 2022-09-30 11:54:14 -0700
+Processing by MeetingsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/meetings_controller.rb:51:in `set_meeting'
+  Rendering layout layouts/application.html.erb
+  Rendering meetings/show.html.erb within layouts/application
+  Rendered meetings/_meeting.html.erb (Duration: 1.9ms | Allocations: 292)
+  Rendered meetings/show.html.erb within layouts/application (Duration: 8.3ms | Allocations: 1951)
+  Rendered layout layouts/application.html.erb (Duration: 9.0ms | Allocations: 2206)
+Completed 200 OK in 16ms (Views: 9.5ms | ActiveRecord: 0.2ms | Allocations: 4041)
+
+
+Started GET "/stylesheets/application.css" for ::1 at 2022-09-30 11:54:15 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+  
+Started GET "/meetings" for ::1 at 2022-09-30 11:54:34 -0700
+Processing by MeetingsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering meetings/index.html.erb within layouts/application
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/views/meetings/index.html.erb:4
+  Rendered /Users/gustavo/dev/projects/opensource/simple_calendar/app/views/simple_calendar/_month_calendar.html.erb (Duration: 10.9ms | Allocations: 6629)
+  Rendered meetings/_meeting.html.erb (Duration: 0.1ms | Allocations: 21)
+  Rendered meetings/index.html.erb within layouts/application (Duration: 15.2ms | Allocations: 8377)
+  Rendered layout layouts/application.html.erb (Duration: 15.7ms | Allocations: 8620)
+Completed 200 OK in 17ms (Views: 16.1ms | ActiveRecord: 0.1ms | Allocations: 8891)
+
+
+Started GET "/stylesheets/application.css" for ::1 at 2022-09-30 11:54:34 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+  
