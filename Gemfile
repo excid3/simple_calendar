@@ -5,5 +5,5 @@ gemspec
 gem "appraisal"
 gem "standard"
 
-gem 'puma'
-gem 'sqlite3'
+gem "puma"
+gem "sqlite3"
