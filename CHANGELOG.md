@@ -1,3 +1,7 @@
+### 2.4.4
+
+* Add today view helper - @EmCousin / @parasquid
+
 ### 2.4.3
 
 * Fix deprecation warnings - @mbobin
