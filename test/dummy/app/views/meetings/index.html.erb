@@ -1,6 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Meetings</h1>
+
+<h3>Month Calendar</h3>
 <%= month_calendar(events: @meetings) do |date, meetings| %>
   <%= date %>
 
@@ -22,3 +24,19 @@
 
 <%= link_to "New meeting", new_meeting_path %>
 <%= Time.current.beginning_of_month %>
+
+
+
+<br>
+<br>
+
+<h3>Week Calendar</h3>
+<%= week_calendar(events: @meetings) do |date, meetings| %>
+  <%= date %>
+
+  <% meetings.each do |meeting| %>
+    <div>
+      <%= meeting.name %>
+    </div>
+  <% end %>
+<% end %>

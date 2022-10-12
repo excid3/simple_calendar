@@ -21,8 +21,8 @@ event_in_the_past:
 
 events_in_the_past:
   name: Events In The Past
-  start_time: <%= Time.current - 4.years %>
-  end_time: <%= Time.current - 4.years + 30.hours %>
+  start_time: <%= Time.current.beginning_of_month - 6.years %>
+  end_time: <%= Time.current.beginning_of_month - 6.years + 30.hours %>
 
 
 one_day_event_in_the_future:
@@ -33,4 +33,23 @@ one_day_event_in_the_future:
 two_day_events_in_the_future:
   name: Event In The Future
   start_time:  <%= Time.current + 5.years %>
-  end_time: <%= Time.current + 5.years + 30.hours %>
+  end_time: <%= Time.current + 5.years + 30.hours %> 
+
+week_two_day_event:
+  name: Week Two Day Event
+  start_time: <%= Time.current.beginning_of_week %>
+  end_time: <%= Time.current.beginning_of_week + 30.hours %> 
+
+week_two_day_event_in_the_past:
+  name: Two Day Event In The Past
+  start_time: <%= Time.current.beginning_of_week - 2.years %>
+  end_time: <%= Time.current.beginning_of_week - 2.years + 30.hours %>
+
+week_one_day_event_in_the_future:
+  name: Week Calendar Event In The Future
+  start_time: <%= Time.current.beginning_of_week + 6.years %>
+ 
+week_calendar_event_in_the_future:
+  name: Week Calendar Event In The Future
+  start_time: <%= Time.current.beginning_of_week + 7.years %>
+  end_time: <%= Time.current.beginning_of_week + 7.years + 30.hours %>

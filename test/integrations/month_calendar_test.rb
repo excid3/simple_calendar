@@ -36,8 +36,8 @@ class MonthCalendarTest < ActionDispatch::IntegrationTest
   end
 
   test "Month calendar can navigate to the past and render two day events" do
-    get meetings_path, params: {start_date: Time.current - 4.years}
-    assert_select "div.simple-calendar" do
+    get meetings_path, params: {start_date: Time.current.beginning_of_month - 6.years}
+    assert_select "div.month-calendar" do
       assert_select "div", text: meetings(:events_in_the_past).name, count: 2
     end
   end
