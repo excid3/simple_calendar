@@ -131,6 +131,8 @@ GEM
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
+    puma (6.0.0)
+      nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -179,6 +181,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sqlite3 (1.4.4)
     standard (1.1.1)
       rubocop (= 1.14.0)
       rubocop-performance (= 1.11.2)
@@ -198,9 +201,11 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal
+  puma
   rails!
   rspec
   simple_calendar!
+  sqlite3
   standard
 
 BUNDLED WITH

@@ -6,6 +6,6 @@ gem "appraisal"
 gem "standard"
 gem "puma"
 gem "sqlite3"
-gem "rails", "~> 6.0.0"
+gem "rails", "~> 7.0"
 
 gemspec path: "../"
