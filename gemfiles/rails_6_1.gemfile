@@ -4,6 +4,8 @@ source "http://rubygems.org"
 
 gem "appraisal"
 gem "standard"
+gem "puma"
+gem "sqlite3"
 gem "rails", "~> 6.1.0"
 
 gemspec path: "../"
