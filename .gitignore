@@ -4,3 +4,7 @@ Gemfile.lock
 pkg/*
 .ruby-version
 .ruby-gemset
+test/dummy/db/test.sqlite3
+test/dummy/log/test.log
+test/dummy/log/development.log
+test/dummy/db/development.sqlite3
