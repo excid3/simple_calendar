@@ -1,6 +1,6 @@
 require "test_helper"
 
-class MonthCalendarTest < ActionDispatch::IntegrationTest
+class MonthCalendarIntegrationTest < ActionDispatch::IntegrationTest
   test "renders a month calendar" do
     get meetings_path
     assert_select "div.simple-calendar"

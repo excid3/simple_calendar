@@ -23,13 +23,17 @@ module SimpleCalendar
     def render(&block)
       view_context.render(
         partial: partial_name,
-        locals: @locals.merge(
-          passed_block: block,
-          calendar: self,
-          date_range: date_range,
-          start_date: start_date,
-          sorted_events: sorted_events
-        )
+        locals: locals(&block)
+      )
+    end
+
+    def locals(&block)
+      @locals.merge(
+        passed_block: block,
+        calendar: self,
+        date_range: date_range,
+        start_date: start_date,
+        sorted_events: sorted_events
       )
     end
 
@@ -73,8 +77,6 @@ module SimpleCalendar
     def date_range
       (start_date..(start_date + additional_days.days)).to_a
     end
-
-    private
 
     def partial_name
       @options[:partial] || self.class.name.underscore
