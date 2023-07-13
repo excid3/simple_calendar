@@ -1,3 +1,6 @@
+* Add Today link to calendars to reset to current date
+* Add `locals: {}` option when rendering calendars to add extra local variables
+
 ### 2.4.3
 
 * Fix deprecation warnings - @mbobin

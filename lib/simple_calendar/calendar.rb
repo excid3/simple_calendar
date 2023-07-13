@@ -6,9 +6,10 @@ module SimpleCalendar
 
     attr_accessor :view_context, :options
 
-    def initialize(view_context, opts = {})
+    def initialize(view_context, options = {})
       @view_context = view_context
-      @options = opts
+      @locals = options.delete(:locals
+      @options = options
 
       # Next and previous view links should use the same params as the current view
       @params = @view_context.respond_to?(:params) ? @view_context.params : {}
@@ -22,13 +23,13 @@ module SimpleCalendar
     def render(&block)
       view_context.render(
         partial: partial_name,
-        locals: {
+        locals: @locals.merge(
           passed_block: block,
           calendar: self,
           date_range: date_range,
           start_date: start_date,
           sorted_events: sorted_events
-        }
+        )
       )
     end
 
