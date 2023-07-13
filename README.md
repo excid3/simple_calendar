@@ -4,7 +4,7 @@
 
 [![Build Status](https://github.com/excid3/simple_calendar/workflows/Tests/badge.svg)](https://github.com/excid3/simple_calendar/actions) [![Gem Version](https://badge.fury.io/rb/simple_calendar.svg)](https://badge.fury.io/rb/simple_calendar)
 
-Simple Calendar is designed to do one thing really really well: render a calendar. 
+Simple Calendar is designed to do one thing really really well: render a calendar.
 
 It lets you render a calendar of any size. Maybe you want a
 day view, a 4 day agenda, a week view, a month view, or a 6 week
@@ -120,7 +120,7 @@ In a Rails 6 app, the configuration could look like the following:
 
   * Add `gem 'rails-i18n'` to your `Gemfile` and run `bundle`.
   * Define the available and default locale e.g. in `config/application.rb`:
-```ruby  
+```ruby
 # config/application.rb
 config.i18n.available_locales = [:en, :de, :fr]
 config.i18n.default_locale = :en
@@ -134,7 +134,7 @@ de:
     next: ">>"
     week: Woche
 ```
-       
+
 See the [Rails I18n Guide](https://guides.rubyonrails.org/i18n.html) for further information.
 
 ## Rendering Events
@@ -423,12 +423,6 @@ expect_any_instance_of(SimpleCalendar::Calendar).to receive(:link_to).at_least(:
 
 With modifications as appropriate.
 
-## TODO
-
-- Rspec tests for Calendar
-- Rspec tests for MonthCalendar
-- Rspec tests for WeekCalendar
-
 ## Author
 
 Chris Oliver <chris@gorails.com>
@@ -440,7 +434,3 @@ Chris Oliver <chris@gorails.com>
 ## License
 
 Simple Calendar is licensed under the [MIT License](LICENSE.txt).
-
-## Support
-
-Need help
