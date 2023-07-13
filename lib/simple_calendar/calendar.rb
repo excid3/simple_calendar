@@ -6,10 +6,11 @@ module SimpleCalendar
 
     attr_accessor :view_context, :options
 
-    def initialize(view_context, options = {})
+    def initialize(view_context, options = {}, &block)
       @view_context = view_context
       @locals = options.delete(:locals) || {}
       @options = options
+      @block = block
 
       # Next and previous view links should use the same params as the current view
       @params = @view_context.respond_to?(:params) ? @view_context.params : {}
@@ -20,16 +21,16 @@ module SimpleCalendar
       @params.merge!(@options.fetch(:params, {}))
     end
 
-    def render(&block)
+    def render_in(view_context)
       view_context.render(
         partial: partial_name,
-        locals: locals(&block)
+        locals: locals
       )
     end
 
     def locals(&block)
       @locals.merge(
-        passed_block: block,
+        passed_block: @block,
         calendar: self,
         date_range: date_range,
         start_date: start_date,
@@ -99,6 +100,10 @@ module SimpleCalendar
         events = options.fetch(:events, []).reject { |e| e.send(attribute).nil? }.sort_by(&attribute)
         group_events_by_date(events)
       end
+    end
+
+    def sorted_events_for(day)
+      sorted_events.fetch(day, [])
     end
 
     def group_events_by_date(events)
