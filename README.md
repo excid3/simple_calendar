@@ -341,11 +341,28 @@ the top! :)
 ### AJAX Calendars
 
 Rendering calendars that update with AJAX is pretty simple. You'll need
-to wrap your calendar in a div, overwrite the `next_link` and `previous_link` options, and setup your
-controller to respond to JS requests. The response can simply replace
+to follow these steps.
+
+- Run `rails g simple_calendar:views` to generate the views.
+- Add an ID to the calendar view's outer div. `<div id="calendar" class="simple-calendar">`
+- Add `remote: true` option to the next & preview links like [this](https://github.com/excid3/simple_calendar-ajax-example/blob/ac8a1dc933d5933608421f8b53a5f5cf756b942f/app/views/simple_calendar/_month_calendar.html.erb#L3).
+- Create `js.erb` file to respond to JS requests, render the new calendar, and replace the calendar on the page by ID like [this](https://github.com/excid3/simple_calendar-ajax-example/blob/master/app/views/events/index.js.erb).
+
+The response can simply replace
 the HTML of the div with the newly rendered calendar.
 
 Take a look at **[excid3/simple_calendar-ajax-example](https://github.com/excid3/simple_calendar-ajax-example)** to see how it is done.
+
+If you are using [Hotwire](https://hotwired.dev/), just wrap in a Turbo Frame.
+Like this:
+
+```erb
+<%= turbo_frame_tag 'calendar' do %>
+  <%= month_calendar do |date| %>
+    <%= date.day %>
+  <% end %>
+<% end %>
+```
 
 
 ## Custom Calendars

@@ -218,8 +218,10 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal
+  puma
   rspec
   simple_calendar!
+  sqlite3
   standard
 
 BUNDLED WITH
