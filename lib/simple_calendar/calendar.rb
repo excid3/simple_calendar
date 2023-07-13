@@ -8,7 +8,7 @@ module SimpleCalendar
 
     def initialize(view_context, options = {})
       @view_context = view_context
-      @locals = options.delete(:locals)
+      @locals = options.delete(:locals) || {}
       @options = options
 
       # Next and previous view links should use the same params as the current view
