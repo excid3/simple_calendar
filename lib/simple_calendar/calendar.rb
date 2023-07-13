@@ -66,7 +66,7 @@ module SimpleCalendar
     end
 
     def url_for_today_view
-      view_context.url_for(@params.merge(start_date_param => (Time.current.to_date).iso8601))
+      view_context.url_for(@params.merge(start_date_param => Time.current.to_date.iso8601))
     end
 
     def date_range
