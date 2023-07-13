@@ -2,7 +2,7 @@
 one_day_event:
   name: One Day Event
   start_time: <%= Time.current.beginning_of_day %>
-  end_time: <%= Time.current.end_of_day %> 
+  end_time: <%= Time.current.end_of_day %>
 
 two_day_event:
   name: Meeting Two
@@ -12,7 +12,7 @@ two_day_event:
 three_day_event:
   name: Three Days Events
   start_time: <%= Time.current.beginning_of_month %>
-  end_time: <%= Time.current.beginning_of_month + 60.hours %> 
+  end_time: <%= Time.current.beginning_of_month + 60.hours %>
 
 event_in_the_past:
   name: Event In The Past
@@ -22,7 +22,7 @@ event_in_the_past:
 events_in_the_past:
   name: Events In The Past
   start_time: <%= Time.current - 4.years %>
-  end_time: <%= Time.current - 4.years + 30.hours %>
+  end_time: <%= Time.current - 4.years + 24.hours %>
 
 
 one_day_event_in_the_future:
@@ -33,4 +33,4 @@ one_day_event_in_the_future:
 two_day_events_in_the_future:
   name: Event In The Future
   start_time:  <%= Time.current + 5.years %>
-  end_time: <%= Time.current + 5.years + 30.hours %>
+  end_time: <%= Time.current + 5.years + 24.hours %>
