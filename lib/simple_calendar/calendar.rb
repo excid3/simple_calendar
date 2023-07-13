@@ -67,7 +67,7 @@ module SimpleCalendar
     end
 
     def url_for_previous_view
-      view_context.url_for(@params.merge(start_date_param => (date_range.first - 1.day).iso8601))
+      view_context.url_for(@params.merge(start_date_param => (date_range.first - date_range.count.days).iso8601))
     end
 
     def url_for_today_view
