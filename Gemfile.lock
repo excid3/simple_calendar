@@ -1,8 +1,17 @@
+GIT
+  remote: https://github.com/thoughtbot/appraisal.git
+  revision: b200e636903700098bef25f4f51dbc4c46e4c04c
+  specs:
+    appraisal (2.4.1)
+      bundler
+      rake
+      thor (>= 0.14.0)
+
 PATH
   remote: .
   specs:
     simple_calendar (2.4.3)
-      rails (>= 3.0)
+      rails (>= 6.1)
 
 GEM
   remote: http://rubygems.org/
@@ -72,16 +81,11 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-    appraisal (2.4.1)
-      bundler
-      rake
-      thor (>= 0.14.0)
     ast (2.4.2)
     builder (3.2.4)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
-    diff-lcs (1.5.0)
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -158,19 +162,6 @@ GEM
     rake (13.0.6)
     regexp_parser (2.8.1)
     rexml (3.2.5)
-    rspec (3.12.0)
-      rspec-core (~> 3.12.0)
-      rspec-expectations (~> 3.12.0)
-      rspec-mocks (~> 3.12.0)
-    rspec-core (3.12.2)
-      rspec-support (~> 3.12.0)
-    rspec-expectations (3.12.3)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.6)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.12.0)
-    rspec-support (3.12.1)
     rubocop (1.52.1)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -217,9 +208,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  appraisal
+  appraisal!
   puma
-  rspec
   simple_calendar!
   sqlite3
   standard

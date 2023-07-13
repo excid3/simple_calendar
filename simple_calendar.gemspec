@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
 
-  s.add_dependency "rails", ">= 3.0"
+  s.add_dependency "rails", ">= 6.1"
 end

@@ -1,5 +1,9 @@
+### 3.0.0
+
+* Drop support for Rails 6.0 and earlier
 * Add Today link to calendars to reset to current date
 * Add `locals: {}` option when rendering calendars to add extra local variables
+* Refactor to use `render_in`
 
 ### 2.4.3
 
