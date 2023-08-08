@@ -6,6 +6,10 @@ class MeetingsController < ApplicationController
     @meetings = Meeting.all
   end
 
+  def business_week
+    @meetings = Meeting.all
+  end
+
   # GET /meetings/1
   def show
   end

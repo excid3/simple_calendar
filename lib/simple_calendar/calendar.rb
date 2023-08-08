@@ -21,7 +21,8 @@ module SimpleCalendar
       @params.merge!(@options.fetch(:params, {}))
     end
 
-    def render_in(view_context)
+    def render_in(view_context, &block)
+      @block = block
       view_context.render(
         partial: partial_name,
         locals: locals

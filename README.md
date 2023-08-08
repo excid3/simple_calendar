@@ -394,7 +394,7 @@ end
 To render this in the view, you can do:
 
 ```erb
-<%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
+<%= render SimpleCalendar::BusinessWeekCalendar.new(self, events: meetings) do |date| %>
   <%= date %>
 <% end %>
 ```

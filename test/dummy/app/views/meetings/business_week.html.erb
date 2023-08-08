@@ -1,0 +1,24 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Meetings</h1>
+<%= render BusinessWeekCalendar.new(self, events: @meetings) do |date, meetings| %>
+  <%= date %>
+
+  <% meetings.each do |meeting| %>
+    <div>
+      <%= meeting.name %>
+    </div>
+  <% end %>
+<% end %>
+
+<div id="meetings">
+  <% @meetings.each do |meeting| %>
+    <%= render meeting %>
+    <p>
+      <%= link_to "Show this meeting", meeting %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New meeting", new_meeting_path %>
+<%= Time.current.beginning_of_month %>
