@@ -1,3 +1,7 @@
+### 3.0.1
+
+* Refactor to use block from `render_in` call to better support custom calendars
+
 ### 3.0.0
 
 * Drop support for Rails 6.0 and earlier

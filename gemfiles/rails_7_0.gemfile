@@ -6,6 +6,7 @@ gem "appraisal", github: "thoughtbot/appraisal"
 gem "standard"
 gem "puma"
 gem "sqlite3"
+gem "web-console", "~> 4.2", group: :development
 gem "rails", "~> 7.0.0"
 
 gemspec path: "../"

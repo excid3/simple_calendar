@@ -10,7 +10,7 @@ GIT
 PATH
   remote: .
   specs:
-    simple_calendar (3.0.0)
+    simple_calendar (3.0.1)
       rails (>= 6.1)
 
 GEM

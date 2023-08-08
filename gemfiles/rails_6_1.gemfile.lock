@@ -10,7 +10,7 @@ GIT
 PATH
   remote: ..
   specs:
-    simple_calendar (3.0.0)
+    simple_calendar (3.0.1)
       rails (>= 6.1)
 
 GEM
@@ -76,6 +76,7 @@ GEM
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
     ast (2.4.2)
+    bindex (0.8.1)
     builder (3.2.4)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
@@ -204,6 +205,11 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
+    web-console (4.2.0)
+      actionview (>= 6.0.0)
+      activemodel (>= 6.0.0)
+      bindex (>= 0.4.0)
+      railties (>= 6.0.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -221,6 +227,7 @@ DEPENDENCIES
   simple_calendar!
   sqlite3
   standard
+  web-console (~> 4.2)
 
 BUNDLED WITH
    2.4.16
