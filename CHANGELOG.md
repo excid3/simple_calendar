@@ -1,3 +1,9 @@
+### Unreleased
+
+### 3.0.2
+
+* Handle `events: nil`
+
 ### 3.0.1
 
 * Refactor to use block from `render_in` call to better support custom calendars

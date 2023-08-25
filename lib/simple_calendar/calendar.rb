@@ -98,13 +98,13 @@ module SimpleCalendar
 
     def sorted_events
       @sorted_events ||= begin
-        events = options.fetch(:events, []).reject { |e| e.send(attribute).nil? }.sort_by(&attribute)
+        events = Array.wrap(options[:events]).reject { |e| e.send(attribute).nil? }.sort_by(&attribute)
         group_events_by_date(events)
       end
     end
 
     def sorted_events_for(day)
-      sorted_events.fetch(day, [])
+      Array.wrap(sorted_events[day])
     end
 
     def group_events_by_date(events)

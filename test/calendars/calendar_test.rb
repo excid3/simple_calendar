@@ -126,6 +126,13 @@ class CalendarTest < ActionView::TestCase
     end
   end
 
+  test "handles nil events" do
+    assert_nothing_raised do
+      calendar = SimpleCalendar::Calendar.new(view, events: nil)
+      calendar.sorted_events.first
+    end
+  end
+
   test "accepts an array of events" do
     first_event = Meeting.new(name: "event1", start_time: Date.today)
     second_event = Meeting.new(name: "event2", start_time: Date.today + 1.day)
