@@ -15,6 +15,7 @@ class CustomCalendarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "calendar render two day events" do
     event = meetings(:two_day_event)
+    event.update(start_time: Time.current.monday, end_time: (Time.current.monday + 1.day).end_of_day)
     get business_week_meetings_path, params: {start_date: event.start_time.to_date}
     assert_select "div.simple-calendar" do
       assert_select "div", text: event.name, count: 2
@@ -23,6 +24,7 @@ class CustomCalendarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "calendar render three day events" do
     event = meetings(:three_day_event)
+    event.update(start_time: Time.current.monday, end_time: (Time.current.monday + 2.days).end_of_day)
     get business_week_meetings_path, params: {start_date: event.start_time.to_date}
     assert_select "div.simple-calendar" do
       assert_select "div", text: event.name, count: 3
