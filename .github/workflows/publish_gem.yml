@@ -1,5 +1,11 @@
 name: Publish Gem
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version"
+        required: true
+        type: string
 
 jobs:
   push:
@@ -17,6 +23,17 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: ruby
+
+      - name: Update version
+        run: |
+          sed -i 's/".*"/"${{ inputs.version }}"' version.rb
+          bundle
+          bundle exec appraisal
+          git config user.name 'GitHub Actions'
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Version bump"
+          git push
 
       # Release
       - uses: rubygems/release-gem@v1
