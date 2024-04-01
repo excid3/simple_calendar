@@ -27,6 +27,7 @@ jobs:
       - name: Update version
         run: |
           sed -i 's/".*"/"${{ inputs.version }}"/' lib/simple_calendar/version.rb
+          bundle config set frozen false
           bundle
           bundle exec appraisal
           git config user.name 'GitHub Actions'
