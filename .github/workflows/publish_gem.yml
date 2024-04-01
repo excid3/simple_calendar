@@ -34,7 +34,7 @@ jobs:
           git config user.email github-actions@github.com
           git add Gemfile.lock gemfiles lib
           git commit -m "Version bump"
-          git status
+          git push
 
       # Release
       - uses: rubygems/release-gem@v1
