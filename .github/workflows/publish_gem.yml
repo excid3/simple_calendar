@@ -32,7 +32,7 @@ jobs:
           bundle exec appraisal
           git config user.name 'GitHub Actions'
           git config user.email github-actions@github.com
-          git add Gemfile.lock gemfiles
+          git add Gemfile.lock gemfiles lib
           git commit -m "Version bump"
           git status
 
