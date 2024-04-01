@@ -8,3 +8,4 @@ test/dummy/db/test.sqlite3
 test/dummy/db/development.sqlite3
 test/dummy/log
 test/dummy/tmp
+vendor/bundle
