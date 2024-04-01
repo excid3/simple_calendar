@@ -5,7 +5,7 @@
 ENV["RAILS_ENV"] ||= "test"
 
 ENGINE_ROOT = File.expand_path('..', __dir__)
-ENGINE_PATH = File.expand_path('../lib/pay/engine', __dir__)
+ENGINE_PATH = File.expand_path('../lib/simple_calendar/engine', __dir__)
 APP_PATH = File.expand_path('../test/dummy/config/application', __dir__)
 
 # Set up gems listed in the Gemfile.
