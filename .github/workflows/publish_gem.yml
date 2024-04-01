@@ -26,7 +26,7 @@ jobs:
 
       - name: Update version
         run: |
-          sed -i 's/".*"/"${{ inputs.version }}"' version.rb
+          sed -i 's/".*"/"${{ inputs.version }}"/' version.rb
           bundle
           bundle exec appraisal
           git config user.name 'GitHub Actions'
