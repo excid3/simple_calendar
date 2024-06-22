@@ -11,6 +11,10 @@ Gem::Specification.new do |s|
   s.description = "A simple Rails calendar"
   s.license = "MIT"
 
+  s.metadata = {
+    'changelog_uri' => https://github.com/excid3/simple_calendar/blob/main/CHANGELOG.md"
+  }
+
   s.rubyforge_project = "simple_calendar"
 
   s.files = `git ls-files`.split("\n")
