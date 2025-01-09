@@ -107,6 +107,7 @@ GEM
     marcel (1.0.4)
     method_source (1.1.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.8)
     minitest (5.25.4)
     net-imap (0.5.5)
       date
@@ -180,9 +181,8 @@ GEM
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
-    sqlite3 (2.5.0-arm64-darwin)
-    sqlite3 (2.5.0-x86_64-darwin)
-    sqlite3 (2.5.0-x86_64-linux-gnu)
+    sqlite3 (1.7.3)
+      mini_portile2 (~> 2.8.0)
     standard (1.43.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -225,7 +225,7 @@ DEPENDENCIES
   puma
   rails (~> 7.0.0)
   simple_calendar!
-  sqlite3
+  sqlite3 (~> 1.7)
   standard
   web-console (~> 4.2)
 

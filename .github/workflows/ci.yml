@@ -17,6 +17,7 @@ jobs:
           - rails_6_1
           - rails_7_0
           - rails_7_1
+          - rails_7_2
           - rails_8_0
           - rails_main
     env:
