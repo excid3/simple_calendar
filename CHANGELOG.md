@@ -1,5 +1,13 @@
 ### Unreleased
 
+### 3.1.0
+
+* Renamed scss file to css #356
+
+### 3.0.4
+
+### 3.0.3
+
 ### 3.0.2
 
 * Handle `events: nil`
