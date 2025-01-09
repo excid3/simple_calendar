@@ -83,11 +83,13 @@ GEM
       tzinfo (~> 2.0)
     ast (2.4.2)
     base64 (0.2.0)
+    bigdecimal (3.1.9)
     bindex (0.8.1)
     builder (3.3.0)
     concurrent-ruby (1.3.4)
     crass (1.0.6)
     date (3.4.1)
+    drb (2.2.1)
     erubi (1.13.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -109,6 +111,7 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (5.25.4)
+    mutex_m (0.3.0)
     net-imap (0.5.5)
       date
       net-protocol
@@ -222,6 +225,9 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal!
+  bigdecimal
+  drb
+  mutex_m
   puma
   rails (~> 7.0.0)
   simple_calendar!

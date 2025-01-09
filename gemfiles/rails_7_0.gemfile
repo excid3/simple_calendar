@@ -8,5 +8,8 @@ gem "puma"
 gem "sqlite3", "~> 1.7"
 gem "web-console", "~> 4.2", group: :development
 gem "rails", "~> 7.0.0"
+gem "bigdecimal"
+gem "drb"
+gem "mutex_m"
 
 gemspec path: "../"
