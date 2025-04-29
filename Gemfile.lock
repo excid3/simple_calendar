@@ -122,7 +122,7 @@ GEM
     marcel (1.0.4)
     mini_mime (1.1.5)
     minitest (5.25.4)
-    net-imap (0.5.5)
+    net-imap (0.5.7)
       date
       net-protocol
     net-pop (0.1.2)
