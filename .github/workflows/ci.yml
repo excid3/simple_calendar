@@ -22,7 +22,9 @@ jobs:
           - rails_8_1
           - rails_main
         exclude:
-          # Rails 7.0 does not boot on Ruby 4.0
+          # Rails 7.0 needs sqlite3 1.x, which has no builds for Ruby 3.4+
+          - ruby: '3.4'
+            gemfile: rails_7_0
           - ruby: '4.0'
             gemfile: rails_7_0
           # Rails main requires Ruby >= 3.3.5
