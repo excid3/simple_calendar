@@ -125,7 +125,7 @@ module SimpleCalendar
       if options.has_key?(:start_date)
         options.fetch(:start_date).to_date
       else
-        view_context.params.fetch(start_date_param, Date.current).to_date
+        start_date_from_params || Date.current
       end
     end
 
@@ -135,6 +135,14 @@ module SimpleCalendar
 
     def additional_days
       options.fetch(:number_of_days, 4) - 1
+    end
+
+    private
+
+    def start_date_from_params
+      view_context.params[start_date_param].try(:to_date)
+    rescue ArgumentError # Date::Error inherits from ArgumentError
+      nil
     end
   end
 end

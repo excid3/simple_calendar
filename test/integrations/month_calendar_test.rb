@@ -6,6 +6,12 @@ class MonthCalendarIntegrationTest < ActionDispatch::IntegrationTest
     assert_select "div.simple-calendar"
   end
 
+  test "renders the current month when the start_date param is not a date" do
+    get meetings_path, params: {start_date: "garbage"}
+    assert_response :success
+    assert_select "time.calendar-title", text: "#{I18n.t("date.month_names")[Date.current.month]} #{Date.current.year}"
+  end
+
   test "month calendar renders events" do
     get meetings_path
     assert_select "div.simple-calendar" do

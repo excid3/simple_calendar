@@ -11,20 +11,31 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        ruby: ['3.2', '3.3', '3.4']
+        ruby: ['3.2', '3.3', '3.4', '4.0']
         gemfile:
           - rails_7_0
           - rails_7_1
           - rails_7_2
           - rails_8_0
+          - rails_8_1
           - rails_main
+        exclude:
+          # Rails 7.0 needs sqlite3 1.x, which has no builds for Ruby 3.4+
+          - ruby: '3.4'
+            gemfile: rails_7_0
+          - ruby: '4.0'
+            gemfile: rails_7_0
+          # Rails main requires Ruby >= 3.3.5
+          - ruby: '3.2'
+            gemfile: rails_main
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
       BUNDLE_PATH_RELATIVE_TO_CWD: true
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

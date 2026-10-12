@@ -5,8 +5,9 @@ source "http://rubygems.org"
 gem "appraisal", github: "thoughtbot/appraisal"
 gem "standard"
 gem "puma"
-gem "sqlite3", "~> 1.7"
+gem "sqlite3", "~> 2.0"
 gem "web-console", "~> 4.2", group: :development
 gem "rails", "~> 7.1.0"
+gem "minitest", "< 6"
 
 gemspec path: "../"
