@@ -8,7 +8,11 @@ on:
         type: string
 
 jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
   push:
+    needs: test
     runs-on: ubuntu-latest
 
     permissions:
@@ -22,12 +26,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: ruby
+          # The only Ruby every appraisal installs on (Rails 7.0 needs < 3.4, Rails main needs >= 3.3.5)
+          ruby-version: '3.3'
 
       - name: Update version
         run: |
           sed -i 's/".*"/"${{ inputs.version }}"/' lib/simple_calendar/version.rb
-          bundle config set frozen false
+          bundle config set --local deployment 'false'
           bundle
           bundle exec appraisal
           git config user.name 'GitHub Actions'
