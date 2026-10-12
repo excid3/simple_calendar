@@ -55,4 +55,12 @@ class MonthCalendarIntegrationTest < ActionDispatch::IntegrationTest
       assert_select "div", text: meetings(:two_day_events_in_the_future).name
     end
   end
+
+  test "Month calendar falls back to today with an invalid start_date param" do
+    ["garbage", "2025-02-30", ""].each do |value|
+      get meetings_path, params: {start_date: value}
+      assert_response :success
+      assert_select "time.calendar-title[datetime=?]", Date.current.strftime("%Y-%m")
+    end
+  end
 end

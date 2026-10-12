@@ -125,7 +125,7 @@ module SimpleCalendar
       if options.has_key?(:start_date)
         options.fetch(:start_date).to_date
       else
-        view_context.params.fetch(start_date_param, Date.current).to_date
+        parse_date(view_context.params[start_date_param]) || Date.current
       end
     end
 
@@ -135,6 +135,15 @@ module SimpleCalendar
 
     def additional_days
       options.fetch(:number_of_days, 4) - 1
+    end
+
+    private
+
+    # Invalid dates in the URL (e.g. "2025-02-30") fall back to today instead of raising.
+    def parse_date(value)
+      value.to_date if value.respond_to?(:to_date)
+    rescue ArgumentError, RangeError
+      nil
     end
   end
 end
