@@ -2,7 +2,14 @@ require "rails"
 
 module SimpleCalendar
   class Calendar
-    PARAM_KEY_BLACKLIST = :authenticity_token, :commit, :utf8, :_method, :script_name
+    # Besides form noise, this drops keys url_for treats as URL options instead of query
+    # params. Passing them through from the request would let a crafted link change the
+    # host, protocol, route, etc. of the Previous / Today / Next links (open redirect,
+    # javascript: XSS, 500s).
+    PARAM_KEY_BLACKLIST = :authenticity_token, :commit, :utf8, :_method, :script_name,
+      :host, :protocol, :port, :subdomain, :domain, :tld_length, :trailing_slash, :anchor,
+      :params, :only_path, :original_script_name, :relative_url_root, :user, :password,
+      :use_route, :_recall
 
     attr_accessor :view_context, :options
 

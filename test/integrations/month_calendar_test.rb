@@ -61,4 +61,40 @@ class MonthCalendarIntegrationTest < ActionDispatch::IntegrationTest
       assert_select "div", text: meetings(:two_day_events_in_the_future).name
     end
   end
+
+  test "navigation links ignore url_for options from request params" do
+    get meetings_path, params: {
+      original_script_name: "javascript:alert(1)//",
+      host: "evil.example",
+      protocol: "https",
+      port: 1337,
+      user: "a",
+      password: "b",
+      anchor: "x",
+      only_path: false,
+      use_route: "root"
+    }
+
+    assert_response :success
+    hrefs = css_select(".calendar-heading a").map { |a| a["href"] }
+    assert_equal 3, hrefs.size
+    hrefs.each do |href|
+      assert_match %r{\A/meetings\?[^#]*\z}, href, "unexpected href: #{href}"
+    end
+  end
+
+  test "malicious url_for options do not raise" do
+    get meetings_path, params: {protocol: "javascript:alert(1)//", host: "x"}
+    assert_response :success
+
+    get meetings_path, params: {use_route: "meeting"}
+    assert_response :success
+  end
+
+  test "navigation links keep regular query params" do
+    get meetings_path, params: {foo: "bar"}
+    hrefs = css_select(".calendar-heading a").map { |a| a["href"] }
+    assert_equal 3, hrefs.size
+    hrefs.each { |href| assert_includes href, "foo=bar" }
+  end
 end

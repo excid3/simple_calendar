@@ -1,5 +1,9 @@
 ### Unreleased
 
+### 3.1.2
+
+* Security: Ignore request params that `url_for` treats as URL options (`host`, `protocol`, `original_script_name`, `use_route`, etc.) when building the Previous / Today / Next links. These could be used for open redirects, `javascript:` XSS, and 500 errors. Reported by Bruno Costanzo. See [GHSA-45x6-w2pm-387c](https://github.com/excid3/simple_calendar/security/advisories/GHSA-45x6-w2pm-387c)
+
 ### 3.1.1
 
 * Fall back to today when the `start_date` param is not a valid date instead of raising. Fixes #367
