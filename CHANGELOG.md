@@ -1,5 +1,9 @@
 ### Unreleased
 
+* Fall back to today when the `start_date` param is not a valid date instead of raising. Fixes #367
+* Fix `week_calendar` title showing a non-existent week number when `number_of_weeks` crosses into a new year. Fixes #369
+* Test against Rails 8.1 and Ruby 4.0 in CI
+
 ### 3.1.0
 
 * Renamed scss file to css #356

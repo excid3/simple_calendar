@@ -91,6 +91,19 @@ class CalendarTest < ActionView::TestCase
     assert_equal Date.yesterday, calendar.start_date
   end
 
+  test "parses a valid start_date string param" do
+    params[:start_date] = "2025-03-15"
+    calendar = SimpleCalendar::Calendar.new(view)
+    assert_equal Date.new(2025, 3, 15), calendar.start_date
+  end
+
+  test "falls back to today when the start_date param is not a usable date" do
+    ["garbage", "2025-02-30", "", ["2025-01-01"]].each do |value|
+      params[:start_date] = value
+      assert_equal Date.current, SimpleCalendar::Calendar.new(view).start_date, value.inspect
+    end
+  end
+
   test "should have the current week" do
     calendar = SimpleCalendar::Calendar.new(view)
     week = calendar.date_range.each_slice(7).to_a[0]
