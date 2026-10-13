@@ -405,6 +405,17 @@ And this will render the
 You can copy one of the existing templates to use for the partial for
 your new calendar.
 
+If your calendar needs different Previous / Next links, override
+`url_for_previous_view` or `url_for_next_view` and build the URL with
+`url_for_date`. It keeps the current page's params and routing, and makes
+sure nothing from the request can change where the link points:
+
+```ruby
+def url_for_previous_view
+  url_for_date(date_range.first - 1.week)
+end
+```
+
 ## View Specs and Tests
 
 If you're running view specs against views with calendars, you may run into route generation errors like the following:
