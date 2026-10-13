@@ -92,9 +92,39 @@ class MonthCalendarIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "navigation links keep regular query params" do
-    get meetings_path, params: {foo: "bar"}
+    get meetings_path, params: {foo: "bar", user: "5", port: "rotterdam"}
     hrefs = css_select(".calendar-heading a").map { |a| a["href"] }
     assert_equal 3, hrefs.size
-    hrefs.each { |href| assert_includes href, "foo=bar" }
+    hrefs.each do |href|
+      assert_match %r{\A/meetings\?}, href
+      assert_includes href, "foo=bar"
+      assert_includes href, "user=5"
+      assert_includes href, "port=rotterdam"
+    end
+  end
+
+  test "navigation links keep path segments and params passed to the calendar" do
+    get room_meetings_path(7), params: {foo: "bar", view: "week"}
+
+    hrefs = css_select(".calendar-heading a").map { |a| a["href"] }
+    assert_equal 3, hrefs.size
+    hrefs.each do |href|
+      assert_match %r{\A/rooms/7/meetings\?[^#]*#calendar\z}, href
+      assert_includes href, "foo=bar"
+      assert_includes href, "view=month"
+      assert_no_match(/room_id=|controller=|action=|view=week/, href)
+    end
+  end
+
+  test "navigation links keep route segments named like url_for options as path segments" do
+    get server_meetings_path("evil"), params: {foo: "bar"}
+
+    hrefs = css_select(".calendar-heading a").map { |a| a["href"] }
+    assert_equal 3, hrefs.size
+    hrefs.each do |href|
+      assert_match %r{\A/servers/evil/meetings\?}, href
+      assert_includes href, "foo=bar"
+      assert_no_match(/host=/, href)
+    end
   end
 end

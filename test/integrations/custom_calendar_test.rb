@@ -30,4 +30,13 @@ class CustomCalendarIntegrationTest < ActionDispatch::IntegrationTest
       assert_select "div", text: event.name, count: 3
     end
   end
+
+  test "custom calendars passing @params to url_for ignore url_for options from request params" do
+    get business_week_meetings_path, params: {host: "evil.example", protocol: "https", original_script_name: "javascript:alert(1)//", foo: "bar"}
+
+    assert_response :success
+    href = css_select(".calendar-heading a").first["href"]
+    assert_match %r{\A/meetings/business_week\?[^#]*\z}, href
+    assert_includes href, "foo=bar"
+  end
 end
