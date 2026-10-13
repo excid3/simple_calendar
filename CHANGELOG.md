@@ -1,5 +1,9 @@
 ### Unreleased
 
+### 3.1.3
+
+* Pass request params to `url_for` under `params:` when building the Previous / Today / Next links, so no request param can be read as a URL option, including ones future Rails versions add. Query params that share a name with a URL option, like `user` or `port`, are carried over again instead of dropped. Routing params and params passed with the `params:` option still work as before. Custom calendars that override `url_for_*_view` can call `url_for_date(date)` to get the same protection.
+
 ### 3.1.2
 
 * Security: Ignore request params that `url_for` treats as URL options (`host`, `protocol`, `original_script_name`, `use_route`, etc.) when building the Previous / Today / Next links. These could be used for open redirects, `javascript:` XSS, and 500 errors. Reported by Bruno Costanzo. See [GHSA-45x6-w2pm-387c](https://github.com/excid3/simple_calendar/security/advisories/GHSA-45x6-w2pm-387c)

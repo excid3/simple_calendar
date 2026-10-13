@@ -2,14 +2,15 @@ require "rails"
 
 module SimpleCalendar
   class Calendar
-    # Besides form noise, this drops keys url_for treats as URL options instead of query
-    # params. Passing them through from the request would let a crafted link change the
-    # host, protocol, route, etc. of the Previous / Today / Next links (open redirect,
-    # javascript: XSS, 500s).
-    PARAM_KEY_BLACKLIST = :authenticity_token, :commit, :utf8, :_method, :script_name,
-      :host, :protocol, :port, :subdomain, :domain, :tld_length, :trailing_slash, :anchor,
-      :params, :only_path, :original_script_name, :relative_url_root, :user, :password,
-      :use_route, :_recall
+    PARAM_KEY_BLACKLIST = :authenticity_token, :commit, :utf8, :_method, :script_name
+
+    # Keys url_for treats as URL options instead of query params. The built-in links don't
+    # need these dropped (see url_for_date), but custom calendars that copied the old
+    # `url_for(@params.merge(...))` override pass @params straight to url_for, so they're
+    # left out of @params to keep those links from being pointed at another host, etc.
+    URL_OPTION_KEYS = :host, :protocol, :port, :subdomain, :domain, :tld_length,
+      :trailing_slash, :anchor, :params, :only_path, :original_script_name,
+      :relative_url_root, :user, :password, :use_route, :_recall
 
     attr_accessor :view_context, :options
 
@@ -20,12 +21,15 @@ module SimpleCalendar
       @block = block
 
       # Next and previous view links should use the same params as the current view
-      @params = @view_context.respond_to?(:params) ? @view_context.params : {}
-      @params = @params.to_unsafe_h if @params.respond_to?(:to_unsafe_h)
-      @params = @params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST)
+      @request_params = @view_context.respond_to?(:params) ? @view_context.params : {}
+      @request_params = @request_params.to_unsafe_h if @request_params.respond_to?(:to_unsafe_h)
+      @request_params = @request_params.with_indifferent_access.except(*PARAM_KEY_BLACKLIST)
 
-      # Add in any additional params the user passed in
-      @params.merge!(@options.fetch(:params, {}))
+      # Params passed in by the developer are trusted, so they're allowed to be url_for options
+      @calendar_params = @options.fetch(:params, {}).to_h.symbolize_keys
+
+      # Nothing in here uses @params anymore, but custom calendars still build their own links from it
+      @params = @request_params.except(*URL_OPTION_KEYS).merge(@calendar_params)
     end
 
     def render_in(view_context, &block)
@@ -72,15 +76,25 @@ module SimpleCalendar
     end
 
     def url_for_next_view
-      view_context.url_for(@params.merge(start_date_param => (date_range.last + 1.day).iso8601))
+      url_for_date(date_range.last + 1.day)
     end
 
     def url_for_previous_view
-      view_context.url_for(@params.merge(start_date_param => (date_range.first - date_range.count.days).iso8601))
+      url_for_date(date_range.first - date_range.count.days)
     end
 
     def url_for_today_view
-      view_context.url_for(@params.merge(start_date_param => Time.current.to_date.iso8601))
+      url_for_date(Time.current.to_date)
+    end
+
+    # Only routing params and params passed in by the developer are given to url_for as
+    # options. Everything else from the request goes under `params:`, which url_for always
+    # treats as query params, so no request param can be read as a URL option. Route
+    # segments named like a URL option (say `servers/:host`) are left to url_for, which
+    # fills them in from the current request as path segments.
+    def url_for_date(date)
+      url_options = path_parameters.except(*URL_OPTION_KEYS).merge(@calendar_params).merge(start_date_param => date.iso8601)
+      view_context.url_for(url_options.merge(params: @request_params.except(*path_parameters.keys, *url_options.keys)))
     end
 
     def date_range
@@ -145,6 +159,10 @@ module SimpleCalendar
     end
 
     private
+
+    def path_parameters
+      view_context.try(:request)&.path_parameters || {}
+    end
 
     def start_date_from_params
       view_context.params[start_date_param].try(:to_date)
